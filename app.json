@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Tcc",
+    "slug": "Tcc",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
