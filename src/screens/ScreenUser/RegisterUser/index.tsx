@@ -5,13 +5,7 @@ import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
-import {
-	Container,
-	Header,
-	Title,
-	MainForm,
-	RegisterButton,
-} from "./styles";
+import { Container, Header, Title, MainForm, RegisterButton } from "./styles";
 import api from "../../../services/api";
 
 type FormData = {
@@ -57,8 +51,7 @@ export function RegisterUser() {
 				return;
 			} else {
 				Alert.alert("Sucesso", "Usuário criado com sucesso!");
-				navigate.goBack();
-				return;
+				return navigate.goBack();
 			}
 		} catch (error) {
 			console.log(error);
@@ -88,7 +81,7 @@ export function RegisterUser() {
 						control={control}
 						name="document"
 						keyboardType="numeric"
-						maxLength={14}
+						maxLength={11}
 						error={errors.document}
 					/>
 					<InputForm
