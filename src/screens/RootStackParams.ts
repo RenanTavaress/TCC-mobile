@@ -5,4 +5,5 @@ export type RootStackParamList = {
 	RegisterOng: undefined;
 	screenRegister: undefined;
 	RegisterUser: undefined;
+	EditingPerfil: undefined;
 };

@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Header = styled.View`
 	width: 100%;
 
-	height: ${Platform.OS === 'ios' ? RFPercentage(12) : RFPercentage(15)}px;
+	height: ${Platform.OS === "ios" ? RFPercentage(12) : RFPercentage(15)}px;
 
 	background-color: ${({ theme }) => theme.colors.primary};
 	align-items: center;

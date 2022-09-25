@@ -16,11 +16,11 @@ export const Routes = () => {
 		);
 	}
 
-	if(user?.type === 'COMPANY' && signed){
-		return <AppOngRoutes/>
-	} else if(user?.type === 'USER' && signed){
-		return <AppRoutes />
+	if (user?.type === "COMPANY" && signed) {
+		return <AppOngRoutes />;
+	} else if (user?.type === "USER" && signed) {
+		return <AppRoutes />;
 	}
-	
+
 	return <LoginOngRoutes />;
 };

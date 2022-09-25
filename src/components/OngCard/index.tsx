@@ -15,13 +15,15 @@ export interface DataOngsProps {
 	district: string;
 }
 
-export function OngCard({nameOng, descricao, city, district}: DataOngsProps) {
+export function OngCard({ nameOng, descricao, city, district }: DataOngsProps) {
 	return (
 		<CardOngs>
 			<TextNameOng>{nameOng}</TextNameOng>
 			<ContaineCardDescription>
 				<DescriptionOng>{descricao}</DescriptionOng>
-				<CityOng>{district}, {city}</CityOng>
+				<CityOng>
+					{district}, {city}
+				</CityOng>
 			</ContaineCardDescription>
 		</CardOngs>
 	);

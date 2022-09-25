@@ -9,7 +9,7 @@ export function Dashboard() {
 	}
 	return (
 		<View style={{ flex: 1, justifyContent: "center" }}>
-			<Text>Logadoooo  com ONGGGG BoaaaAAAA, {signed}</Text>
+			<Text>Logadoooo com ONGGGG BoaaaAAAA, {signed}</Text>
 			<Button title="Logout" onPress={handleLogout} />
 		</View>
 	);

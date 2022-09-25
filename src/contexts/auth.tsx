@@ -2,10 +2,9 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import * as auth from "../services/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../services/api";
+import { Alert } from "react-native";
 
 interface User {
-	// name: string;
-	// email: string;
 	token: string;
 	email: string;
 	guid: string;
@@ -52,7 +51,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 			await AsyncStorage.setItem("@RNAuth2:user", JSON.stringify(response));
 			await AsyncStorage.setItem("@RNAuth2:token", response.token);
 		} catch {
-			console.log("erro no login");
+			Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
 		}
 	}
 	function logOut() {

@@ -27,7 +27,7 @@ export const DescriptionOng = styled.Text.attrs({
 	numberOfLines: 2,
 })`
 	font-size: ${RFValue(16)}px;
-	
+
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
