@@ -5,6 +5,7 @@ import { AppRoutes } from "./app.routes";
 import AuthContext from "../contexts/auth";
 import LoginOngRoutes from "./LoginOng.routes";
 import { AppOngRoutes } from "./appOng.routes";
+import { DataUser } from "../contexts/dataUsers";
 
 export const Routes = () => {
 	const { signed, loading, user } = useContext(AuthContext);
@@ -19,7 +20,7 @@ export const Routes = () => {
 	if (user?.type === "COMPANY" && signed) {
 		return <AppOngRoutes />;
 	} else if (user?.type === "USER" && signed) {
-		return <AppRoutes />;
+		return <AppRoutes />
 	}
 
 	return <LoginOngRoutes />;

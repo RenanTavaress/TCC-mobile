@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { DataOngsProps, OngCard } from "../../../components/OngCard";
-import AuthContext from "../../../contexts/auth";
-import api from "../../../services/api";
+import { DataUserContext } from "../../../contexts/dataUsers";
 import {
 	Container,
 	Header,
@@ -14,25 +13,12 @@ import {
 	// CityOng,
 } from "./styles";
 
-interface DataUserProps {
-	guid: string;
-	name: string;
-	email: string;
-	document: string;
-	phone: string;
-}
-
-interface DataProps {
-	data: DataUserProps;
-}
-
 export interface DataOngsProps2 extends DataOngsProps {
 	id: string;
 }
 
 export function DashboardUser() {
-	const { user } = useContext(AuthContext);
-	const [datasUser, setDatasUser] = useState({} as DataUserProps);
+	const { name } = useContext(DataUserContext);
 	const datasOng: DataOngsProps2[] = [
 		{
 			id: "1",
@@ -86,25 +72,10 @@ export function DashboardUser() {
 		},
 	];
 
-	async function getDataUser() {
-		try {
-			const { data } = await api.get<DataProps>(
-				`/api/user/detail/guid/${user!.guid}`
-			);
-			setDatasUser(data.data);
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	useEffect(() => {
-		getDataUser();
-	}, []);
-
 	return (
 		<Container>
 			<Header>
-				<TextTitle>Olá {datasUser.name}, seja bem vindo</TextTitle>
+				<TextTitle>Olá {name}, seja bem vindo</TextTitle>
 			</Header>
 
 			<ContainerOngs

@@ -15,6 +15,7 @@ import { RootStackParamList } from "../../RootStackParams";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../services/api";
+import { DataUserContext } from "../../../contexts/dataUsers";
 
 type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -36,24 +37,25 @@ interface DataProps {
 
 
 export function Perfil() {
-	const { logOut, user } = useContext(AuthContext);
-	const [datasUser, setDatasUser] = useState({} as DataUserProps);
+	const { logOut} = useContext(AuthContext);
+	const {document, email, name, phone} = useContext(DataUserContext)
+	//const [datasUser, setDatasUser] = useState({} as DataUserProps);
 	const navigation = useNavigation<propsLoginOng['navigation']>()
 
-	useEffect(() => {
-		async function getDataUser() {
-			try {
-				const { data } = await api.get<DataProps>(
-					`/api/user/detail/guid/${user!.guid}`
-				);
-				setDatasUser(data.data);
-			} catch (error) {
-				console.log(error);
-			}
-		}
+	// useEffect(() => {
+	// 	async function getDataUser() {
+	// 		try {
+	// 			const { data } = await api.get<DataProps>(
+	// 				`/api/user/detail/guid/${user!.guid}`
+	// 			);
+	// 			setDatasUser(data.data);
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 		}
+	// 	}
 
-		getDataUser()
-	}, [])
+	// 	getDataUser()
+	// }, [])
 
 
 
@@ -69,16 +71,16 @@ export function Perfil() {
 			<ContainerInfo>
 				<PefilInformations>
 					<TextInfo>Nome:</TextInfo>
-					<InfoUser>{datasUser.name}</InfoUser>
+					<InfoUser>{name}</InfoUser>
 
 					<TextInfo>Email: </TextInfo>
-					<InfoUser> {datasUser.email}</InfoUser>
+					<InfoUser> {email}</InfoUser>
 
 					<TextInfo>CPF: </TextInfo>
-					<InfoUser> {datasUser.document}</InfoUser>
+					<InfoUser> {document}</InfoUser>
 
 					<TextInfo>Telefone: </TextInfo>
-					<InfoUser> {datasUser.phone}</InfoUser>
+					<InfoUser> {phone}</InfoUser>
 				</PefilInformations>
 
 				<ContainerBtn>

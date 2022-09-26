@@ -78,7 +78,6 @@ export function EditingPerfil() {
 					<Icon name="left" />
 				</BackScreen>
 				<TextTitle>Editar</TextTitle>
-
 				<ViewContainer></ViewContainer>
 			</Header>
 
