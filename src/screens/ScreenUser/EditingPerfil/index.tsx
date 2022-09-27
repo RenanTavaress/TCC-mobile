@@ -5,17 +5,13 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import {
 	Container,
-	Header,
-	BackScreen,
-	Icon,
-	ViewContainer,
-	TextTitle,
 	MainForm,
 	RegisterButton,
 } from "./styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../services/api";
+import { Header } from "../../../components/Header";
 
 type FormData = {
 	[name: string]: any;
@@ -73,13 +69,7 @@ export function EditingPerfil() {
 
 	return (
 		<Container>
-			<Header>
-				<BackScreen onPress={() => navigate.goBack()}>
-					<Icon name="left" />
-				</BackScreen>
-				<TextTitle>Editar</TextTitle>
-				<ViewContainer></ViewContainer>
-			</Header>
+			<Header title="Editar" icon="left"/>
 
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}

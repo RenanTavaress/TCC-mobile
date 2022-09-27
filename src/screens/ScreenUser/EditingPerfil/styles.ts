@@ -11,36 +11,42 @@ export const Container = styled.View`
 
 export const Header = styled.View`
 	width: 100%;
-	height: ${Platform.OS === "ios" ? RFPercentage(12) : RFPercentage(13)}px;
-
-	background-color: ${({ theme }) => theme.colors.primary};
-	padding-top: ${RFValue(35)}px ;
-
 	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	text-align:center ;
+	background-color: ${({ theme }) => theme.colors.primary};
 `;
 
+export const HeaderContent = styled.View`
+	background-color: ${({ theme }) => theme.colors.primary};
+	width: 60%;
+	height: ${Platform.OS === "ios" ? RFPercentage(12) : RFPercentage(15)}px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+	text-align: center;
+	padding-bottom: 10px;
+`;
 
 export const BackScreen = styled.TouchableOpacity`
 	align-items: center;
 	justify-content: center;
+	padding-bottom: 3px;
 `;
 
 export const Icon = styled(AntDesign)`
-	font-size: ${RFValue(22)}px;
+	font-size: ${RFValue(24)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	margin-left: 10px;
 `;
 
-export const ViewContainer = styled.View``;
+export const ViewContainer = styled.View`
+	width: 40%;
+`;
 
 export const TextTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.shape};
 	font-family: ${({ theme }) => theme.fonts.regular};
 	font-size: ${RFValue(19)}px;
-	padding-right: ${RFValue(19)}px ;
+	margin-right: 5.5%;
 `;
 
 export const MainForm = styled.ScrollView`

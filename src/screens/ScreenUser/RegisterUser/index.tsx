@@ -5,7 +5,8 @@ import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
-import { Container, Header, Title, MainForm, RegisterButton } from "./styles";
+import { Container, MainForm, RegisterButton } from "./styles";
+import { Header } from "../../../components/Header";
 import api from "../../../services/api";
 
 type FormData = {
@@ -60,9 +61,8 @@ export function RegisterUser() {
 	}
 	return (
 		<Container>
-			<Header>
-				<Title>Cadastre sua ONG</Title>
-			</Header>
+			<Header title="Cadastre sua ONG" icon="left" />
+
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				keyboardVerticalOffset={Platform.select({ ios: 0, android: -2000 })}

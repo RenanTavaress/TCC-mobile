@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
+import { Header } from "../../../components/Header";
 import { DataOngsProps, OngCard } from "../../../components/OngCard";
 import { DataUserContext } from "../../../contexts/dataUsers";
 import {
 	Container,
-	Header,
 	TextTitle,
 	ContainerOngs,
 	// CardOngs,
@@ -74,10 +74,7 @@ export function DashboardUser() {
 
 	return (
 		<Container>
-			<Header>
-				<TextTitle>Olá {name}, seja bem vindo</TextTitle>
-			</Header>
-
+			<Header title={`Olá ${name}, seja bem vindo`} />
 			<ContainerOngs
 				data={datasOng}
 				keyExtractor={(item) => item.id}

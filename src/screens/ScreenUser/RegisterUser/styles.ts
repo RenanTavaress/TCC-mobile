@@ -8,19 +8,6 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const Header = styled.View`
-	width: 100%;
-	background-color: ${({ theme }) => theme.colors.primary};
-	height: ${RFValue(70)}px;
-	justify-content: flex-end;
-	align-items: center;
-`;
-
-export const Title = styled.Text`
-	font-size: ${RFValue(18)}px;
-	color: ${({ theme }) => theme.colors.text_dark};
-	margin-bottom: 5px;
-`;
 
 export const MainForm = styled.ScrollView`
 	width: 100%;

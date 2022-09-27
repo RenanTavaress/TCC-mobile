@@ -12,9 +12,10 @@ export const Header = styled.View`
 	height: ${Platform.OS === "ios" ? RFPercentage(12) : RFPercentage(15)}px;
 
 	background-color: ${({ theme }) => theme.colors.primary};
+	padding-bottom: 10px;
 	align-items: center;
 	justify-content: flex-end;
-	padding-bottom: 10px;
+	
 `;
 
 export const TextTitle = styled.Text`
