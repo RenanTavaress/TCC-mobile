@@ -19,7 +19,7 @@ export function Header({ title, icon }: HeaderProps) {
 	return (
 		<Container>
 			<BackScreen onPress={() => navigate.goBack()}>
-				<Icon name={icon} />
+				{icon && <Icon name={icon} />}
 			</BackScreen>
 			<HeaderText>
 				<Text>{title}</Text>

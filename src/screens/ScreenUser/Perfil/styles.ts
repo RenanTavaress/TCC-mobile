@@ -6,24 +6,6 @@ export const Container = styled.View`
 	flex: 1;
 `;
 
-export const Header = styled.View`
-	width: 100%;
-
-	height: ${Platform.OS === "ios" ? RFPercentage(12) : RFPercentage(15)}px;
-
-	background-color: ${({ theme }) => theme.colors.primary};
-	padding-bottom: 10px;
-	align-items: center;
-	justify-content: flex-end;
-	
-`;
-
-export const TextTitle = styled.Text`
-	color: ${({ theme }) => theme.colors.shape};
-	font-family: ${({ theme }) => theme.fonts.regular};
-	font-size: ${RFValue(18)}px;
-`;
-
 export const ContainerInfo = styled.View`
 	height: 80%;
 

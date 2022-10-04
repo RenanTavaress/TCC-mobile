@@ -1,4 +1,5 @@
 import React from "react";
+import { DataPetsProps } from "../PetCard";
 
 import {
 	CardOngs,
@@ -13,11 +14,13 @@ export interface DataOngsProps {
 	descricao: string;
 	city: string;
 	district: string;
+	onPress?(): void;
+	pets: DataPetsProps[]
 }
 
-export function OngCard({ nameOng, descricao, city, district }: DataOngsProps) {
+export function OngCard({ nameOng, descricao, city, district, onPress }: DataOngsProps) {
 	return (
-		<CardOngs>
+		<CardOngs onPress={onPress}>
 			<TextNameOng>{nameOng}</TextNameOng>
 			<ContaineCardDescription>
 				<DescriptionOng>{descricao}</DescriptionOng>

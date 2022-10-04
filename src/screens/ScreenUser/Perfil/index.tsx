@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import AuthContext from "../../../contexts/auth";
+import { Header } from "../../../components/Header";
 import {
 	Container,
-	Header,
-	TextTitle,
 	PefilInformations,
 	TextInfo,
 	InfoUser,
-   ContainerInfo,
+	ContainerInfo,
 	ContainerBtn,
 } from "./styles";
 import { RootStackParamList } from "../../RootStackParams";
@@ -22,7 +21,6 @@ type propsLoginOng = NativeStackScreenProps<
 	"EditingPerfil"
 >;
 
-
 interface DataUserProps {
 	guid: string;
 	name: string;
@@ -35,12 +33,11 @@ interface DataProps {
 	data: DataUserProps;
 }
 
-
 export function Perfil() {
-	const { logOut} = useContext(AuthContext);
-	const {document, email, name, phone} = useContext(DataUserContext)
+	const { logOut } = useContext(AuthContext);
+	const { document, email, name, phone } = useContext(DataUserContext);
 	//const [datasUser, setDatasUser] = useState({} as DataUserProps);
-	const navigation = useNavigation<propsLoginOng['navigation']>()
+	const navigation = useNavigation<propsLoginOng["navigation"]>();
 
 	// useEffect(() => {
 	// 	async function getDataUser() {
@@ -57,16 +54,12 @@ export function Perfil() {
 	// 	getDataUser()
 	// }, [])
 
-
-
 	function handleLogout() {
 		logOut();
 	}
 	return (
 		<Container>
-			<Header>
-				<TextTitle>Perfil</TextTitle>
-			</Header>
+			<Header title="Perfil" />
 
 			<ContainerInfo>
 				<PefilInformations>
@@ -84,7 +77,10 @@ export function Perfil() {
 				</PefilInformations>
 
 				<ContainerBtn>
-					<ContainerButton title="Editar perfil" onPress={() => navigation.navigate("EditingPerfil")} />
+					<ContainerButton
+						title="Editar perfil"
+						onPress={() => navigation.navigate("EditingPerfil")}
+					/>
 
 					<ContainerButton title="sair" onPress={handleLogout} />
 				</ContainerBtn>

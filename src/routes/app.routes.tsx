@@ -2,18 +2,69 @@
 import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { DashboardUser } from "../screens/ScreenUser/DashboardUser";
-
+import {
+	MaterialIcons,
+	FontAwesome5,
+	MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { UserStacks } from "./userStacks.routes";
 import { DataUser } from "../contexts/dataUsers";
+import { useTheme } from "styled-components";
+import { Platform } from "react-native";
+import { Donation } from "../screens/ScreenUser/Donation";
+import { DashboardUserStack } from "./DashboardUserStack.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-export const AppRoutes: React.FC = () => (
-	<DataUser>
-		<Navigator screenOptions={{ headerShown: false }}>
-			<Screen name="DashboardUser" component={DashboardUser} />
-			<Screen name="Perfil" component={UserStacks} />
-		</Navigator>
-	</DataUser>
-);
+export const AppRoutes: React.FC = () => {
+	const theme = useTheme();
+	return (
+		<DataUser>
+			<Navigator
+				screenOptions={{
+					headerShown: false,
+					tabBarActiveTintColor: theme.colors.primary,
+					tabBarInactiveTintColor: theme.colors.text,
+					tabBarLabelPosition: "beside-icon",
+					tabBarStyle: {
+						height: Platform.OS === "ios" ? 65 : 55,
+						paddingVertical: Platform.OS === "ios" ? 0 : 0,
+					},
+				}}
+			>
+				<Screen
+					name="Dashboard"
+					component={DashboardUserStack}
+					options={{
+						tabBarIcon: ({ size, color }) => (
+							<MaterialIcons name="pets" size={size} color={color} />
+						),
+					}}
+				/>
+				<Screen
+					name="Perfil"
+					component={UserStacks}
+					options={{
+						tabBarIcon: ({ size, color }) => (
+							<FontAwesome5 name="user" size={size} color={color} />
+						),
+					}}
+				/>
+
+				<Screen
+					name="Doação"
+					component={Donation}
+					options={{
+						tabBarIcon: ({ size, color }) => (
+							<MaterialCommunityIcons
+								name="hand-heart-outline"
+								size={size}
+								color={color}
+							/>
+						),
+					}}
+				/>
+			</Navigator>
+		</DataUser>
+	);
+};

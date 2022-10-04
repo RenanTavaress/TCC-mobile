@@ -1,7 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { Header } from "../../../components/Header";
 import { DataOngsProps, OngCard } from "../../../components/OngCard";
 import { DataUserContext } from "../../../contexts/dataUsers";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
 	Container,
 	TextTitle,
@@ -12,12 +14,19 @@ import {
 	// DescriptionOng,
 	// CityOng,
 } from "./styles";
+import { RootStackParamList } from "../../RootStackParams";
 
 export interface DataOngsProps2 extends DataOngsProps {
 	id: string;
 }
 
+export type propsLoginOng = NativeStackScreenProps<
+	RootStackParamList,
+	"ongScreen"
+>;
+
 export function DashboardUser() {
+	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const { name } = useContext(DataUserContext);
 	const datasOng: DataOngsProps2[] = [
 		{
@@ -27,6 +36,19 @@ export function DashboardUser() {
 				"textto de descrição 1 ehjrgdshfjgdsfhbdsjfkhsdudfjghfdjghdfjkghdfjghauohgufjghafjdihguohf",
 			city: "São Paulo",
 			district: "Vila Mariana",
+			pets: [
+				{
+					guid: "1",
+					companyGuid: "1",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 		{
 			id: "2",
@@ -34,6 +56,19 @@ export function DashboardUser() {
 			descricao: "textto de descrição 2 sdhjfvbdshkfgbdedfgfgdhfgjhgff",
 			city: "São Paulo",
 			district: "Moema",
+			pets: [
+				{
+					guid: "2",
+					companyGuid: "2",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 		{
 			id: "3",
@@ -41,6 +76,19 @@ export function DashboardUser() {
 			descricao: "textto de descrição 3 fjkdgfhsdugfnmksndbnfndskdfgnkjds",
 			city: "São Paulo",
 			district: "Jurubatuba",
+			pets: [
+				{
+					guid: "3",
+					companyGuid: "3",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 		{
 			id: "4",
@@ -48,6 +96,19 @@ export function DashboardUser() {
 			descricao: "textto de descrição 4",
 			city: "São Paulo",
 			district: "Perdizes",
+			pets: [
+				{
+					guid: "4",
+					companyGuid: "4",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 		{
 			id: "5",
@@ -55,6 +116,19 @@ export function DashboardUser() {
 			descricao: "textto de descrição 5",
 			city: "São Paulo",
 			district: "Santana",
+			pets: [
+				{
+					guid: "5",
+					companyGuid: "5",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 		{
 			id: "6",
@@ -62,6 +136,19 @@ export function DashboardUser() {
 			descricao: "textto de descrição 6",
 			city: "São Paulo",
 			district: "Morumbi",
+			pets: [
+				{
+					guid: "6",
+					companyGuid: "6",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 		{
 			id: "7",
@@ -69,6 +156,19 @@ export function DashboardUser() {
 			descricao: "textto de descrição 7",
 			city: "São Paulo",
 			district: "itaquera",
+			pets: [
+				{
+					guid: "7",
+					companyGuid: "7",
+					age: "1",
+					breed: "dsdsds",
+					description: "fdsjfgsdhjf",
+					medication: "sjhidfgsdhijff",
+					name: "sdfjkghsdfjg",
+					size: "jksdfhsdfj",
+					vaccines: "hjisdfjsdf",
+				},
+			],
 		},
 	];
 
@@ -78,7 +178,14 @@ export function DashboardUser() {
 			<ContainerOngs
 				data={datasOng}
 				keyExtractor={(item) => item.id}
-				renderItem={({ item }) => <OngCard {...item} />}
+				renderItem={({ item }) => (
+					<OngCard
+						{...item}
+						onPress={() => {
+							navigation.navigate("ongScreen", item);
+						}}
+					/>
+				)}
 			/>
 		</Container>
 	);

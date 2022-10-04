@@ -1,3 +1,4 @@
+import { DataOngsProps2 } from "./ScreenUser/DashboardUser";
 export type RootStackParamList = {
 	Welcome: undefined;
 	LoginOng: undefined;
@@ -6,4 +7,11 @@ export type RootStackParamList = {
 	screenRegister: undefined;
 	RegisterUser: undefined;
 	EditingPerfil: undefined;
+	ongScreen: {
+		id: string;
+		nameOng: string;
+		descricao: string;
+		city: string;
+		district: string;
+	};
 };
