@@ -1,7 +1,8 @@
 import { FlatList, FlatListProps, Platform } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { DataOngsProps2 } from ".";
+//import { DataOngsProps } from "../../../components/OngCard";
+import { DataOngsProps2 } from "../../../components/OngCard";
 
 export const Container = styled.View`
 	flex: 1;

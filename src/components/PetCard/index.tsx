@@ -21,7 +21,7 @@ export interface DataPetsProps {
 	onPress?(): void;
 }
 
-export function OngCard({
+export function PetCard({
 	age,
 	breed,
 	description,
@@ -38,6 +38,8 @@ export function OngCard({
 				<DescriptionPet>{description}</DescriptionPet>
 				<AgePet>
 					{age}
+					{breed}
+					
 				</AgePet>
 			</ContaineCardDescription>
 		</CardPet>

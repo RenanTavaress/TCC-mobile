@@ -9,21 +9,37 @@ import {
 	CityOng,
 } from "./styles";
 
-export interface DataOngsProps {
-	nameOng: string;
-	descricao: string;
-	city: string;
-	district: string;
+export interface DataOngsProps2 {
+	//data: {
+		guid: string;
+		cep: string;
+		city: string;
+		country: string;
+		description: string;
+		district: string;
+		email: string;
+		name: string;
+		numberAddress: string;
+		document: string;
+		street: string;
+		uf: string;
+		phone: string;
+	//};
 	onPress?(): void;
-	pets: DataPetsProps[]
 }
 
-export function OngCard({ nameOng, descricao, city, district, onPress }: DataOngsProps) {
+export function OngCard({
+	name,
+	description,
+	district,
+	city,
+	onPress,
+}: DataOngsProps2) {
 	return (
 		<CardOngs onPress={onPress}>
-			<TextNameOng>{nameOng}</TextNameOng>
+			<TextNameOng>{name}</TextNameOng>
 			<ContaineCardDescription>
-				<DescriptionOng>{descricao}</DescriptionOng>
+				<DescriptionOng>{description}</DescriptionOng>
 				<CityOng>
 					{district}, {city}
 				</CityOng>

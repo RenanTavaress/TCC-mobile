@@ -39,7 +39,7 @@ export const HeaderText = styled.View`
 
 export const Text = styled.Text`
 	color: ${({ theme }) => theme.colors.shape};
-	font-family: ${({ theme }) => theme.fonts.regular};
+	font-family: ${({ theme }) => theme.fonts.medium};
 	font-size: ${RFValue(19)}px;
 `;
 
