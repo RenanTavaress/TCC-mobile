@@ -17,7 +17,7 @@ export interface PropsPets {
 }
 
 export function OngScreen() {
-	const [listPet, setListPet] = useState<PropsPets[]>([]);
+	const [listPet, setListPet] = useState<DataPetsProps[]>([]);
 	const { params } = useRoute() as {
 		params: {
 			guid: string;
@@ -40,7 +40,7 @@ export function OngScreen() {
 
 	useEffect(() => {
 		async function getPets() {
-			const response = await api.get<PropsPets[]>(
+			const response = await api.get<PropsPets>(
 				`/api/pet/list/companyguid/${guid}`
 			);
 			console.log(response.data.data)
