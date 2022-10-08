@@ -3,21 +3,35 @@ import api from "../../../services/api";
 import {
 	Container,
 	HeaderOng,
+	OngImg,
+	AdressOng,
 	Description,
-	City,
-	District,
+	InfOngs,
 	ContainerPets,
+	ContainerOngInfo,
+	InfoRegion,
+	TextInfo,
+	ContactOng,
+	ContainerDescription,
 } from "./styles";
 import { Header } from "../../../components/Header";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { DataPetsProps, PetCard } from "../../../components/PetCard";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../RootStackParams";
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
 }
 
+export type propsLoginOng = NativeStackScreenProps<
+	RootStackParamList,
+	"petScreen"
+>;
+
 export function OngScreen() {
 	const [listPet, setListPet] = useState<DataPetsProps[]>([]);
+	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const { params } = useRoute() as {
 		params: {
 			guid: string;
@@ -36,14 +50,25 @@ export function OngScreen() {
 		};
 	};
 
-	const { guid, name, description, city, district } = params;
+	const {
+		guid,
+		name,
+		description,
+		city,
+		district,
+		country,
+		street,
+		numberAddress,
+		cep,
+		email,
+		phone,
+	} = params;
 
 	useEffect(() => {
 		async function getPets() {
 			const response = await api.get<PropsPets>(
 				`/api/pet/list/companyguid/${guid}`
 			);
-			console.log(response.data.data)
 			setListPet(response.data.data);
 		}
 		getPets();
@@ -52,16 +77,49 @@ export function OngScreen() {
 	return (
 		<Container>
 			<Header title={name} icon="left" />
-			<HeaderOng>
-				<Description>{description}</Description>
-				<City>{city}</City>
-				<District>{district}</District>
-			</HeaderOng>
-			
+
 			<ContainerPets
 				data={listPet}
 				keyExtractor={(item) => item.guid}
-				renderItem={({ item }) => <PetCard {...item} />}
+				renderItem={({ item }) => (
+					<PetCard
+						{...item}
+						onPress={() => {
+							navigation.navigate("petScreen", item);
+						}}
+					/>
+				)}
+				ListHeaderComponent={
+					<>
+						<HeaderOng>
+							<OngImg
+								source={{ uri: "https://github.com/RenanTavaress.png" }}
+							/>
+							<ContainerOngInfo>
+								<AdressOng>
+									<TextInfo>Endereço:</TextInfo>
+									<InfOngs>
+										{street}, {numberAddress}
+									</InfOngs>
+									<InfOngs>{cep}</InfOngs>
+									<InfoRegion>
+										{district}, {city}, {country}
+									</InfoRegion>
+								</AdressOng>
+
+								<ContactOng>
+									<TextInfo>Contatos:</TextInfo>
+									<InfOngs>{phone}</InfOngs>
+									<InfOngs>{email}</InfOngs>
+								</ContactOng>
+							</ContainerOngInfo>
+						</HeaderOng>
+						<ContainerDescription>
+							<TextInfo>Descrição:</TextInfo>
+							<Description>{description}</Description>
+						</ContainerDescription>
+					</>
+				}
 			/>
 		</Container>
 	);

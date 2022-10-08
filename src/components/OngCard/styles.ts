@@ -23,6 +23,7 @@ export const ContaineCardDescription = styled.View`
 	justify-content: space-between;
 	width: 130px;
 `;
+
 export const DescriptionOng = styled.Text.attrs({
 	numberOfLines: 2,
 })`

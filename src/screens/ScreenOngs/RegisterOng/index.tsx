@@ -142,7 +142,7 @@ export function RegisterOng() {
 								placeholder="Rua"
 								control={control}
 								name="street"
-								autoCapitalize="sentences"
+								autoCapitalize="words"
 								error={errors.street}
 							/>
 							<InputForm
@@ -205,7 +205,7 @@ export function RegisterOng() {
 						placeholder="Descrição"
 						control={control}
 						name="description"
-						autoCapitalize="characters"
+						autoCapitalize="sentences"
 						error={errors.description}
 					/>
 					<InputForm

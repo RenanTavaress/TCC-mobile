@@ -29,7 +29,7 @@ export function PetCard({
 	name,
 	size,
 	vaccines,
-   onPress
+	onPress,
 }: DataPetsProps) {
 	return (
 		<CardPet onPress={onPress}>
@@ -39,7 +39,6 @@ export function PetCard({
 				<AgePet>
 					{age}
 					{breed}
-					
 				</AgePet>
 			</ContaineCardDescription>
 		</CardPet>

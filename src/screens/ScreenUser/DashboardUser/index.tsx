@@ -1,25 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { Header } from "../../../components/Header";
-import {  DataOngsProps2, OngCard } from "../../../components/OngCard";
+import { DataOngsProps2, OngCard } from "../../../components/OngCard";
 import { DataUserContext } from "../../../contexts/dataUsers";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import {
-	Container,
-	TextTitle,
-	ContainerOngs,
-	// CardOngs,
-	// TextNameOng,
-	// ContaineCardDescription,
-	// DescriptionOng,
-	// CityOng,
-} from "./styles";
+import { Container, ContainerOngs } from "./styles";
 import { RootStackParamList } from "../../RootStackParams";
 import api from "../../../services/api";
 
-interface DataOngsProps {	
-	data: DataOngsProps2;
-
+interface DataOngsProps {
+	data: Array<DataOngsProps2>;
 }
 
 export type propsLoginOng = NativeStackScreenProps<
@@ -34,15 +24,13 @@ export function DashboardUser() {
 
 	useEffect(() => {
 		async function getListOngs() {
-			const response = await api.get<DataOngsProps[]>(`/api/company/list`);
-			//console.log(response.data.data)
+			const response = await api.get<DataOngsProps>(`/api/company/list`);
 			setListOngs(response.data.data);
 		}
 		getListOngs();
-		console.log(listOngs)
+		console.log(listOngs);
 	}, []);
 
-	
 	return (
 		<Container>
 			<Header title={`Olá ${name}, seja bem vindo`} />

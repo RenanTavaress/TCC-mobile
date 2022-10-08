@@ -1,4 +1,3 @@
-
 export type RootStackParamList = {
 	Welcome: undefined;
 	LoginOng: undefined;
@@ -12,6 +11,21 @@ export type RootStackParamList = {
 		description: string;
 		city: string;
 		district: string;
+		country: string;
+		street: string;
+		numberAddress: string;
+		cep: string;
+		phone: string;
+		email: string;
 		//onPress: string;
+	};
+	petScreen: {
+		age: string;
+		breed: string;
+		description: string;
+		medication: string;
+		name: string;
+		size: string;
+		vaccines: string;
 	};
 };

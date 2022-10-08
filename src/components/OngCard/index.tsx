@@ -10,21 +10,20 @@ import {
 } from "./styles";
 
 export interface DataOngsProps2 {
-	//data: {
-		guid: string;
-		cep: string;
-		city: string;
-		country: string;
-		description: string;
-		district: string;
-		email: string;
-		name: string;
-		numberAddress: string;
-		document: string;
-		street: string;
-		uf: string;
-		phone: string;
-	//};
+	guid: string;
+	cep: string;
+	city: string;
+	country: string;
+	description: string;
+	district: string;
+	email: string;
+	name: string;
+	numberAddress: string;
+	document: string;
+	street: string;
+	uf: string;
+	phone: string;
+
 	onPress?(): void;
 }
 

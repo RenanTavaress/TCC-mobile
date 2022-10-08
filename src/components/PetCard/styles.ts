@@ -39,3 +39,24 @@ export const AgePet = styled.Text.attrs({
 	color: ${({ theme }) => theme.colors.text};
 	font-family: ${({ theme }) => theme.fonts.regular};
 `;
+
+
+
+
+
+
+// <ContainerPetCard>
+// 				<ContainerPets
+// 					data={listPet}
+// 					keyExtractor={(item) => item.guid}
+// 					renderItem={({ item }) => (
+// 						<PetCard
+// 							{...item}
+// 							onPress={() => {
+// 								navigation.navigate("petScreen", item);
+// 							}}
+// 						/>
+// 					)}
+					
+// 				/>
+// 			</ContainerPetCard>
