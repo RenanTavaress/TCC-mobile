@@ -5,33 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 export const Container = styled.View`
 	flex: 1;
 `;
-export const Header = styled.View`
-	width: 100%;
-	height: ${RFPercentage(17)}px;
 
-	flex-direction: row;
-
-	justify-content: space-between;
-	align-items: center;
-`;
-
-export const BackScreen = styled.TouchableOpacity`
-	align-items: center;
-	justify-content: center;
-`;
-
-export const Icon = styled(AntDesign)`
-	font-size: ${RFValue(22)}px;
-	color: ${({ theme }) => theme.colors.text_dark};
-	margin-left: 10px;
-`;
-
-export const WelcomeOng = styled.Text`
-	font-size: ${RFValue(20)}px;
-	color: ${({ theme }) => theme.colors.text_dark};
-`;
-
-export const ViewContainer = styled.View``;
 export const LoginContainer = styled.View`
 	width: 100%;
 	height: 100%;

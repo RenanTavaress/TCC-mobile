@@ -5,11 +5,6 @@ import { Input } from "../../components/Form/Input";
 import { propsLoginOng } from "../../screens/Welcome";
 import {
 	Container,
-	Header,
-	BackScreen,
-	ViewContainer,
-	Icon,
-	WelcomeOng,
 	LoginContainer,
 	InputLogin,
 	ButtonLogin,
@@ -22,16 +17,15 @@ import {
 	Platform,
 	TouchableWithoutFeedback,
 } from "react-native";
+import { Header } from "../Header";
 
 interface ScreenLoginProps {
-	welcome: string;
 	handleSignIn?: (username: string, password: string) => void;
 	screenRegister: "RegisterUser" | "RegisterOng";
 	linkRegister: string;
 }
 
 export function Login({
-	welcome,
 	handleSignIn,
 	screenRegister,
 	linkRegister,
@@ -55,13 +49,7 @@ export function Login({
 	return (
 		<TouchableWithoutFeedback style={{ flex: 1 }}>
 			<Container>
-				<Header>
-					<BackScreen onPress={() => navigation.goBack()}>
-						<Icon name="left" />
-					</BackScreen>
-					<WelcomeOng>{welcome}</WelcomeOng>
-					<ViewContainer></ViewContainer>
-				</Header>
+				<Header title="Faça seu login" icon="left" />
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					enabled

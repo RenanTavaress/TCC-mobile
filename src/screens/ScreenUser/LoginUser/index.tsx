@@ -17,7 +17,6 @@ export function LoginUser() {
 
 	return (
 		<Login
-			welcome="Faça seu login"
 			screenRegister="RegisterUser"
 			linkRegister="Ainda não é cadastrado?"
 			handleSignIn={handleSignIn}
