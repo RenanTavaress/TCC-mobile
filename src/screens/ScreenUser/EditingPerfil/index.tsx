@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
+import AuthContext from "../../../contexts/auth";
+import { DataProps, DataUserContext } from "../../../contexts/dataUsers";
 
 type FormData = {
 	[name: string]: any;
@@ -40,6 +42,7 @@ const schema = yup.object({
 
 export function EditingPerfil() {
 	const navigate = useNavigation();
+	const {datasUser, setDatasUser} = useContext(DataUserContext) as DataProps
 	const {
 		control,
 		handleSubmit,
@@ -50,16 +53,17 @@ export function EditingPerfil() {
 
 	async function handleUpdateDataUser(datas: FormData) {
 		try {
-			const { data } = await api.post("/api/user/update", datas);
-			console.log(data);
+			const { data } = await api.put(`/api/user/update/guid/${datasUser.guid}`, datas);
+			
 
 			if (data!.code === 304) {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
+				console.log(data)
+				setDatasUser(datas)
 				Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
-				//return navigate.goBack();
-				return;
+				return navigate.goBack();
 			}
 		} catch (error) {
 			console.log(error);
@@ -117,7 +121,7 @@ export function EditingPerfil() {
 						error={errors.password}
 					/>
 					<RegisterButton
-						title="Cadastrar"
+						title="Atualizar"
 						onPress={handleSubmit(handleUpdateDataUser)}
 					/>
 				</MainForm>

@@ -19,7 +19,7 @@ export const ContainerPets = styled(
 
 export const HeaderOng = styled.View`
 	background-color: ${({ theme }) => theme.colors.shape};
-	height: ${RFPercentage(34)}px;
+	height: ${RFPercentage(32)}px;
 `;
 
 export const OngImg = styled.Image`
