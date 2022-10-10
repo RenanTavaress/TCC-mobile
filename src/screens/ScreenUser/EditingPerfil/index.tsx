@@ -60,8 +60,8 @@ export function EditingPerfil() {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
-				console.log(data)
-				setDatasUser(datas)
+				
+				setDatasUser(data.data)
 				Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
 				return navigate.goBack();
 			}

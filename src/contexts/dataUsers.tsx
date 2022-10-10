@@ -17,6 +17,10 @@ interface DataUserProps {
 	phone: string;
 }
 
+interface Props{
+	data: DataUserProps
+}
+
 export interface DataProps {
 	datasUser: DataUserProps;
 	setDatasUser: (datasUser: DataUserProps) => void;
@@ -38,7 +42,7 @@ export const DataUser: React.FC = ({ children }) => {
 	);
 	async function getDataUser() {
 		try {
-			const { data } = await api.get<DataProps>(
+			const { data } = await api.get<Props>(
 				`/api/user/detail/guid/${user!.guid}`
 			);
 			setDatasUser(data.data);
