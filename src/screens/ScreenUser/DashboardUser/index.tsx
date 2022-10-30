@@ -20,7 +20,7 @@ export type propsLoginOng = NativeStackScreenProps<
 export function DashboardUser() {
 	const [listOngs, setListOngs] = useState<DataOngsProps2[]>([]);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	const { datasUser } = useContext(DataUserContext) as DataProps;
+	const { datasTypeUser } = useContext(DataUserContext) as DataProps;
 
 	useEffect(() => {
 		async function getListOngs() {
@@ -33,7 +33,7 @@ export function DashboardUser() {
 
 	return (
 		<Container>
-			<Header title={`Olá ${datasUser.name}, seja bem vindo`} />
+			<Header title={`Olá ${datasTypeUser.name}, seja bem vindo`} />
 			<ContainerOngs
 				data={listOngs}
 				keyExtractor={(item) => item.guid}

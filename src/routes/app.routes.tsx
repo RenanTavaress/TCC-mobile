@@ -33,7 +33,7 @@ export const AppRoutes: React.FC = () => {
 				}}
 			>
 				<Screen
-					name="Dashboard"
+					name="Pets"
 					component={DashboardUserStack}
 					options={{
 						tabBarIcon: ({ size, color }) => (

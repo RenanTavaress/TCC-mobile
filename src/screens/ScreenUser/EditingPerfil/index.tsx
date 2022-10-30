@@ -42,7 +42,7 @@ const schema = yup.object({
 
 export function EditingPerfil() {
 	const navigate = useNavigation();
-	const {datasUser, setDatasUser} = useContext(DataUserContext) as DataProps
+	const {datasTypeUser, setDatasTypeUser} = useContext(DataUserContext) as DataProps
 	const {
 		control,
 		handleSubmit,
@@ -53,7 +53,7 @@ export function EditingPerfil() {
 
 	async function handleUpdateDataUser(datas: FormData) {
 		try {
-			const { data } = await api.put(`/api/user/update/guid/${datasUser.guid}`, datas);
+			const { data } = await api.put(`/api/user/update/guid/${datasTypeUser.guid}`, datas);
 			
 
 			if (data!.code === 304) {
@@ -61,7 +61,7 @@ export function EditingPerfil() {
 				return;
 			} else {
 				
-				setDatasUser(data.data)
+				setDatasTypeUser(data.data)
 				Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
 				return navigate.goBack();
 			}

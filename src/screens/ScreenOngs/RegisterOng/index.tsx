@@ -23,8 +23,7 @@ type FormData = {
 	[name: string]: any;
 	name: string;
 	document: string;
-	emailAccess: string;
-	emailContact: string;
+	email: string;
 	street: string;
 	cep: string;
 	city: string;
@@ -43,12 +42,7 @@ const schema = yup.object({
 		.string()
 		.required("O CNPJ/CPF é obrigatório")
 		.min(11, "O Campo deve ter pelo menos 11 digitos"),
-	emailAccess: yup
-		.string()
-		.email("Email invalido")
-		.required("O Email é obrigatório")
-		.trim(),
-	emailContact: yup
+	email: yup
 		.string()
 		.email("Email invalido")
 		.required("O Email é obrigatório")
@@ -83,6 +77,7 @@ export function RegisterOng() {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
+				console.log(data)
 				Alert.alert("Sucesso", "Usuário criado com sucesso!");
 				navigate.goBack();
 				return;
@@ -123,18 +118,10 @@ export function RegisterOng() {
 					<InputForm
 						placeholder="Email de acesso"
 						control={control}
-						name="emailAccess"
+						name="email"
 						keyboardType="email-address"
 						autoCapitalize="none"
-						error={errors.emailAccess}
-					/>
-					<InputForm
-						placeholder="Email de contato"
-						control={control}
-						name="emailContact"
-						keyboardType="email-address"
-						autoCapitalize="none"
-						error={errors.emailContact}
+						error={errors.email}
 					/>
 					<Title>Endereço</Title>
 

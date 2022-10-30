@@ -1,11 +1,4 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, {
-	createContext,
-	useState,
-	useEffect,
-	useContext,
-	useCallback,
-} from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import api from "../services/api";
 import AuthContext from "./auth";
 
@@ -17,13 +10,29 @@ interface DataUserProps {
 	phone: string;
 }
 
-interface Props{
-	data: DataUserProps
+interface dataOngProps {
+	guid: string;
+	cep: string;
+	city: string;
+	country: string;
+	description: string;
+	district: string;
+	document: string;
+	email: string;
+	name: string;
+	numberAddress: string;
+	phone: string;
+	street: string;
+	uf: string;
+}
+
+interface Props {
+	data: DataUserProps | dataOngProps;
 }
 
 export interface DataProps {
-	datasUser: DataUserProps;
-	setDatasUser: (datasUser: DataUserProps) => void;
+	datasTypeUser: DataUserProps | dataOngProps;
+	setDatasTypeUser: (datasUser: DataUserProps | dataOngProps) => void;
 }
 
 interface User {
@@ -37,26 +46,43 @@ export const DataUserContext = createContext<DataProps>({} as DataProps);
 
 export const DataUser: React.FC = ({ children }) => {
 	const { user } = useContext(AuthContext);
-	const [datasUser, setDatasUser] = useState<DataUserProps>(
-		{} as DataUserProps
+	const [datasTypeUser, setDatasTypeUser] = useState<DataUserProps | dataOngProps>(
+		{} as DataUserProps | dataOngProps
 	);
+
 	async function getDataUser() {
 		try {
 			const { data } = await api.get<Props>(
 				`/api/user/detail/guid/${user!.guid}`
 			);
-			setDatasUser(data.data);
+			setDatasTypeUser(data.data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function getDataOng() {
+		try {
+			const { data } = await api.get<Props>(
+				`/api/company/detail/guid/${user!.guid}`
+			);
+			setDatasTypeUser(data.data);
+			console.log(data.data)
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
 	useEffect(() => {
-		getDataUser();
+		if (user?.type === "USER") {
+			getDataUser();
+		} else {
+			getDataOng();
+		}
 	}, []);
 
 	return (
-		<DataUserContext.Provider value={{ datasUser, setDatasUser }}>
+		<DataUserContext.Provider value={{ datasTypeUser, setDatasTypeUser }}>
 			{children}
 		</DataUserContext.Provider>
 	);

@@ -6,6 +6,7 @@ export type RootStackParamList = {
 	screenRegister: undefined;
 	RegisterUser: undefined;
 	EditingPerfil: undefined;
+	AddPet: undefined;
 	ongScreen: {
 		name: string;
 		description: string;
@@ -28,4 +29,5 @@ export type RootStackParamList = {
 		size: string;
 		vaccines: string;
 	};
+	
 };

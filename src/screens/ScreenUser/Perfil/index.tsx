@@ -13,7 +13,7 @@ import {
 import { RootStackParamList } from "../../RootStackParams";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { DataUserContext } from "../../../contexts/dataUsers";
+import { DataUserContext, DataProps } from "../../../contexts/dataUsers";
 
 type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -28,14 +28,14 @@ interface DataUserProps {
 	phone: string;
 }
 
-interface DataProps {
-	datasUser: DataUserProps;
-	setDatasUser: (datasUser: DataUserProps) => void;
-}
+// interface DataProps {
+// 	datasUser: DataUserProps;
+// 	setDatasUser: (datasUser: DataUserProps) => void;
+// }
 
 export function Perfil() {
 	const { logOut } = useContext(AuthContext);
-	const { datasUser } = useContext<DataProps>(DataUserContext) as DataProps;
+	const { datasTypeUser } = useContext<DataProps>(DataUserContext) as DataProps;
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	//console.log(datasUser)
 
@@ -49,16 +49,16 @@ export function Perfil() {
 			<ContainerInfo>
 				<PefilInformations>
 					<TextInfo>Nome:</TextInfo>
-					<InfoUser>{datasUser.name}</InfoUser>
+					<InfoUser>{datasTypeUser.name}</InfoUser>
 
 					<TextInfo>Email: </TextInfo>
-					<InfoUser>{datasUser.email}</InfoUser>
+					<InfoUser>{datasTypeUser.email}</InfoUser>
 
 					<TextInfo>CPF: </TextInfo>
-					<InfoUser>{datasUser.document}</InfoUser>
+					<InfoUser>{datasTypeUser.document}</InfoUser>
 
 					<TextInfo>Telefone: </TextInfo>
-					<InfoUser> {datasUser.phone}</InfoUser>
+					<InfoUser> {datasTypeUser.phone}</InfoUser>
 				</PefilInformations>
 
 				<ContainerBtn>
