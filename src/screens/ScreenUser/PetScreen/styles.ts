@@ -49,6 +49,7 @@ export const InfoPet = styled.Text`
 
 
 export const ContainerButtonInfo = styled.View`
-
+	align-items: center;
+	justify-content: center;
 
 `

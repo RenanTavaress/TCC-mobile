@@ -1,8 +1,10 @@
-import { useRoute } from "@react-navigation/native";
-import React from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { Header } from "../../../components/Header";
+import { RootStackParamList } from "../../RootStackParams";
 import {
 	Container,
 	ContainerInfos,
@@ -15,9 +17,16 @@ import {
 	ContainerButtonInfo,
 } from "./styles";
 
+export type propsLoginOng = NativeStackScreenProps<
+	RootStackParamList,
+	"EditingPetScreen"
+>;
+
 export function PetScreen() {
+	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const { params } = useRoute() as {
 		params: {
+			guid: string;
 			age: string;
 			breed: string;
 			description: string;
@@ -29,6 +38,7 @@ export function PetScreen() {
 	};
 
 	const { age, breed, description, medication, name, size, vaccines } = params;
+
 	return (
 		<Container>
 			<Header title={name} icon="left" />
@@ -57,7 +67,10 @@ export function PetScreen() {
 				</View>
 
 				<ContainerButtonInfo>
-					<ContainerButton title="Entre em contato com a ONG." />
+					<ContainerButton title="Editar Pet"  onPress={() => {
+						console.log(params)
+							navigation.navigate("EditingPetScreen", params);
+						}}/>
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

@@ -19,9 +19,9 @@ import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/nativ
 import { DataPetsProps, PetCard } from "../../../components/PetCard";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FabButton } from "../../../components/Button/FAB";
-import { DataProps, DataUserContext } from "../../../contexts/dataUsers";
+import AuthContext from "../../../contexts/auth";
+import { DataOngContext } from "../../../contexts/DataOng";
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
@@ -35,13 +35,16 @@ export type propsLoginOng = NativeStackScreenProps<
 export function Dashboard() {
 	const [listPet, setListPet] = useState<DataPetsProps[]>([]);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	const { datasTypeUser } = useContext(DataUserContext) as DataProps;
+	const {user} = useContext(AuthContext)
+	const { datasOngs } = useContext(DataOngContext);
 
 	async function getPetsOngs() {
 		const response = await api.get<PropsPets>(
-			`/api/pet/list/companyguid/${datasTypeUser.guid}`
+			`/api/pet/list/companyguid/${user?.guid}`
 		);
+		//console.log(response.data)
 		setListPet(response.data.data);
+		
 		
 	}
 
@@ -63,7 +66,7 @@ export function Dashboard() {
 
 	return (
 		<Container>
-			<Header title={`Olá ${datasTypeUser.name}, seja bem vindo`} />
+			<Header title={`Olá ${datasOngs?.name}, seja bem vindo`} />
 
 			<ContainerPets
 				data={listPet}
@@ -71,9 +74,9 @@ export function Dashboard() {
 				renderItem={({ item }) => (
 					<PetCard
 						{...item}
-						// onPress={() => {
-						// 	navigation.navigate("petScreen", item);
-						// }}
+						onPress={() => {
+							navigation.navigate("petScreen", item);
+						}}
 					/>
 				)}
 			/>

@@ -6,9 +6,7 @@ export const Container = styled.View`
 	flex: 1;
 `;
 
-export const ContainerAdd = styled.ScrollView.attrs({
-	showsVerticalScrollIndicator: false,
-})`
+export const ContainerAdd = styled.ScrollView`
 	margin-top: 25px;
 	padding: 0 20px;
 `;
@@ -48,11 +46,4 @@ export const TextSize = styled.Text`
 	color: ${({ theme }) => theme.colors.text};
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
-
-export const ButtonContainer = styled.View`
-	justify-content: center;
-	align-items: center;
-	margin-top: 15px;
-
-`
 

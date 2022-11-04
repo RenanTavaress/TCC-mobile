@@ -18,6 +18,7 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { Header } from "../Header";
+import { Keyboard } from "react-native";
 
 interface ScreenLoginProps {
 	handleSignIn?: (username: string, password: string) => void;
@@ -47,7 +48,7 @@ export function Login({
 	}
 
 	return (
-		<TouchableWithoutFeedback style={{ flex: 1 }}>
+		<TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
 			<Container>
 				<Header title="Faça seu login" icon="left" />
 				<KeyboardAvoidingView

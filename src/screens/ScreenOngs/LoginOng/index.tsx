@@ -17,7 +17,6 @@ export function LoginOng() {
 
 	return (
 		<Login
-			welcome="Faça o login da sua ONG"
 			handleSignIn={handleSignIn}
 			screenRegister="RegisterOng"
 			linkRegister="Sua ONG ainda não é cadastrada?"

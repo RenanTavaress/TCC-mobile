@@ -1,6 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Alert, KeyboardAvoidingView, Platform } from "react-native";
+import {
+	Alert,
+	Keyboard,
+	KeyboardAvoidingView,
+	Platform,
+	TouchableWithoutFeedback,
+} from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -59,7 +65,7 @@ const schema = yup.object({
 	password: yup.string().required("A Senha é obrigatória").trim(),
 });
 
-export function RegisterOng() {
+export function EditingOng() {
 	const navigate = useNavigation();
 	const {
 		control,
@@ -67,6 +73,9 @@ export function RegisterOng() {
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
+		defaultValues: {
+			cep: "000000000",
+		},
 	});
 
 	async function handleOngRegister(datas: FormData) {
@@ -77,7 +86,7 @@ export function RegisterOng() {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
-				console.log(data)
+				console.log(data);
 				Alert.alert("Sucesso", "Usuário criado com sucesso!");
 				navigate.goBack();
 				return;
@@ -90,7 +99,8 @@ export function RegisterOng() {
 
 	return (
 		<Container>
-			<Header title="Cadastre sua ONG" icon="left"/>
+			<Header title="Cadastre sua ONG" icon="left" />
+
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				keyboardVerticalOffset={Platform.select({ ios: 0, android: -2000 })}

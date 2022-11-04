@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { Header } from "../../../components/Header";
 import { DataOngsProps2, OngCard } from "../../../components/OngCard";
-import { DataProps, DataUserContext } from "../../../contexts/dataUsers";
+import { UserProps, DataUserContext } from "../../../contexts/dataUsers";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Container, ContainerOngs } from "./styles";
 import { RootStackParamList } from "../../RootStackParams";
@@ -20,7 +20,7 @@ export type propsLoginOng = NativeStackScreenProps<
 export function DashboardUser() {
 	const [listOngs, setListOngs] = useState<DataOngsProps2[]>([]);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	const { datasTypeUser } = useContext(DataUserContext) as DataProps;
+	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 
 	useEffect(() => {
 		async function getListOngs() {
@@ -33,7 +33,7 @@ export function DashboardUser() {
 
 	return (
 		<Container>
-			<Header title={`Olá ${datasTypeUser.name}, seja bem vindo`} />
+			<Header title={`Olá ${datasUser.name}, seja bem vindo`} />
 			<ContainerOngs
 				data={listOngs}
 				keyExtractor={(item) => item.guid}

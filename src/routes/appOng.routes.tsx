@@ -4,18 +4,19 @@ import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { DataUser } from "../contexts/dataUsers";
 import { useTheme } from "styled-components";
 import { Platform } from "react-native";
 
 import { OngRoutes } from "./ong.routes";
+import { PerfilOngRoutes } from "./PerfilOng.routes";
+import { DataOng } from "../contexts/DataOng";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export const AppOngRoutes: React.FC = () => {
 	const theme = useTheme();
 	return (
-		<DataUser>
+		<DataOng>
 			<Navigator
 				screenOptions={{
 					headerShown: false,
@@ -39,7 +40,7 @@ export const AppOngRoutes: React.FC = () => {
 				/>
 				<Screen
 					name="Perfil"
-					component={OngRoutes}
+					component={PerfilOngRoutes}
 					options={{
 						tabBarIcon: ({ size, color }) => (
 							<FontAwesome5 name="user" size={size} color={color} />
@@ -47,6 +48,6 @@ export const AppOngRoutes: React.FC = () => {
 					}}
 				/>
 			</Navigator>
-		</DataUser>
+		</DataOng>
 	);
 };
