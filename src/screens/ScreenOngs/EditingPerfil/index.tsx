@@ -1,19 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import {
-	Alert,
-	Keyboard,
-	KeyboardAvoidingView,
-	Platform,
-	TouchableWithoutFeedback,
-} from "react-native";
+import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import {
 	Container,
-	// Header,
 	Title,
 	MainForm,
 	AdressForm,
@@ -24,6 +17,7 @@ import {
 } from "./styles";
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
+import { DataOngContext } from "../../../contexts/DataOng";
 
 type FormData = {
 	[name: string]: any;
@@ -67,6 +61,7 @@ const schema = yup.object({
 
 export function EditingOng() {
 	const navigate = useNavigation();
+	const {datasOngs, setDatasOngs} = useContext(DataOngContext)
 	const {
 		control,
 		handleSubmit,
@@ -74,20 +69,32 @@ export function EditingOng() {
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 		defaultValues: {
-			cep: "000000000",
+			name: datasOngs.name,
+			document: datasOngs.document,
+			email: datasOngs.email,
+			street: datasOngs.street,
+			cep: datasOngs.cep,
+			city: datasOngs.city,
+			country: datasOngs.country,
+			numberAddress: datasOngs.numberAddress,
+			district: datasOngs.district,
+			uf: datasOngs.uf,
+			phone: datasOngs.phone,
+			description: datasOngs.description,
 		},
 	});
 
 	async function handleOngRegister(datas: FormData) {
 		try {
-			const { data } = await api.post("/company/add", datas);
-
+			const { data } = await api.put(`/api/company/update/guid/${datasOngs.guid}`, datas);
+			console.log(data)
+			console.log(datas)
 			if (data!.code === 304) {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
-				console.log(data);
-				Alert.alert("Sucesso", "Usuário criado com sucesso!");
+				setDatasOngs(data.data)
+				Alert.alert("Sucesso", "Usuário Atualizado com sucesso!");
 				navigate.goBack();
 				return;
 			}
