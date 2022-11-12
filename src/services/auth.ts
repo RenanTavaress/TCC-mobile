@@ -4,7 +4,8 @@ interface Response {
 	token: string;
 	email: string;
 	guid: string;
-	type: string
+	type: string;
+	permission: number;
 }
 
 interface SignInOptions {

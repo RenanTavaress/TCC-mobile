@@ -15,6 +15,7 @@ export default {
 		background: "#F0F2F5",
 
 		border_input: "#c5ced6",
+		inputDesable: "#d8d9dc",
 	},
 
 	fonts: {

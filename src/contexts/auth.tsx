@@ -9,6 +9,7 @@ interface User {
 	email: string;
 	guid: string;
 	type: string;
+	permission: number;
 }
 
 interface AuthContextData {
@@ -43,13 +44,21 @@ export const AuthProvider: React.FC = ({ children }) => {
 	async function signIn(email: string, password: string) {
 		try {
 			const response = await auth.signIn({ email, password });
+			//console.log(response)
 
-			api.defaults.headers.common["token"] = `${response.token}`;
+			// if (response?.permission !== 0) {
+				api.defaults.headers.common["token"] = `${response.token}`;
 
-			setUser(response);
+				setUser(response);
 
-			await AsyncStorage.setItem("@RNAuth2:user", JSON.stringify(response));
-			await AsyncStorage.setItem("@RNAuth2:token", response.token);
+				await AsyncStorage.setItem("@RNAuth2:user", JSON.stringify(response));
+				await AsyncStorage.setItem("@RNAuth2:token", response.token);
+			// } else {
+			// 	return Alert.alert(
+			// 		"Não foi possivel logar",
+			// 		"O nosso Admimistrador ainda não autorizou o seu login, aguarde até 2 dias uteis"
+			// 	);
+			// }
 		} catch {
 			Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
 		}

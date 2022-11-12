@@ -1,6 +1,7 @@
 import { TextInput } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+import theme from "../../../global/styles/theme";
 
 export const Container = styled(TextInput).attrs((props) => ({
 	placeholderTextColor: props.theme.colors.text,
@@ -13,4 +14,6 @@ export const Container = styled(TextInput).attrs((props) => ({
 	border-color: ${({ theme }) => theme.colors.primary};
 	border-width: 1.9px;
 	border-radius: 5px;
+	background-color: ${({editable}) => editable === false ?  theme.colors.inputDesable : theme.colors.shape};
+	color: ${({ theme }) => theme.colors.text_dark};
 `;

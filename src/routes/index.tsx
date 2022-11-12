@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Alert } from "react-native";
 
 import { AppRoutes } from "./app.routes";
 import AuthContext from "../contexts/auth";
@@ -20,7 +20,7 @@ export const Routes = () => {
 	if (user?.type === "COMPANY" && signed) {
 		return <AppOngRoutes />;
 	} else if (user?.type === "USER" && signed) {
-		return <AppRoutes />
+		return <AppRoutes />;
 	}
 
 	return <LoginOngRoutes />;

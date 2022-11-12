@@ -1,5 +1,5 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { set, useForm } from "react-hook-form";
 import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
@@ -19,7 +19,21 @@ import {
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
 
-type FormData = {
+export interface DataAdress {
+	bairro: string;
+	cep: string;
+	complemento: string;
+	ddd: string;
+	gia: string;
+	ibge: string;
+	localidade: string;
+	logradouro: string;
+	siafi: string;
+	uf: string;
+	erro: boolean;
+}
+
+interface FormData {
 	[name: string]: any;
 	name: string;
 	document: string;
@@ -34,7 +48,7 @@ type FormData = {
 	phone: string;
 	description: string;
 	password: string;
-};
+}
 
 const schema = yup.object({
 	name: yup.string().required("O nome é obrigatório").trim(),
@@ -64,20 +78,50 @@ export function RegisterOng() {
 	const {
 		control,
 		handleSubmit,
+		getValues,
+		setValue,
+		setError,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 	});
 
+	async function handleCepOng() {
+		const values = getValues();
+		console.log(typeof values.cep);
+		if (values.cep?.length === 8) {
+			const response = await api.get<DataAdress>(
+				`https://viacep.com.br/ws/${values.cep}/json/`
+			);
+			console.log(response.data?.erro);
+			if (response.data?.erro !== true) {
+				setValue("street", response.data.logradouro);
+				setValue("district", response.data.bairro);
+				setValue("city", response.data.localidade);
+				setValue("uf", response.data.uf);
+			} else {
+				setError("cep", {
+					type: "custom",
+					message: "Cep Não existe",
+				});
+				return;
+			}
+		} else if (values.cep?.length < 8) {
+			setValue("street", "");
+			setValue("district", "");
+			setValue("city", "");
+			setValue("uf", "");
+		}
+	}
+
 	async function handleOngRegister(datas: FormData) {
 		try {
 			const { data } = await api.post("/company/add", datas);
-
 			if (data!.code === 304) {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
-				console.log(data)
+				console.log(data);
 				Alert.alert("Sucesso", "Usuário criado com sucesso!");
 				navigate.goBack();
 				return;
@@ -87,10 +131,9 @@ export function RegisterOng() {
 			return "error";
 		}
 	}
-
 	return (
 		<Container>
-			<Header title="Cadastre sua ONG" icon="left"/>
+			<Header title="Cadastre sua ONG" icon="left" />
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				keyboardVerticalOffset={Platform.select({ ios: 0, android: -2000 })}
@@ -125,26 +168,30 @@ export function RegisterOng() {
 					<AdressForm>
 						<ContainerLeftForm>
 							<InputForm
-								placeholder="Rua"
-								control={control}
-								name="street"
-								autoCapitalize="words"
-								error={errors.street}
-							/>
-							<InputForm
 								placeholder="CEP"
 								control={control}
 								name="cep"
 								keyboardType="numeric"
 								maxLength={8}
+								onBlur={() => handleCepOng()}
 								error={errors.cep}
 							/>
+							<InputForm
+								placeholder="Rua"
+								control={control}
+								name="street"
+								autoCapitalize="words"
+								error={errors.street}
+								editable={false}
+							/>
+
 							<InputForm
 								placeholder="Cidade"
 								control={control}
 								name="city"
 								autoCapitalize="words"
 								error={errors.city}
+								editable={false}
 							/>
 						</ContainerLeftForm>
 						<ContainerRigthForm>
@@ -161,6 +208,7 @@ export function RegisterOng() {
 								name="district"
 								autoCapitalize="words"
 								error={errors.district}
+								editable={false}
 							/>
 							<InputForm
 								placeholder="UF"
@@ -169,6 +217,7 @@ export function RegisterOng() {
 								autoCapitalize="characters"
 								maxLength={2}
 								error={errors.uf}
+								editable={false}
 							/>
 						</ContainerRigthForm>
 					</AdressForm>

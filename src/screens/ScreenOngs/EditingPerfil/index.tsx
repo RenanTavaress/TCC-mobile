@@ -18,6 +18,7 @@ import {
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
 import { DataOngContext } from "../../../contexts/DataOng";
+import { DataAdress } from "../RegisterOng";
 
 type FormData = {
 	[name: string]: any;
@@ -65,6 +66,9 @@ export function EditingOng() {
 	const {
 		control,
 		handleSubmit,
+		getValues,
+		setValue,
+		setError,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
@@ -83,6 +87,35 @@ export function EditingOng() {
 			description: datasOngs.description,
 		},
 	});
+
+	async function handleCepOng() {
+		const values = getValues();
+		console.log(typeof values.cep);
+		if (values.cep?.length === 8) {
+			const response = await api.get<DataAdress>(
+				`https://viacep.com.br/ws/${values.cep}/json/`
+			);
+			console.log(response.data?.erro);
+			if (response.data?.erro !== true) {
+				setValue("street", response.data.logradouro);
+				setValue("district", response.data.bairro);
+				setValue("city", response.data.localidade);
+				setValue("uf", response.data.uf);
+			} else {
+				setError("cep", {
+					type: "custom",
+					message: "Cep Não existe",
+				});
+				return;
+			}
+		} else if (values.cep?.length < 8) {
+			setValue("street", "");
+			setValue("district", "");
+			setValue("city", "");
+			setValue("uf", "");
+		}
+	}
+
 
 	async function handleOngRegister(datas: FormData) {
 		try {
@@ -140,28 +173,32 @@ export function EditingOng() {
 					<Title>Endereço</Title>
 
 					<AdressForm>
-						<ContainerLeftForm>
-							<InputForm
-								placeholder="Rua"
-								control={control}
-								name="street"
-								autoCapitalize="words"
-								error={errors.street}
-							/>
+					<ContainerLeftForm>
 							<InputForm
 								placeholder="CEP"
 								control={control}
 								name="cep"
 								keyboardType="numeric"
 								maxLength={8}
+								onBlur={() => handleCepOng()}
 								error={errors.cep}
 							/>
+							<InputForm
+								placeholder="Rua"
+								control={control}
+								name="street"
+								autoCapitalize="words"
+								error={errors.street}
+								editable={false}
+							/>
+
 							<InputForm
 								placeholder="Cidade"
 								control={control}
 								name="city"
 								autoCapitalize="words"
 								error={errors.city}
+								editable={false}
 							/>
 						</ContainerLeftForm>
 						<ContainerRigthForm>
@@ -178,6 +215,7 @@ export function EditingOng() {
 								name="district"
 								autoCapitalize="words"
 								error={errors.district}
+								editable={false}
 							/>
 							<InputForm
 								placeholder="UF"
@@ -186,6 +224,7 @@ export function EditingOng() {
 								autoCapitalize="characters"
 								maxLength={2}
 								error={errors.uf}
+								editable={false}
 							/>
 						</ContainerRigthForm>
 					</AdressForm>
