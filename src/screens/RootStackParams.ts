@@ -10,6 +10,15 @@ export type RootStackParamList = {
 	EditingPerfilOng: undefined;
 	EditingPetScreen: {
 		guid: string;
+		age: string;
+		breed: string;
+		description: string;
+		medication: string;
+
+		name: string;
+
+		size: string;
+		vaccines: string;
 	};
 	ongScreen: {
 		name: string;

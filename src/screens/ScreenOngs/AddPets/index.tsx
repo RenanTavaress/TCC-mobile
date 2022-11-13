@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert } from "react-native";
+import { Alert, Modal } from "react-native";
 import { Header } from "../../../components/Header";
 import { Button, RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
@@ -27,16 +27,18 @@ import { Keyboard } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
 import { Platform } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
+import { CategoryCard } from "../../../components/CategoryCard";
+import { CategorySelect } from "../../CategorySelect";
 
 type FormData = {
 	[name: string]: any;
-	name: string;
 	medication: string;
 	breed: string;
 	size: string;
 	age: string;
 	description: string;
 	vaccines: string;
+	name:string; 
 };
 
 const schema = yup.object({
@@ -52,6 +54,8 @@ const schema = yup.object({
 export function AddPet() {
 	const { colors } = useTheme();
 	const [size, setSize] = useState("pequeno");
+	const [modalSelectCategory, setModalSelectCategory] = useState(false);
+	const [category, setCategory] = useState('Categoria');
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
 
@@ -63,11 +67,21 @@ export function AddPet() {
 		resolver: yupResolver(schema),
 	});
 
+	function handleOpenSelectCategoryModal() {
+		setModalSelectCategory(true);
+	}
+
+	function handleCloseSelectCategoryModal() {
+		setModalSelectCategory(false);
+	}
+
 	async function submitForm(data: FormData) {
 		const datas = {
 			...data,
 			size,
+			name: category,
 		};
+		console.log(datas)
 		try {
 			const { data } = await api.post(
 				`/api/pet/add/companyguid/${user?.guid}`,
@@ -103,13 +117,6 @@ export function AddPet() {
 					<ContainerAdd>
 						<InfoDataPet>
 							<InputForm
-								placeholder="nome"
-								control={control}
-								name="name"
-								autoCapitalize="sentences"
-								error={errors.name}
-							/>
-							<InputForm
 								placeholder="vacina"
 								control={control}
 								name="vaccines"
@@ -131,8 +138,13 @@ export function AddPet() {
 								autoCapitalize="sentences"
 								error={errors.breed}
 							/>
+							
 						</InfoDataPet>
 
+						<CategoryCard
+								onPress={handleOpenSelectCategoryModal}
+								title={category}
+							/>
 						<InfoRadioBtn>
 							<RadioButton.Group
 								onValueChange={(checked) => setSize(checked)}
@@ -179,6 +191,13 @@ export function AddPet() {
 								title="enivar"
 							/>
 						</ButtonContainer>
+						<Modal visible={modalSelectCategory}>
+							<CategorySelect
+								category={category}
+								setCategory={setCategory}
+								closeSelectCategory={handleCloseSelectCategoryModal}
+							/>
+						</Modal>
 					</ContainerAdd>
 				</KeyboardAvoidingView>
 			</Container>

@@ -11,6 +11,7 @@ import {
 	Keyboard,
 	Platform,
 	KeyboardAvoidingView,
+	Modal,
 } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
@@ -32,6 +33,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import AuthContext from "../../../contexts/auth";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { ButtonContainer } from "../AddPets/styles";
+import { DataPetContext, DataPetProps } from "../../../contexts/DataPet";
+import { CategoryCard } from "../../../components/CategoryCard";
+import { CategorySelect } from "../../CategorySelect";
 
 type FormData = {
 	[name: string]: any;
@@ -42,6 +46,7 @@ type FormData = {
 	age: string;
 	description: string;
 	vaccines: string;
+
 };
 
 const schema = yup.object({
@@ -55,15 +60,24 @@ const schema = yup.object({
 });
 
 export function EditingPet() {
-	const { colors } = useTheme();
-	const [size, setSize] = useState("pequeno");
-	const navigate = useNavigation();
-	const { user } = useContext(AuthContext);
 	const { params } = useRoute() as {
 		params: {
 			guid: string;
+			age: string;
+			medication: string;
+			size: string;
+			description: string;
+			vaccines:string; 
+			name: string;
+			breed: string;
 		};
 	};
+	const { colors } = useTheme();
+	const navigate = useNavigation();
+	const { user } = useContext(AuthContext);
+	const [size, setSize] = useState(params.size);
+	const [modalSelectCategory, setModalSelectCategory] = useState(false);
+	const [category, setCategory] = useState(params.name);
 
 	const {
 		control,
@@ -71,19 +85,38 @@ export function EditingPet() {
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
+		defaultValues: {
+			age: params.age,
+			name: params.name,
+			medication: params.medication,
+			size: params.size,
+			description: params.description,
+			breed: params.breed,
+			vaccines: params.vaccines,
+		},
 	});
+	function handleOpenSelectCategoryModal() {
+		setModalSelectCategory(true);
+	}
+
+	function handleCloseSelectCategoryModal() {
+		setModalSelectCategory(false);
+	}
 
 	async function submitForm(data: FormData) {
 		const datas = {
 			...data,
 			size,
+			name: category
 		};
+
 		try {
 			const { data } = await api.put(
 				`/api/pet/update/guid/${params.guid}`,
 				datas
 			);
-			if (data!.code === 304) {
+			if (data!.code === 304) { 
+
 				Alert.alert("Tente novamente", "Deu algo Problema ");
 				return;
 			} else {
@@ -108,13 +141,6 @@ export function EditingPet() {
 				<ContainerAdd>
 					<InfoDataPet>
 						<InputForm
-							placeholder="nome"
-							control={control}
-							name="name"
-							autoCapitalize="sentences"
-							error={errors.name}
-						/>
-						<InputForm
 							placeholder="vacina"
 							control={control}
 							name="vaccines"
@@ -136,11 +162,15 @@ export function EditingPet() {
 							autoCapitalize="sentences"
 							error={errors.breed}
 						/>
+						<CategoryCard
+							onPress={handleOpenSelectCategoryModal}
+							title={category}
+						/>
 					</InfoDataPet>
 
 					<InfoRadioBtn>
 						<RadioButton.Group
-							onValueChange={(checked) => setSize(checked)}
+							onValueChange={(check) => setSize(check)}
 							value={size}
 						>
 							<TextInfo>Tamanho:</TextInfo>
@@ -184,6 +214,13 @@ export function EditingPet() {
 							title="Editar"
 						/>
 					</ButtonContainer>
+					<Modal visible={modalSelectCategory}>
+						<CategorySelect
+							category={category}
+							setCategory={setCategory}
+							closeSelectCategory={handleCloseSelectCategoryModal}
+						/>
+					</Modal>
 				</ContainerAdd>
 			</KeyboardAvoidingView>
 		</Container>

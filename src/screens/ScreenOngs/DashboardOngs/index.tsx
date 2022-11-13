@@ -22,6 +22,7 @@ import { RootStackParamList } from "../../RootStackParams";
 import { FabButton } from "../../../components/Button/FAB";
 import AuthContext from "../../../contexts/auth";
 import { DataOngContext } from "../../../contexts/DataOng";
+import { DataPetContext } from "../../../contexts/DataPet";
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
@@ -75,6 +76,7 @@ export function Dashboard() {
 					<PetCard
 						{...item}
 						onPress={() => {
+							console.log(item)
 							navigation.navigate("petScreen", item);
 						}}
 					/>

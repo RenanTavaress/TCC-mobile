@@ -38,6 +38,7 @@ export function PetCard({
 				<DescriptionPet>{description}</DescriptionPet>
 				<AgePet>
 					{age}
+					{' '}
 					{breed}
 				</AgePet>
 			</ContaineCardDescription>

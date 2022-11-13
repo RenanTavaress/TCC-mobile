@@ -68,7 +68,7 @@ export function PetScreen() {
 
 				<ContainerButtonInfo>
 					<ContainerButton title="Editar Pet"  onPress={() => {
-						console.log(params)
+							// console.log(params.category.key)
 							navigation.navigate("EditingPetScreen", params);
 						}}/>
 				</ContainerButtonInfo>
