@@ -28,7 +28,7 @@ export const CategorySelect = ({
 	closeSelectCategory,
 }: Props) => {
 	return (
-		<>
+		<Container>
 			<Header title="Categoria do Animal" icon="left"/>
 				{/* <Title>Categoria do Animal</Title>
 			</Header> */}
@@ -39,11 +39,11 @@ export const CategorySelect = ({
 				keyExtractor={(item) => item.key}
 				renderItem={({ item }) => (
 					<Categorys
-						onPress={() => setCategory(item.name)}
-						isActive={category === item.name}
+						onPress={() => setCategory(item.typePet)}
+						isActive={category === item.typePet}
 					>
 						<Icon name={item.icon} />
-						<CategoryName>{item.name}</CategoryName>
+						<CategoryName>{item.typePet}</CategoryName>
 					</Categorys>
 				)}
 				ItemSeparatorComponent={() => <Separetor />}
@@ -52,6 +52,6 @@ export const CategorySelect = ({
 			<Footer>
 				<ContainerButton onPress={closeSelectCategory} title="Selecionar" />
 			</Footer>
-		</>
+		</Container>
 	);
 };

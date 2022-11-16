@@ -39,7 +39,7 @@ import { CategorySelect } from "../../CategorySelect";
 
 type FormData = {
 	[name: string]: any;
-	name: string;
+	typePet: string;
 	medication: string;
 	breed: string;
 	size: string;
@@ -68,8 +68,10 @@ export function EditingPet() {
 			size: string;
 			description: string;
 			vaccines:string; 
-			name: string;
+			typePet: string;
 			breed: string;
+			gender: string;
+
 		};
 	};
 	const { colors } = useTheme();
@@ -77,7 +79,8 @@ export function EditingPet() {
 	const { user } = useContext(AuthContext);
 	const [size, setSize] = useState(params.size);
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
-	const [category, setCategory] = useState(params.name);
+	const [category, setCategory] = useState(params.typePet);
+	const [gender, setGender] = useState(params.gender);
 
 	const {
 		control,
@@ -87,7 +90,7 @@ export function EditingPet() {
 		resolver: yupResolver(schema),
 		defaultValues: {
 			age: params.age,
-			name: params.name,
+			name: params.typePet,
 			medication: params.medication,
 			size: params.size,
 			description: params.description,
@@ -107,7 +110,7 @@ export function EditingPet() {
 		const datas = {
 			...data,
 			size,
-			name: category
+			typePet: category
 		};
 
 		try {
@@ -169,37 +172,52 @@ export function EditingPet() {
 					</InfoDataPet>
 
 					<InfoRadioBtn>
-						<RadioButton.Group
-							onValueChange={(check) => setSize(check)}
-							value={size}
-						>
-							<TextInfo>Tamanho:</TextInfo>
-							<ViewSize>
-								<RadioButton value="pequeno" color={colors.primary} />
-								<TextSize>Pequeno</TextSize>
-							</ViewSize>
+							<RadioButton.Group
+								onValueChange={(checked) => setSize(checked)}
+								value={size}
+							>
+								<TextInfo>Tamanho:</TextInfo>
+								<ViewSize>
+									<RadioButton value="pequeno" color={colors.primary} />
+									<TextSize>Pequeno</TextSize>
+								</ViewSize>
 
-							<ViewSize>
-								<RadioButton value="medio" color={colors.primary} />
-								<TextSize>Médio</TextSize>
-							</ViewSize>
+								<ViewSize>
+									<RadioButton value="medio" color={colors.primary} />
+									<TextSize>Médio</TextSize>
+								</ViewSize>
 
-							<ViewSize>
-								<RadioButton value="grande" color={colors.primary} />
-								<TextSize>Grande</TextSize>
-							</ViewSize>
-						</RadioButton.Group>
-						<ContainerAge>
-							<TextInfo>Idade em meses:</TextInfo>
-							<InputForm
-								placeholder="Idade em meses"
-								control={control}
-								name="age"
-								keyboardType="numeric"
-								error={errors.age}
-							/>
-						</ContainerAge>
-					</InfoRadioBtn>
+								<ViewSize>
+									<RadioButton value="grande" color={colors.primary} />
+									<TextSize>Grande</TextSize>
+								</ViewSize>
+							</RadioButton.Group>
+							<ContainerAge>
+								<RadioButton.Group
+									onValueChange={(gen) => setGender(gen)}
+									value={gender}
+								>
+									<TextInfo>Sexo:</TextInfo>
+									<ViewSize>
+										<RadioButton value="M" color={colors.primary} />
+										<TextSize>Masculino</TextSize>
+									</ViewSize>
+
+									<ViewSize>
+										<RadioButton value="F" color={colors.primary} />
+										<TextSize>Feminino</TextSize>
+									</ViewSize>
+								</RadioButton.Group>
+							</ContainerAge>
+						</InfoRadioBtn>
+						<TextInfo>Idade em meses:</TextInfo>
+						<InputForm
+							placeholder="Idade em meses"
+							control={control}
+							name="age"
+							keyboardType="numeric"
+							error={errors.age}
+						/>
 
 					<DescriptioInput
 						placeholder="Descrição"

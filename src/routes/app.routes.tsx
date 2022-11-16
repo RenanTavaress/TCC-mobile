@@ -13,6 +13,7 @@ import { useTheme } from "styled-components";
 import { Platform } from "react-native";
 import { Donation } from "../screens/ScreenUser/Donation";
 import { DashboardUserStack } from "./DashboardUserStack.routes";
+import { ListPetStack } from "./FilterPet.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -33,8 +34,17 @@ export const AppRoutes: React.FC = () => {
 				}}
 			>
 				<Screen
-					name="Pets"
+					name="Ongs"
 					component={DashboardUserStack}
+					options={{
+						tabBarIcon: ({ size, color }) => (
+							<FontAwesome5 name="house-user" size={size} color={color} />
+						),
+					}}
+				/>
+				<Screen
+					name="Pets"
+					component={ListPetStack}
 					options={{
 						tabBarIcon: ({ size, color }) => (
 							<MaterialIcons name="pets" size={size} color={color} />

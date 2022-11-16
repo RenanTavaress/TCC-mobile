@@ -15,10 +15,11 @@ export interface DataPetsProps {
 	breed: string;
 	description: string;
 	medication: string;
-	name: string;
+	typePet: string;
 	size: string;
 	vaccines: string;
 	onPress?(): void;
+	gender: string;
 }
 
 export function PetCard({
@@ -26,14 +27,15 @@ export function PetCard({
 	breed,
 	description,
 	medication,
-	name,
+	typePet,
 	size,
 	vaccines,
 	onPress,
 }: DataPetsProps) {
 	return (
 		<CardPet onPress={onPress}>
-			<TextNamePet>{name}</TextNamePet>
+			{console.log(typePet)}
+			<TextNamePet>{typePet}</TextNamePet>
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
 				<AgePet>

@@ -38,7 +38,8 @@ type FormData = {
 	age: string;
 	description: string;
 	vaccines: string;
-	name:string; 
+	gender: string;
+	typePet: string;
 };
 
 const schema = yup.object({
@@ -54,8 +55,9 @@ const schema = yup.object({
 export function AddPet() {
 	const { colors } = useTheme();
 	const [size, setSize] = useState("pequeno");
+	const [gender, setGender] = useState("M");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
-	const [category, setCategory] = useState('Categoria');
+	const [category, setCategory] = useState("Categoria");
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
 
@@ -79,9 +81,10 @@ export function AddPet() {
 		const datas = {
 			...data,
 			size,
-			name: category,
+			gender,
+			typePet: category,
 		};
-		console.log(datas)
+		console.log(datas);
 		try {
 			const { data } = await api.post(
 				`/api/pet/add/companyguid/${user?.guid}`,
@@ -138,13 +141,12 @@ export function AddPet() {
 								autoCapitalize="sentences"
 								error={errors.breed}
 							/>
-							
 						</InfoDataPet>
 
 						<CategoryCard
-								onPress={handleOpenSelectCategoryModal}
-								title={category}
-							/>
+							onPress={handleOpenSelectCategoryModal}
+							title={category}
+						/>
 						<InfoRadioBtn>
 							<RadioButton.Group
 								onValueChange={(checked) => setSize(checked)}
@@ -167,16 +169,31 @@ export function AddPet() {
 								</ViewSize>
 							</RadioButton.Group>
 							<ContainerAge>
-								<TextInfo>Idade em meses:</TextInfo>
-								<InputForm
-									placeholder="Idade em meses"
-									control={control}
-									name="age"
-									keyboardType="numeric"
-									error={errors.age}
-								/>
+								<RadioButton.Group
+									onValueChange={(gen) => setGender(gen)}
+									value={gender}
+								>
+									<TextInfo>Sexo:</TextInfo>
+									<ViewSize>
+										<RadioButton value="M" color={colors.primary} />
+										<TextSize>Masculino</TextSize>
+									</ViewSize>
+
+									<ViewSize>
+										<RadioButton value="F" color={colors.primary} />
+										<TextSize>Feminino</TextSize>
+									</ViewSize>
+								</RadioButton.Group>
 							</ContainerAge>
 						</InfoRadioBtn>
+						<TextInfo>Idade em meses:</TextInfo>
+						<InputForm
+							placeholder="Idade em meses"
+							control={control}
+							name="age"
+							keyboardType="numeric"
+							error={errors.age}
+						/>
 
 						<DescriptioInput
 							placeholder="Descrição"

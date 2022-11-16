@@ -22,16 +22,26 @@ export function PetScreen() {
 			breed: string;
 			description: string;
 			medication: string;
-			name: string;
+			typePet: string;
 			size: string;
 			vaccines: string;
+			gender: string;
 		};
 	};
 
-	const { age, breed, description, medication, name, size, vaccines } = params;
+	const {
+		age,
+		breed,
+		description,
+		medication,
+		typePet,
+		size,
+		vaccines,
+		gender,
+	} = params;
 	return (
 		<Container>
-			<Header title={name} icon="left" />
+			<Header title={typePet} icon="left" />
 			<ContainerInfos>
 				<View>
 					<ContainerPetInfo>
@@ -48,6 +58,8 @@ export function PetScreen() {
 							<InfoPet>{medication}</InfoPet>
 							<TextInfo>Vacinas:</TextInfo>
 							<InfoPet>{vaccines}</InfoPet>
+							<TextInfo>Sexo:</TextInfo>
+							<InfoPet>{gender === "M" ? "Masculino" : "Feminino"}</InfoPet>
 						</ContainerHeath>
 					</ContainerPetInfo>
 					<ContainerDescription>
