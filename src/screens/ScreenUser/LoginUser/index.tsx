@@ -20,6 +20,7 @@ export function LoginUser() {
 			screenRegister="RegisterUser"
 			linkRegister="Ainda não é cadastrado?"
 			handleSignIn={handleSignIn}
+			forgotPassword="Esqueci Senha"
 		/>
 	);
 }

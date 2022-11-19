@@ -20,6 +20,9 @@ export interface DataPetsProps {
 	vaccines: string;
 	onPress?(): void;
 	gender: string;
+	name: string;
+	email: string;
+	phone: string;
 }
 
 export function PetCard({
@@ -39,9 +42,7 @@ export function PetCard({
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
 				<AgePet>
-					{age}
-					{' '}
-					{breed}
+					{age} {breed}
 				</AgePet>
 			</ContaineCardDescription>
 		</CardPet>

@@ -17,12 +17,14 @@ import {
 	AdressInfo,
 	AdressLeft,
 	AdressRigth,
-	TextTitle
+	TextTitle,
 } from "./styles";
 
 type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
-	"EditingPerfilOng"
+	"EditingPerfilOng",
+	"SendRating"
+	
 >;
 
 export function PerfilOng() {
@@ -75,6 +77,11 @@ export function PerfilOng() {
 					<ContainerButton
 						title="Editar perfil"
 						onPress={() => navigation.navigate("EditingPerfilOng")}
+					/>
+
+					<ContainerButton
+						title="Enviar Avaliação"
+						onPress={() => navigation.navigate("SendRating")}
 					/>
 
 					<ContainerButton title="sair" onPress={handleLogout} />

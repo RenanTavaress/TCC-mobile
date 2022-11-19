@@ -85,7 +85,7 @@ export function OngScreen() {
 					<PetCard
 						{...item}
 						onPress={() => {
-							navigation.navigate("petScreen", item);
+							navigation.navigate("petScreen", { ...item, name, email, phone });
 						}}
 					/>
 				)}

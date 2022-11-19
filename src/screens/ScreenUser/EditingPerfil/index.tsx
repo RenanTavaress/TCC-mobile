@@ -9,8 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
 import { UserProps, DataUserContext } from "../../../contexts/dataUsers";
-import { TouchableWithoutFeedback } from "react-native";
-import { Keyboard } from "react-native";
 
 type FormData = {
 	[name: string]: any;

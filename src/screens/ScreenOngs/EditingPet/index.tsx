@@ -135,7 +135,7 @@ export function EditingPet() {
 
 	return (
 		<Container>
-			<Header title="Cadastre pet para adoção" icon="left" />
+			<Header title="Edite o pet" icon="left" />
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				keyboardVerticalOffset={Platform.select({ ios: 0, android: -2000 })}

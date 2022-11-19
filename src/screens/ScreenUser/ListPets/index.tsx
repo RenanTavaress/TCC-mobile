@@ -67,7 +67,6 @@ export function ListPets() {
 					<PetCard
 						{...item}
 						onPress={() => {
-							console.log(item);
 							navigation.navigate("petScreen", item);
 						}}
 					/>

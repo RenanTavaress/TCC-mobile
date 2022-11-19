@@ -20,6 +20,7 @@ export function LoginOng() {
 			handleSignIn={handleSignIn}
 			screenRegister="RegisterOng"
 			linkRegister="Sua ONG ainda não é cadastrada?"
+			forgotPassword="Esqueci Senha"
 		/>
 	);
 }

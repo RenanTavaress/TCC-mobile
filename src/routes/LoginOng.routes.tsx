@@ -6,6 +6,7 @@ import { LoginOng } from "../screens/ScreenOngs/LoginOng";
 import { LoginUser } from "../screens/ScreenUser/LoginUser";
 import { RegisterOng } from "../screens/ScreenOngs/RegisterOng";
 import { RegisterUser } from "../screens/ScreenUser/RegisterUser";
+import { ForgotPassword } from "../screens/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function LoginOngRoutes() {
 			<Stack.Screen name="User" component={LoginUser} />
 			<Stack.Screen name="RegisterOng" component={RegisterOng} />
 			<Stack.Screen name="RegisterUser" component={RegisterUser} />
+			<Stack.Screen name="ForgotPassword" component={ForgotPassword} />
 		</Stack.Navigator>
 	);
 }

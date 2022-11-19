@@ -10,6 +10,8 @@ export type RootStackParamList = {
 	listPets: undefined;
 	EditingPerfilOng: undefined;
 	FilterScreen: undefined;
+	ForgotPassword: undefined;
+	SendRating: undefined;
 	EditingPetScreen: {
 		guid: string;
 		age: string;
@@ -43,5 +45,8 @@ export type RootStackParamList = {
 		size: string;
 		vaccines: string;
 		gender: string;
+		name: string;
+		email: string;
+		phone: string;
 	};
 };

@@ -26,6 +26,9 @@ export function PetScreen() {
 			size: string;
 			vaccines: string;
 			gender: string;
+			name: string;
+			email: string;
+			phone: string;
 		};
 	};
 
@@ -38,7 +41,14 @@ export function PetScreen() {
 		size,
 		vaccines,
 		gender,
+		email,
+		name,
+		phone,
 	} = params;
+
+	function showInfoOng() {
+		console.log(email, name, phone);
+	}
 	return (
 		<Container>
 			<Header title={typePet} icon="left" />
@@ -69,7 +79,7 @@ export function PetScreen() {
 				</View>
 
 				<ContainerButtonInfo>
-					<ContainerButton title="Entre em contato com a ONG." />
+					<ContainerButton title="Entre em contato com a ONG." onPress={showInfoOng} />
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

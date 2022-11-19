@@ -57,12 +57,11 @@ const schema = yup.object({
 	uf: yup.string().required("O UF é obrigatório").trim(),
 	phone: yup.string().required("O Telefone é obrigatório").trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
-	password: yup.string().required("A Senha é obrigatória").trim(),
 });
 
 export function EditingOng() {
 	const navigate = useNavigation();
-	const {datasOngs, setDatasOngs} = useContext(DataOngContext)
+	const { datasOngs, setDatasOngs } = useContext(DataOngContext);
 	const {
 		control,
 		handleSubmit,
@@ -90,12 +89,10 @@ export function EditingOng() {
 
 	async function handleCepOng() {
 		const values = getValues();
-		console.log(typeof values.cep);
 		if (values.cep?.length === 8) {
 			const response = await api.get<DataAdress>(
 				`https://viacep.com.br/ws/${values.cep}/json/`
 			);
-			console.log(response.data?.erro);
 			if (response.data?.erro !== true) {
 				setValue("street", response.data.logradouro);
 				setValue("district", response.data.bairro);
@@ -108,7 +105,12 @@ export function EditingOng() {
 				});
 				return;
 			}
-		} else if (values.cep?.length < 8) {
+		}
+	}
+
+	function verifyLengthInputCep() {
+		const values = getValues();
+		if (values.cep?.length <= 8) {
 			setValue("street", "");
 			setValue("district", "");
 			setValue("city", "");
@@ -116,17 +118,17 @@ export function EditingOng() {
 		}
 	}
 
-
 	async function handleOngRegister(datas: FormData) {
 		try {
-			const { data } = await api.put(`/api/company/update/guid/${datasOngs.guid}`, datas);
-			console.log(data)
-			console.log(datas)
+			const { data } = await api.put(
+				`/api/company/update/guid/${datasOngs.guid}`,
+				datas
+			);
 			if (data!.code === 304) {
 				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
 				return;
 			} else {
-				setDatasOngs(data.data)
+				setDatasOngs(data.data);
 				Alert.alert("Sucesso", "Usuário Atualizado com sucesso!");
 				navigate.goBack();
 				return;
@@ -139,7 +141,7 @@ export function EditingOng() {
 
 	return (
 		<Container>
-			<Header title="Cadastre sua ONG" icon="left" />
+			<Header title="Edite suas informações" icon="left" />
 
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -173,7 +175,7 @@ export function EditingOng() {
 					<Title>Endereço</Title>
 
 					<AdressForm>
-					<ContainerLeftForm>
+						<ContainerLeftForm>
 							<InputForm
 								placeholder="CEP"
 								control={control}
@@ -181,6 +183,7 @@ export function EditingOng() {
 								keyboardType="numeric"
 								maxLength={8}
 								onBlur={() => handleCepOng()}
+								onChange={() => verifyLengthInputCep()}
 								error={errors.cep}
 							/>
 							<InputForm
@@ -250,16 +253,8 @@ export function EditingOng() {
 						autoCapitalize="sentences"
 						error={errors.description}
 					/>
-					<InputForm
-						placeholder="Senha"
-						control={control}
-						name="password"
-						autoCapitalize="none"
-						secureTextEntry={true}
-						error={errors.password}
-					/>
 					<RegisterButton
-						title="Cadastrar"
+						title="Editar"
 						onPress={handleSubmit(handleOngRegister)}
 					/>
 				</MainForm>

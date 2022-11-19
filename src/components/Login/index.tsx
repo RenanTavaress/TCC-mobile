@@ -24,12 +24,14 @@ interface ScreenLoginProps {
 	handleSignIn?: (username: string, password: string) => void;
 	screenRegister: "RegisterUser" | "RegisterOng";
 	linkRegister: string;
+	forgotPassword: string;
 }
 
 export function Login({
 	handleSignIn,
 	screenRegister,
 	linkRegister,
+	forgotPassword
 }: ScreenLoginProps) {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	//const { signed, user, signIn } = useContext(AuthContext);
@@ -78,6 +80,9 @@ export function Login({
 
 						<Link onPress={() => navigation.navigate(screenRegister)}>
 							<LinkRegister>{linkRegister}</LinkRegister>
+						</Link>
+						<Link onPress={() => navigation.navigate("ForgotPassword")}>
+							<LinkRegister>{forgotPassword}</LinkRegister>
 						</Link>
 					</LoginContainer>
 				</KeyboardAvoidingView>
