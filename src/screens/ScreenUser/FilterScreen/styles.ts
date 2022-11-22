@@ -34,3 +34,9 @@ export const TextInfo = styled.Text`
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.bold};
 `;
+
+export const Footer = styled.View`
+	margin-top: ${RFValue(10)}px;
+	align-items: center;
+	justify-content: center;
+`;

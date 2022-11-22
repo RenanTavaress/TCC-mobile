@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { Header } from "../../../components/Header";
 import { RootStackParamList } from "../../RootStackParams";
@@ -35,6 +35,7 @@ export function PetScreen() {
 			size: string;
 			vaccines: string;
 			gender: string;
+			photo1: string;
 		};
 	};
 
@@ -47,12 +48,21 @@ export function PetScreen() {
 		size,
 		vaccines,
 		gender,
+		photo1,
 	} = params;
 
 	return (
 		<Container>
 			<Header title={typePet} icon="left" />
 			<ContainerInfos>
+				<View>
+					{
+						<Image
+							source={{ uri: photo1 }}
+							style={{ width: 200, height: 200 }}
+						/>
+					}
+				</View>
 				<View>
 					<ContainerPetInfo>
 						<ContainerInfo>

@@ -48,5 +48,6 @@ export type RootStackParamList = {
 		name: string;
 		email: string;
 		phone: string;
+		photo1: string;
 	};
 };

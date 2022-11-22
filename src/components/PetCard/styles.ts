@@ -13,7 +13,7 @@ export const CardPet = styled.TouchableOpacity`
 	margin-left: ${RFValue(13)}px;
 `;
 export const TextNamePet = styled.Text`
-	font-size: ${RFValue(20)}px;
+	font-size: ${RFValue(16)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
@@ -26,7 +26,7 @@ export const ContaineCardDescription = styled.View`
 export const DescriptionPet = styled.Text.attrs({
 	numberOfLines: 2,
 })`
-	font-size: ${RFValue(16)}px;
+	font-size: ${RFValue(12)}px;
 
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
@@ -34,7 +34,7 @@ export const DescriptionPet = styled.Text.attrs({
 export const AgePet = styled.Text.attrs({
 	numberOfLines: 2,
 })`
-	font-size: ${RFValue(12)}px;
+	font-size: ${RFValue(10)}px;
 	max-width: 136px;
 	color: ${({ theme }) => theme.colors.text};
 	font-family: ${({ theme }) => theme.fonts.regular};

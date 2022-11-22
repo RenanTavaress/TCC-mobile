@@ -22,13 +22,13 @@ export const PefilInformations = styled.View`
 export const TextInfo = styled.Text`
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.regular};
-	font-size: ${RFValue(20)}px;
+	font-size: ${RFValue(16)}px;
 	margin-bottom: 5px;
 `;
 export const InfoUser = styled.Text`
 	color: ${({ theme }) => theme.colors.text};
 	font-family: ${({ theme }) => theme.fonts.regular};
-	font-size: ${RFValue(17)}px;
+	font-size: ${RFValue(12)}px;
 	margin-bottom: 5px;
 `;
 

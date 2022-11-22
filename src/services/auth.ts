@@ -5,7 +5,7 @@ interface Response {
 	email: string;
 	guid: string;
 	type: string;
-	permission: number;
+	permission: string;
 }
 
 interface SignInOptions {

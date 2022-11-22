@@ -19,6 +19,7 @@ import {
 	TextInfo,
 	TextSize,
 	ViewSize,
+	Footer
 } from "./styles";
 
 type FormData = {
@@ -65,8 +66,6 @@ export function FilterScreen() {
 
 		try {
 			const { data } = await api.post(`/api/pet/list`, datas);
-			console.log(data.data);
-
 			setPetsFilter(data.data);
 
 			navigate.goBack();
@@ -161,7 +160,10 @@ export function FilterScreen() {
 					title={category === "" ? "Categoria" : category}
 				/>
 			</FormContainer>
-			<ContainerButton title="Filtrar" onPress={handleSubmit(submitForm)} />
+			<Footer>
+				<ContainerButton title="Filtrar" onPress={handleSubmit(submitForm)} />
+			</Footer>
+
 			<Modal visible={modalSelectCategory}>
 				<CategorySelect
 					category={category}

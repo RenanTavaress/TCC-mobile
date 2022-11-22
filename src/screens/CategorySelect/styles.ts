@@ -61,4 +61,6 @@ export const Separetor = styled.View`
 export const Footer = styled.View`
 	width: 100%;
 	padding: 24px;
+	align-items: center;
+	justify-content: center;
 `;

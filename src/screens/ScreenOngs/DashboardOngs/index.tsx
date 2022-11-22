@@ -76,7 +76,6 @@ export function Dashboard() {
 					<PetCard
 						{...item}
 						onPress={() => {
-							console.log(item)
 							navigation.navigate("petScreen", item);
 						}}
 					/>

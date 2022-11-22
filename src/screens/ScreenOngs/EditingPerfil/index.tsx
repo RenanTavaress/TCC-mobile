@@ -68,6 +68,7 @@ export function EditingOng() {
 		getValues,
 		setValue,
 		setError,
+		clearErrors,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
@@ -87,23 +88,27 @@ export function EditingOng() {
 		},
 	});
 
+	async function getCep(values: string) {
+		const response = await api.get<DataAdress>(
+			`https://viacep.com.br/ws/${values}/json/`
+		);
+		return response;
+	}
+
 	async function handleCepOng() {
 		const values = getValues();
 		if (values.cep?.length === 8) {
-			const response = await api.get<DataAdress>(
-				`https://viacep.com.br/ws/${values.cep}/json/`
-			);
+			const response = await getCep(values.cep);
 			if (response.data?.erro !== true) {
 				setValue("street", response.data.logradouro);
 				setValue("district", response.data.bairro);
 				setValue("city", response.data.localidade);
 				setValue("uf", response.data.uf);
+				clearErrors("cep")
 			} else {
 				setError("cep", {
-					type: "custom",
 					message: "Cep Não existe",
 				});
-				return;
 			}
 		}
 	}
@@ -115,6 +120,7 @@ export function EditingOng() {
 			setValue("district", "");
 			setValue("city", "");
 			setValue("uf", "");
+			clearErrors("cep")
 		}
 	}
 

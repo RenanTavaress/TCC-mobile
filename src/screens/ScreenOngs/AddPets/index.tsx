@@ -1,10 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Modal } from "react-native";
+import {
+	Alert,
+	Modal,
+	View,
+	KeyboardAvoidingView,
+	Button,
+	Image,
+} from "react-native";
 import { Header } from "../../../components/Header";
-import { Button, RadioButton } from "react-native-paper";
+import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
 import {
 	Container,
@@ -17,18 +24,25 @@ import {
 	TextInfo,
 	TextSize,
 	ButtonContainer,
+	FormContainer,
+	ImageLeft,
+	ImageRigh,
+	ImageButton,
+	ImagePet,
+	ImageContainer,
 } from "./styles";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
 import { useNavigation } from "@react-navigation/native";
 import AuthContext from "../../../contexts/auth";
-import { TouchableWithoutFeedback } from "react-native";
+import { TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { Keyboard } from "react-native";
-import { KeyboardAvoidingView } from "react-native";
 import { Platform } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { CategoryCard } from "../../../components/CategoryCard";
 import { CategorySelect } from "../../CategorySelect";
+import { AntDesign } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 type FormData = {
 	[name: string]: any;
@@ -40,7 +54,16 @@ type FormData = {
 	vaccines: string;
 	gender: string;
 	typePet: string;
+	photo1: string;
 };
+
+interface ImagesProps {
+	cancelled: boolean;
+	height: number;
+	type: string;
+	uri: string;
+	width: number;
+}
 
 const schema = yup.object({
 	medication: yup.string().required("A cor é obrigatorio").trim(),
@@ -60,7 +83,8 @@ export function AddPet() {
 	const [category, setCategory] = useState("Categoria");
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
-
+	const [photo, setPhoto] = useState([]);
+	console.log(photo.length);
 	const {
 		control,
 		handleSubmit,
@@ -68,6 +92,38 @@ export function AddPet() {
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 	});
+
+	function handleRemovePhoto(index: number) {
+		const result = photo.splice(index, 1);
+
+		setPhoto(result);
+	}
+
+	const pickImage = async () => {
+		if (photo.length <= 3) {
+			let result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				allowsEditing: true,
+				base64: true,
+				aspect: [4, 4],
+				quality: 1,
+			});
+
+			if (result.cancelled) {
+				return;
+			}
+
+			setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
+
+			console.log(photo.length + " dentro da função");
+		} else {
+			Alert.alert(
+				"Não foi possivel adicionar mais fotos",
+				"So possivel adicionar ate 4 fotos"
+			);
+			return;
+		}
+	};
 
 	function handleOpenSelectCategoryModal() {
 		setModalSelectCategory(true);
@@ -78,11 +134,22 @@ export function AddPet() {
 	}
 
 	async function submitForm(data: FormData) {
+		if (category === "Categoria") {
+			Alert.alert(
+				"Não foi possivel cadastrar",
+				"Selecione uma categoria pro seu pet"
+			);
+			return;
+		}
 		const datas = {
 			...data,
 			size,
 			gender,
 			typePet: category,
+			photo1: photo[1] || null,
+			photo2: photo[2] || null,
+			photo3: photo[3] || null,
+			photo4: photo[4] || null,
 		};
 		console.log(datas);
 		try {
@@ -105,20 +172,58 @@ export function AddPet() {
 		}
 	}
 
+	useEffect(() => {
+		pickImage()
+	},[])
 	return (
-		<>
-			<Header title="Cadastre pet para adoção" icon="left" />
-			<Container>
-				<KeyboardAvoidingView
-					behavior={Platform.OS === "ios" ? "padding" : "height"}
-					keyboardVerticalOffset={Platform.select({
-						ios: 0,
-						android: -2000,
-					})}
-					// style={{ flex: 1 }}
-				>
-					<ContainerAdd>
+		<Container>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				keyboardVerticalOffset={Platform.select({
+					ios: 0,
+					android: -2000,
+				})}
+			>
+				<ContainerAdd>
+					<Header title="Cadastre pet para adoção" icon="left" />
+					<FormContainer>
+						<ImageContainer>
+							{photo.length > 0 && (
+								<ImageLeft>
+									{/* <TouchableOpacity onPress={() => handleRemovePhoto(0)}>
+										<AntDesign name="delete" size={14} color="red" />
+									</TouchableOpacity> */}
+									<ImageButton>
+										<ImagePet source={{ uri: photo[0] }} />
+									</ImageButton>
+									{/* <TouchableOpacity onPress={() => handleRemovePhoto(1)}>
+										<AntDesign name="delete" size={14} color="red" />
+									</TouchableOpacity> */}
+									<ImageButton>
+										<ImagePet source={{ uri: photo[1] }} />
+									</ImageButton>
+									{/* <TextInfo>fdfdfdfdfds</TextInfo>
+								<TextInfo>kkkkkkkkkkkkkk</TextInfo> */}
+								</ImageLeft>
+							)}
+							{photo.length > 2 && (
+								<ImageRigh>
+									<ImageButton>
+										<ImagePet source={{ uri: photo[2] }} />
+									</ImageButton>
+									<ImageButton>
+										<ImagePet source={{ uri: photo[3] }} />
+									</ImageButton>
+									{/* <TextInfo>fdfdfdfdfds</TextInfo>
+								<TextInfo>kkkkkkkkkkkkkk</TextInfo> */}
+								</ImageRigh>
+							)}
+						</ImageContainer>
 						<InfoDataPet>
+							<Button
+								title="Pick an image from camera roll"
+								onPress={pickImage}
+							/>
 							<InputForm
 								placeholder="vacina"
 								control={control}
@@ -186,6 +291,7 @@ export function AddPet() {
 								</RadioButton.Group>
 							</ContainerAge>
 						</InfoRadioBtn>
+
 						<TextInfo>Idade em meses:</TextInfo>
 						<InputForm
 							placeholder="Idade em meses"
@@ -208,16 +314,24 @@ export function AddPet() {
 								title="enivar"
 							/>
 						</ButtonContainer>
-						<Modal visible={modalSelectCategory}>
-							<CategorySelect
-								category={category}
-								setCategory={setCategory}
-								closeSelectCategory={handleCloseSelectCategoryModal}
-							/>
-						</Modal>
-					</ContainerAdd>
-				</KeyboardAvoidingView>
-			</Container>
-		</>
+					</FormContainer>
+
+					<Modal visible={modalSelectCategory}>
+						<CategorySelect
+							category={category}
+							setCategory={setCategory}
+							closeSelectCategory={handleCloseSelectCategoryModal}
+						/>
+					</Modal>
+				</ContainerAdd>
+			</KeyboardAvoidingView>
+		</Container>
 	);
+}
+
+{
+	/* <Image
+										source={{ uri: photo[0] }}
+										style={{ width: 200, height: 200 }}
+									/> */
 }

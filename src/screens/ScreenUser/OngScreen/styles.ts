@@ -33,6 +33,7 @@ export const ContainerOngInfo = styled.View`
 	width: 100%;
 	justify-content: center;
 	align-items: center;
+	margin: 0 0 auto 0
 `;
 
 export const AdressOng = styled.View`
@@ -41,19 +42,19 @@ export const AdressOng = styled.View`
 `;
 
 export const TextInfo = styled.Text`
-	font-size: ${RFValue(20)}px;
+	font-size: ${RFValue(16)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
 
 export const InfOngs = styled.Text`
-	font-size: ${RFValue(14)}px;
+	font-size: ${RFValue(12)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
 
 export const InfoRegion = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${RFValue(10)}px;
 	color: ${({ theme }) => theme.colors.text};
 	font-family: ${({ theme }) => theme.fonts.regular};
 `;
@@ -77,7 +78,7 @@ export const ContainerDescription = styled.View`
 	justify-content: flex-start;
 	align-items: flex-start;
 	height: auto;
-	padding: ${RFValue(15)}px;
+	padding: 0 ${RFValue(15)}px;
 	margin: 0 0 15px 0;
 	background-color: ${({ theme }) => theme.colors.shape};
 `

@@ -9,6 +9,16 @@ export const Container = styled.View`
 export const ContainerAdd = styled.ScrollView.attrs({
 	showsVerticalScrollIndicator: false,
 })`
+	
+	
+	height: 100%;
+`;
+
+export const ImageContainer = styled.View``;
+
+export const FormContainer = styled.View`
+	/* height: 100%; */
+	width: 100%;
 	margin-top: 25px;
 	padding: 0 20px;
 `;
@@ -53,6 +63,35 @@ export const ButtonContainer = styled.View`
 	justify-content: center;
 	align-items: center;
 	margin-top: 15px;
+`;
 
-`
+export const ImageLeft = styled.View`
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: space-between;
+	margin: 0 10px 10px 0;
+	visibility: hidden;
+`;
 
+export const ImageRigh = styled.View`
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: space-between;
+	margin: 0 10px 10px 0;
+	visibility: hidden;
+`;
+
+export const ImageButton = styled.View`
+	width: 47%;
+	height: auto;
+	background-color: white;
+	border: 1px solid ${({ theme }) => theme.colors.text};
+	visibility: hidden;
+`;
+
+export const ImagePet = styled.Image`
+	height: 100px;
+	width: auto;
+`;

@@ -17,6 +17,7 @@ export const FilterContainer = styled.TouchableOpacity`
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
+	margin-bottom:${RFValue(4)}px ;
 `;
 
 export const CleanFilterBox = styled.TouchableOpacity`

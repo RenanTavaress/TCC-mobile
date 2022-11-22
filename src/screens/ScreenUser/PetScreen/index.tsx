@@ -1,8 +1,9 @@
 import { useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { Header } from "../../../components/Header";
+import api from "../../../services/api";
 import {
 	Container,
 	ContainerInfos,
@@ -16,6 +17,7 @@ import {
 } from "./styles";
 
 export function PetScreen() {
+	const [petsCompany, setPetsCompany] = useState({})
 	const { params } = useRoute() as {
 		params: {
 			age: string;
@@ -29,6 +31,7 @@ export function PetScreen() {
 			name: string;
 			email: string;
 			phone: string;
+			companyGuid: string;
 		};
 	};
 
@@ -44,11 +47,21 @@ export function PetScreen() {
 		email,
 		name,
 		phone,
+		companyGuid
 	} = params;
 
-	function showInfoOng() {
-		console.log(email, name, phone);
-	}
+	useEffect(() => {
+		async function getPetsCompany() {
+			const response = await api.get(`/company/detail/name/guid/${companyGuid}`)
+			console.log(response)
+			setPetsCompany(response.data.data)
+		}
+		getPetsCompany()
+	},[])
+
+	// function showInfoOng() {
+	// 	console.log(petsCompany.email, petsCompany.name, petsCompany.phone);
+	// }
 	return (
 		<Container>
 			<Header title={typePet} icon="left" />
@@ -79,7 +92,7 @@ export function PetScreen() {
 				</View>
 
 				<ContainerButtonInfo>
-					<ContainerButton title="Entre em contato com a ONG." onPress={showInfoOng} />
+					<ContainerButton title="Entre em contato com a ONG."  />
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

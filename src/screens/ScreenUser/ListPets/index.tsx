@@ -41,6 +41,7 @@ export function ListPets() {
 	// const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
 	const { petsFilter, submitForm } = useContext(PetsFilterContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+	
 	// const {
 	// 	control,
 	// 	handleSubmit,

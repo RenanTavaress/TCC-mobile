@@ -37,7 +37,6 @@ export function PetCard({
 }: DataPetsProps) {
 	return (
 		<CardPet onPress={onPress}>
-			{console.log(typePet)}
 			<TextNamePet>{typePet}</TextNamePet>
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
