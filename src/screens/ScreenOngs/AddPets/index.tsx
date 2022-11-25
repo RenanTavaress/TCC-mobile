@@ -84,7 +84,7 @@ export function AddPet() {
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
 	const [photo, setPhoto] = useState([]);
-	console.log(photo.length);
+
 	const {
 		control,
 		handleSubmit,
@@ -93,10 +93,11 @@ export function AddPet() {
 		resolver: yupResolver(schema),
 	});
 
-	function handleRemovePhoto(index: number) {
-		const result = photo.splice(index, 1);
+	function handleRemovePhoto(index: string) {
+		const result = photo.filter((ele) => ele !== index);
 
 		setPhoto(result);
+		console.log(`tamanho do array dps que removeu foto: ${photo.length}`);
 	}
 
 	const pickImage = async () => {
@@ -114,8 +115,7 @@ export function AddPet() {
 			}
 
 			setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
-
-			console.log(photo.length + " dentro da função");
+			console.log(`tamanho do array dps que adicionou foto: ${photo.length}`);
 		} else {
 			Alert.alert(
 				"Não foi possivel adicionar mais fotos",
@@ -171,10 +171,6 @@ export function AddPet() {
 			return "error";
 		}
 	}
-
-	useEffect(() => {
-		pickImage()
-	},[])
 	return (
 		<Container>
 			<KeyboardAvoidingView
@@ -190,15 +186,15 @@ export function AddPet() {
 						<ImageContainer>
 							{photo.length > 0 && (
 								<ImageLeft>
-									{/* <TouchableOpacity onPress={() => handleRemovePhoto(0)}>
+									<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
 										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity> */}
+									</TouchableOpacity>
 									<ImageButton>
 										<ImagePet source={{ uri: photo[0] }} />
 									</ImageButton>
-									{/* <TouchableOpacity onPress={() => handleRemovePhoto(1)}>
+									<TouchableOpacity onPress={() => handleRemovePhoto(photo[1])}>
 										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity> */}
+									</TouchableOpacity>
 									<ImageButton>
 										<ImagePet source={{ uri: photo[1] }} />
 									</ImageButton>
@@ -208,9 +204,15 @@ export function AddPet() {
 							)}
 							{photo.length > 2 && (
 								<ImageRigh>
+									<TouchableOpacity onPress={() => handleRemovePhoto(photo[2])}>
+										<AntDesign name="delete" size={14} color="red" />
+									</TouchableOpacity>
 									<ImageButton>
 										<ImagePet source={{ uri: photo[2] }} />
 									</ImageButton>
+									<TouchableOpacity onPress={() => handleRemovePhoto(photo[3])}>
+										<AntDesign name="delete" size={14} color="red" />
+									</TouchableOpacity>
 									<ImageButton>
 										<ImagePet source={{ uri: photo[3] }} />
 									</ImageButton>
