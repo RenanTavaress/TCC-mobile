@@ -34,34 +34,16 @@ export type propsLoginOng = NativeStackScreenProps<
 >;
 
 export function Dashboard() {
-	const [listPet, setListPet] = useState<DataPetsProps[]>([]);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const {user} = useContext(AuthContext)
+	const {datasPet, getDataPet} = useContext(DataPetContext)
 	const { datasOngs } = useContext(DataOngContext);
 
-	async function getPetsOngs() {
-		const response = await api.get<PropsPets>(
-			`/api/pet/list/companyguid/${user?.guid}`
-		);
-		//console.log(response.data)
-		setListPet(response.data.data);
-		
-		
-	}
 
-	useEffect(() => {
-		
-		getPetsOngs();
-
-		// function removedata() {
-		// 	AsyncStorage.removeItem("@RNAuth2:token");
-		// }
-		// removedata();
-	}, []);
 
 	useFocusEffect(
 		useCallback(() => {
-			getPetsOngs();
+			getDataPet();
 		}, [])
 	);
 
@@ -70,7 +52,7 @@ export function Dashboard() {
 			<Header title={`Olá ${datasOngs?.name}, seja bem vindo`} />
 
 			<ContainerPets
-				data={listPet}
+				data={datasPet}
 				keyExtractor={(item) => item.guid}
 				renderItem={({ item }) => (
 					<PetCard

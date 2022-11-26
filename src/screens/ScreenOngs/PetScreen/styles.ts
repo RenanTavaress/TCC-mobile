@@ -5,8 +5,8 @@ export const Container = styled.View`
 	flex: 1;
 `;
 
-export const ContainerInfos = styled.View`
-	justify-content: space-between;
+export const ContainerInfos = styled.ScrollView`
+	/* justify-content: space-between; */
 	//align-items: center;
 	flex: 1;
 

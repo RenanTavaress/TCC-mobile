@@ -81,6 +81,7 @@ export function EditingPet() {
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [category, setCategory] = useState(params.typePet);
 	const [gender, setGender] = useState(params.gender);
+	const {datasPet, getDataPet, setDataPet} = useContext(DataPetContext)
 
 	const {
 		control,
@@ -123,7 +124,8 @@ export function EditingPet() {
 				Alert.alert("Tente novamente", "Deu algo Problema ");
 				return;
 			} else {
-				Alert.alert("Sucesso", "Pet criado com sucesso!");
+				setDataPet(data.data)
+				Alert.alert("Sucesso", "Pet editado com sucesso!");
 				navigate.goBack();
 				return;
 			}

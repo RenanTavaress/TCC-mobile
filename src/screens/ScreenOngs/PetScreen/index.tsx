@@ -1,9 +1,13 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import {Alert} from 'react-native'
 import { Image, View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
+import { DeleteButton } from "../../../components/Button/Delete";
 import { Header } from "../../../components/Header";
+import { DataPetContext } from "../../../contexts/DataPet";
+import api from "../../../services/api";
 import { RootStackParamList } from "../../RootStackParams";
 import {
 	Container,
@@ -24,6 +28,8 @@ export type propsLoginOng = NativeStackScreenProps<
 
 export function PetScreen() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+	const navigate = useNavigation();
+	const {datasPet, getDataPet} = useContext(DataPetContext)
 	const { params } = useRoute() as {
 		params: {
 			guid: string;
@@ -40,6 +46,7 @@ export function PetScreen() {
 	};
 
 	const {
+		guid,
 		age,
 		breed,
 		description,
@@ -50,6 +57,13 @@ export function PetScreen() {
 		gender,
 		photo1,
 	} = params;
+
+	async function handleDeletePet(guid: string) {
+		await api.delete(`/api/pet/delete/guid/${guid}`)
+		Alert.alert("Deletado", "Pet Deletado com sucesso!");
+		return navigate.goBack();
+		
+	}
 
 	return (
 		<Container>
@@ -96,6 +110,7 @@ export function PetScreen() {
 							navigation.navigate("EditingPetScreen", params);
 						}}
 					/>
+					<DeleteButton onPress={() => handleDeletePet(guid)}/>
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

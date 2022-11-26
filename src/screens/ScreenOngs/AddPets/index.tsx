@@ -94,10 +94,16 @@ export function AddPet() {
 	});
 
 	function handleRemovePhoto(index: string) {
+		if (!index) {
+			Alert.alert(
+				"Não foi possivel deletar essa fotos",
+				"Foto não disponivel nesse lugar"
+			);
+			return;
+		}
 		const result = photo.filter((ele) => ele !== index);
 
 		setPhoto(result);
-		console.log(`tamanho do array dps que removeu foto: ${photo.length}`);
 	}
 
 	const pickImage = async () => {

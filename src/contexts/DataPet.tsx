@@ -3,22 +3,41 @@ import api from "../services/api";
 import AuthContext from "./auth";
 
 export interface DataPetProps {
-	medication: string;
-	breed: string;
+	// medication: string;
+	// breed: string;
 	//size: string;
+	// age: string;
+	// description: string;
+	// vaccines: string;
+	//category:string;
+	guid: string;
+	companyGuid: string;
 	age: string;
+	breed: string;
 	description: string;
+	medication: string;
+	typePet: string;
+	size: string;
 	vaccines: string;
-	//category:string; 
+	onPress?(): void;
+	gender: string;
+	name: string;
+	email: string;
+	phone: string;
+	photo1: string;
+	photo2: string;
+	photo3: string;
+	photo4: string;
 }
 
-interface Props {
+export interface PropsContextDataPet {
 	data: DataPetProps[];
 }
 
 export type PetProps = {
 	datasPet: DataPetProps[];
 	setDataPet: (datasPet: DataPetProps[]) => void;
+	getDataPet: () => void;
 };
 
 export const DataPetContext = createContext<PetProps>({} as PetProps);
@@ -27,25 +46,24 @@ export const DataPet: React.FC = ({ children }) => {
 	const { user } = useContext(AuthContext);
 
 	const [datasPet, setDataPet] = useState<DataPetProps[]>([]);
+	async function getDataPet() {
+		try {
+			const { data } = await api.get<PropsContextDataPet>(
+				`/api/pet/list/companyguid/${user!.guid}`
+			);
+
+			setDataPet(data.data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	useEffect(() => {
-		async function getDataPet() {
-			try {
-				const { data } = await api.get<Props>(
-					`/api/pet/list/companyguid/${user!.guid}`
-				);
-				
-
-				setDataPet(data.data);
-			} catch (error) {
-				console.log(error);
-			}
-		}
 		getDataPet();
 	}, []);
 
 	return (
-		<DataPetContext.Provider value={{ datasPet, setDataPet }}>
+		<DataPetContext.Provider value={{ datasPet, setDataPet, getDataPet }}>
 			{children}
 		</DataPetContext.Provider>
 	);
