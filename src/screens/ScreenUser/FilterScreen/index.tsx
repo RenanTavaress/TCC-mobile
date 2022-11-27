@@ -69,15 +69,6 @@ export function FilterScreen() {
 			setPetsFilter(data.data);
 
 			navigate.goBack();
-
-			// if (data!.code === 304) {
-			// 	Alert.alert("Tente novamente", "Deu algo Problema ");
-			// 	return;
-			// } else {
-			// 	Alert.alert("Sucesso", "Pet criado com sucesso!");
-			// 	navigate.goBack();
-			// 	return;
-			// }
 		} catch (error) {
 			console.log(error);
 			return "error";

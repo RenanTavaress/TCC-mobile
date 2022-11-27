@@ -5,7 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export const Container = styled.View`
 	width: 100%;
-	height: ${Platform.OS === "ios" ? RFPercentage(11) : RFPercentage(13)}px;
+	height: ${Platform.OS === "ios" ? RFPercentage(6) : RFPercentage(8)}px;
 
 	background-color: ${({ theme }) => theme.colors.primary};
 	flex-direction: row;

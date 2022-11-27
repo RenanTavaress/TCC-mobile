@@ -6,11 +6,8 @@ export const Container = styled.View`
 `;
 
 export const ContainerInfos = styled.View`
-	justify-content: space-between;
-	//align-items: center;
 	flex: 1;
-
-`
+`;
 
 export const ContainerPetInfo = styled.View`
 	background-color: ${({ theme }) => theme.colors.shape};
@@ -47,13 +44,10 @@ export const InfoPet = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
 
-
 export const ContainerButtonInfo = styled.View`
 	align-items: center;
 	justify-content: center;
-
-`
-
+`;
 export const ImageContainer = styled.View``;
 
 export const ImageLeft = styled.View`
@@ -66,7 +60,7 @@ export const ImageLeft = styled.View`
 `;
 
 export const ImageButton = styled.View`
-	width: 47%;
+	width: 100%;
 	height: auto;
 	background-color: white;
 	border: 1px solid ${({ theme }) => theme.colors.text};
@@ -74,15 +68,6 @@ export const ImageButton = styled.View`
 `;
 
 export const ImagePet = styled.Image`
-	height: 100px;
+	height: 150px;
 	width: auto;
-`;
-
-export const ImageRigh = styled.View`
-	width: 100%;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: space-between;
-	margin: 0 10px 10px 0;
-	visibility: hidden;
 `;

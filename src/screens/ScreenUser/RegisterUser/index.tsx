@@ -63,7 +63,7 @@ export function RegisterUser() {
 	}
 	return (
 		<Container>
-			<Header title="Cadastre sua ONG" icon="left" />
+			<Header title="Faça seu cadastro" icon="left" />
 
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}

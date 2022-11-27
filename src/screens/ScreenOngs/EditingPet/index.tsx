@@ -84,9 +84,6 @@ export function EditingPet() {
 			breed: string;
 			gender: string;
 			photo1: string;
-			photo2: string;
-			photo3: string;
-			photo4: string;
 		};
 	};
 	const { colors } = useTheme();
@@ -138,6 +135,7 @@ export function EditingPet() {
 			...data,
 			size,
 			typePet: category,
+			gender,
 			photo1: photo[0],
 		};
 

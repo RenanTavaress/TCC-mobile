@@ -6,11 +6,8 @@ export const Container = styled.View`
 `;
 
 export const ContainerInfos = styled.ScrollView`
-	/* justify-content: space-between; */
-	//align-items: center;
 	flex: 1;
-
-`
+`;
 
 export const ContainerPetInfo = styled.View`
 	background-color: ${({ theme }) => theme.colors.shape};
@@ -47,12 +44,10 @@ export const InfoPet = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
 
-
 export const ContainerButtonInfo = styled.View`
 	justify-content: center;
 	align-items: center;
-
-`
+`;
 
 export const ImageContainer = styled.View``;
 
@@ -77,4 +72,3 @@ export const ImagePet = styled.Image`
 	height: 150px;
 	width: auto;
 `;
-

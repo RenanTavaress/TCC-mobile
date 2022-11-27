@@ -3,7 +3,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export const CardPet = styled.TouchableOpacity`
 	width: 92.5%;
-	height: ${RFPercentage(15)}px;
+	height: ${RFPercentage(20)}px;
 	background-color: ${({ theme }) => theme.colors.shape};
 	padding: 15px;
 	margin: ${RFValue(8)}px;
@@ -12,6 +12,17 @@ export const CardPet = styled.TouchableOpacity`
 	align-items: center;
 	margin-left: ${RFValue(13)}px;
 `;
+
+export const ContainerImage = styled.View`
+	height: 100%;
+	width: 50%;
+`;
+
+export const ImagePet = styled.Image`
+	height: 80%;
+	width: 100%;
+`;
+
 export const TextNamePet = styled.Text`
 	font-size: ${RFValue(16)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
@@ -21,7 +32,7 @@ export const TextNamePet = styled.Text`
 export const ContaineCardDescription = styled.View`
 	height: 100%;
 	justify-content: space-between;
-	width: 130px;
+	width: 43%;
 `;
 export const DescriptionPet = styled.Text.attrs({
 	numberOfLines: 2,
@@ -40,23 +51,3 @@ export const AgePet = styled.Text.attrs({
 	font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
-
-
-
-
-
-// <ContainerPetCard>
-// 				<ContainerPets
-// 					data={listPet}
-// 					keyExtractor={(item) => item.guid}
-// 					renderItem={({ item }) => (
-// 						<PetCard
-// 							{...item}
-// 							onPress={() => {
-// 								navigation.navigate("petScreen", item);
-// 							}}
-// 						/>
-// 					)}
-					
-// 				/>
-// 			</ContainerPetCard>

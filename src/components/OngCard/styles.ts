@@ -12,6 +12,17 @@ export const CardOngs = styled.TouchableOpacity`
 	align-items: center;
 	margin-left: ${RFValue(13)}px;
 `;
+
+// export const ContainerImage = styled.View`
+// 	height: 100%;
+// 	width: 50%;
+// `;
+
+// export const ImageOng = styled.Image`
+// 	height: 80%;
+// 	width: 100%;
+// `;
+
 export const TextNameOng = styled.Text.attrs({
 	numberOfLines: 2,
 })`

@@ -42,12 +42,6 @@ export function ListPets() {
 	const { petsFilter, submitForm } = useContext(PetsFilterContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	
-	// const {
-	// 	control,
-	// 	handleSubmit,
-	// 	formState: { errors },
-	// } = useForm<FormData>();
-
 	return (
 		<Container>
 			<Header title="Pets" />

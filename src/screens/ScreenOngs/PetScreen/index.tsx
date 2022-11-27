@@ -1,6 +1,6 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Alert } from "react-native";
 import { Image, View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
@@ -70,6 +70,14 @@ export function PetScreen() {
 		getPetDetail();
 	}, []);
 
+	useFocusEffect(
+		useCallback(() => {
+			getPetDetail();
+		}, [])
+	);
+
+	console.log(petDetail.gender)
+
 	return (
 		<Container>
 			<Header title={petDetail.typePet} icon="left" />
@@ -114,7 +122,6 @@ export function PetScreen() {
 					<ContainerButton
 						title="Editar Pet"
 						onPress={() => {
-							// console.log(params.category.key)
 							navigation.navigate("EditingPetScreen", petDetail);
 						}}
 					/>

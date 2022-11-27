@@ -19,7 +19,6 @@ import {
 	ImageLeft,
 	ImageButton,
 	ImagePet,
-	ImageRigh,
 } from "./styles";
 
 interface PropsDatailCompany {
@@ -90,22 +89,7 @@ export function PetScreen() {
 							<ImageButton>
 								<ImagePet source={{ uri: photo1 }} />
 							</ImageButton>
-
-							<ImageButton>
-								<ImagePet source={{ uri: photo2 }} />
-							</ImageButton>
 						</ImageLeft>
-					)}
-					{photo3 && (
-						<ImageRigh>
-							<ImageButton>
-								<ImagePet source={{ uri: photo3 }} />
-							</ImageButton>
-
-							<ImageButton>
-								<ImagePet source={{ uri: photo4 }} />
-							</ImageButton>
-						</ImageRigh>
 					)}
 				</ImageContainer>
 				<View>

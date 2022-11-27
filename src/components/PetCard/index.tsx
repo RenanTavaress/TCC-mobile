@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 
 import {
 	CardPet,
@@ -6,6 +7,8 @@ import {
 	ContaineCardDescription,
 	DescriptionPet,
 	AgePet,
+	ContainerImage,
+	ImagePet
 } from "./styles";
 
 export interface DataPetsProps {
@@ -23,10 +26,7 @@ export interface DataPetsProps {
 	name: string;
 	email: string;
 	phone: string;
-	photo1:string;
-	photo2:string;
-	photo3:string;
-	photo4:string;
+	photo1: string;
 }
 
 export function PetCard({
@@ -38,10 +38,15 @@ export function PetCard({
 	size,
 	vaccines,
 	onPress,
+	photo1
 }: DataPetsProps) {
 	return (
 		<CardPet onPress={onPress}>
-			<TextNamePet>{typePet}</TextNamePet>
+			<ContainerImage>
+				<TextNamePet>{typePet}</TextNamePet>
+				<ImagePet source={{ uri: photo1 }}/>
+			</ContainerImage>
+			
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
 				<AgePet>
