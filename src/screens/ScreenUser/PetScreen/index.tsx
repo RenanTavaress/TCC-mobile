@@ -1,5 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { Header } from "../../../components/Header";
@@ -14,10 +15,23 @@ import {
 	InfoPet,
 	ContainerDescription,
 	ContainerButtonInfo,
+	ImageContainer,
+	ImageLeft,
+	ImageButton,
+	ImagePet,
+	ImageRigh,
 } from "./styles";
 
+interface PropsDatailCompany {
+	name: string;
+	email: string;
+	phone: string;
+}
+
 export function PetScreen() {
-	const [petsCompany, setPetsCompany] = useState({})
+	const [petsCompany, setPetsCompany] = useState<PropsDatailCompany>(
+		{} as PropsDatailCompany
+	);
 	const { params } = useRoute() as {
 		params: {
 			age: string;
@@ -28,10 +42,11 @@ export function PetScreen() {
 			size: string;
 			vaccines: string;
 			gender: string;
-			name: string;
-			email: string;
-			phone: string;
 			companyGuid: string;
+			photo1: string;
+			photo2: string;
+			photo3: string;
+			photo4: string;
 		};
 	};
 
@@ -44,28 +59,55 @@ export function PetScreen() {
 		size,
 		vaccines,
 		gender,
-		email,
-		name,
-		phone,
-		companyGuid
+		companyGuid,
+		photo1,
+		photo2,
+		photo3,
+		photo4,
 	} = params;
 
 	useEffect(() => {
 		async function getPetsCompany() {
-			const response = await api.get(`/company/detail/name/guid/${companyGuid}`)
-			console.log(response)
-			setPetsCompany(response.data.data)
+			const response = await api.get(`/api/company/detail/guid/${companyGuid}`);
+			setPetsCompany(response.data.data);
 		}
-		getPetsCompany()
-	},[])
+		getPetsCompany();
+	}, []);
 
-	// function showInfoOng() {
-	// 	console.log(petsCompany.email, petsCompany.name, petsCompany.phone);
-	// }
+	function showInfoOng() {
+		Alert.alert(
+			"Contatos",
+			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone}`
+		);
+	}
 	return (
 		<Container>
 			<Header title={typePet} icon="left" />
 			<ContainerInfos>
+				<ImageContainer>
+					{photo1 && (
+						<ImageLeft>
+							<ImageButton>
+								<ImagePet source={{ uri: photo1 }} />
+							</ImageButton>
+
+							<ImageButton>
+								<ImagePet source={{ uri: photo2 }} />
+							</ImageButton>
+						</ImageLeft>
+					)}
+					{photo3 && (
+						<ImageRigh>
+							<ImageButton>
+								<ImagePet source={{ uri: photo3 }} />
+							</ImageButton>
+
+							<ImageButton>
+								<ImagePet source={{ uri: photo4 }} />
+							</ImageButton>
+						</ImageRigh>
+					)}
+				</ImageContainer>
 				<View>
 					<ContainerPetInfo>
 						<ContainerInfo>
@@ -92,7 +134,10 @@ export function PetScreen() {
 				</View>
 
 				<ContainerButtonInfo>
-					<ContainerButton title="Entre em contato com a ONG."  />
+					<ContainerButton
+						title="Entre em contato com a ONG."
+						onPress={showInfoOng}
+					/>
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

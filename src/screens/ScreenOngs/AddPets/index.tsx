@@ -26,10 +26,10 @@ import {
 	ButtonContainer,
 	FormContainer,
 	ImageLeft,
-	ImageRigh,
 	ImageButton,
 	ImagePet,
 	ImageContainer,
+	ButtonPickImage,
 } from "./styles";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
@@ -107,28 +107,20 @@ export function AddPet() {
 	}
 
 	const pickImage = async () => {
-		if (photo.length <= 3) {
-			let result = await ImagePicker.launchImageLibraryAsync({
-				mediaTypes: ImagePicker.MediaTypeOptions.Images,
-				allowsEditing: true,
-				base64: true,
-				aspect: [4, 4],
-				quality: 1,
-			});
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			base64: true,
+			aspect: [4, 4],
+			quality: 1,
+		});
 
-			if (result.cancelled) {
-				return;
-			}
-
-			setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
-			console.log(`tamanho do array dps que adicionou foto: ${photo.length}`);
-		} else {
-			Alert.alert(
-				"Não foi possivel adicionar mais fotos",
-				"So possivel adicionar ate 4 fotos"
-			);
+		if (result.cancelled) {
 			return;
 		}
+
+		setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
+		console.log(`tamanho do array dps que adicionou foto: ${photo.length}`);
 	};
 
 	function handleOpenSelectCategoryModal() {
@@ -147,17 +139,22 @@ export function AddPet() {
 			);
 			return;
 		}
+
+		if (photo.length === 0) {
+			Alert.alert(
+				"Não foi possivel cadastrar o pet",
+				"Escolha uma foto do seu pet"
+			);
+			return;
+		}
 		const datas = {
 			...data,
 			size,
 			gender,
 			typePet: category,
-			photo1: photo[1] || null,
-			photo2: photo[2] || null,
-			photo3: photo[3] || null,
-			photo4: photo[4] || null,
+			photo1: photo[0] || null,
 		};
-		console.log(datas);
+		//console.log(datas);
 		try {
 			const { data } = await api.post(
 				`/api/pet/add/companyguid/${user?.guid}`,
@@ -190,7 +187,7 @@ export function AddPet() {
 					<Header title="Cadastre pet para adoção" icon="left" />
 					<FormContainer>
 						<ImageContainer>
-							{photo.length > 0 && (
+							{photo.length == 1 && (
 								<ImageLeft>
 									<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
 										<AntDesign name="delete" size={14} color="red" />
@@ -198,40 +195,16 @@ export function AddPet() {
 									<ImageButton>
 										<ImagePet source={{ uri: photo[0] }} />
 									</ImageButton>
-									<TouchableOpacity onPress={() => handleRemovePhoto(photo[1])}>
-										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity>
-									<ImageButton>
-										<ImagePet source={{ uri: photo[1] }} />
-									</ImageButton>
-									{/* <TextInfo>fdfdfdfdfds</TextInfo>
-								<TextInfo>kkkkkkkkkkkkkk</TextInfo> */}
 								</ImageLeft>
-							)}
-							{photo.length > 2 && (
-								<ImageRigh>
-									<TouchableOpacity onPress={() => handleRemovePhoto(photo[2])}>
-										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity>
-									<ImageButton>
-										<ImagePet source={{ uri: photo[2] }} />
-									</ImageButton>
-									<TouchableOpacity onPress={() => handleRemovePhoto(photo[3])}>
-										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity>
-									<ImageButton>
-										<ImagePet source={{ uri: photo[3] }} />
-									</ImageButton>
-									{/* <TextInfo>fdfdfdfdfds</TextInfo>
-								<TextInfo>kkkkkkkkkkkkkk</TextInfo> */}
-								</ImageRigh>
 							)}
 						</ImageContainer>
 						<InfoDataPet>
-							<Button
-								title="Pick an image from camera roll"
-								onPress={pickImage}
-							/>
+							{photo.length == 0 && (
+								<ButtonPickImage
+									title="Escolha uma imagem"
+									onPress={pickImage}
+								/>
+							)}
 							<InputForm
 								placeholder="vacina"
 								control={control}
@@ -335,11 +308,4 @@ export function AddPet() {
 			</KeyboardAvoidingView>
 		</Container>
 	);
-}
-
-{
-	/* <Image
-										source={{ uri: photo[0] }}
-										style={{ width: 200, height: 200 }}
-									/> */
 }

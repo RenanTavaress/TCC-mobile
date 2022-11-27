@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
 	View,
@@ -26,16 +26,29 @@ import {
 	DescriptioInput,
 	TextInfo,
 	TextSize,
+	ImageContainer,
+	ImageLeft,
+	ImageButton,
+	ImagePet,
+	ButtonPickImage,
 } from "./styles";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+	useFocusEffect,
+	useNavigation,
+	useRoute,
+} from "@react-navigation/native";
 import AuthContext from "../../../contexts/auth";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { ButtonContainer } from "../AddPets/styles";
 import { DataPetContext, DataPetProps } from "../../../contexts/DataPet";
 import { CategoryCard } from "../../../components/CategoryCard";
 import { CategorySelect } from "../../CategorySelect";
+import { propsLoginOng } from "../DashboardOngs";
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 type FormData = {
 	[name: string]: any;
@@ -46,7 +59,6 @@ type FormData = {
 	age: string;
 	description: string;
 	vaccines: string;
-
 };
 
 const schema = yup.object({
@@ -67,11 +79,14 @@ export function EditingPet() {
 			medication: string;
 			size: string;
 			description: string;
-			vaccines:string; 
+			vaccines: string;
 			typePet: string;
 			breed: string;
 			gender: string;
-
+			photo1: string;
+			photo2: string;
+			photo3: string;
+			photo4: string;
 		};
 	};
 	const { colors } = useTheme();
@@ -81,7 +96,11 @@ export function EditingPet() {
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [category, setCategory] = useState(params.typePet);
 	const [gender, setGender] = useState(params.gender);
-	const {datasPet, getDataPet, setDataPet} = useContext(DataPetContext)
+	const { datasPet, getDataPet, setDataPet } = useContext(DataPetContext);
+	const navigation = useNavigation<propsLoginOng["navigation"]>();
+	const [photo, setPhoto] = useState([params?.photo1]);
+
+	//console.log(photo)
 
 	const {
 		control,
@@ -108,10 +127,18 @@ export function EditingPet() {
 	}
 
 	async function submitForm(data: FormData) {
+		if (photo.length === 0) {
+			Alert.alert(
+				"Não foi possivel atualizar o pet",
+				"Escolha uma foto do seu pet"
+			);
+			return;
+		}
 		const datas = {
 			...data,
 			size,
-			typePet: category
+			typePet: category,
+			photo1: photo[0],
 		};
 
 		try {
@@ -119,14 +146,13 @@ export function EditingPet() {
 				`/api/pet/update/guid/${params.guid}`,
 				datas
 			);
-			if (data!.code === 304) { 
-
+			if (data!.code === 304) {
 				Alert.alert("Tente novamente", "Deu algo Problema ");
 				return;
 			} else {
-				setDataPet(data.data)
+				setDataPet(data.data);
 				Alert.alert("Sucesso", "Pet editado com sucesso!");
-				navigate.goBack();
+				navigation.navigate("petScreen", data.data);
 				return;
 			}
 		} catch (error) {
@@ -134,6 +160,41 @@ export function EditingPet() {
 			return "error";
 		}
 	}
+
+	function handleRemovePhoto(index: string) {
+		if (!index) {
+			Alert.alert(
+				"Não foi possivel deletar essa fotos",
+				"Foto não disponivel nesse lugar"
+			);
+			return;
+		}
+		const result = photo.filter((ele) => ele !== index);
+
+		setPhoto(result);
+	}
+
+	const pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			base64: true,
+			aspect: [4, 4],
+			quality: 1,
+		});
+
+		if (result.cancelled) {
+			return;
+		}
+
+		setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
+	};
+
+	useEffect(() => {
+		if (photo[0] === undefined) {
+			setPhoto([]);
+		}
+	}, []);
 
 	return (
 		<Container>
@@ -144,6 +205,21 @@ export function EditingPet() {
 				style={{ flex: 1 }}
 			>
 				<ContainerAdd>
+					<ImageContainer>
+						{photo.length == 1 && (
+							<ImageLeft>
+								<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
+									<AntDesign name="delete" size={14} color="red" />
+								</TouchableOpacity>
+								<ImageButton>
+									<ImagePet source={{ uri: photo[0] }} />
+								</ImageButton>
+							</ImageLeft>
+						)}
+						{photo.length === 0 && (
+							<ButtonPickImage title="Escolha uma imagem" onPress={pickImage} />
+						)}
+					</ImageContainer>
 					<InfoDataPet>
 						<InputForm
 							placeholder="vacina"
@@ -174,52 +250,52 @@ export function EditingPet() {
 					</InfoDataPet>
 
 					<InfoRadioBtn>
+						<RadioButton.Group
+							onValueChange={(checked) => setSize(checked)}
+							value={size}
+						>
+							<TextInfo>Tamanho:</TextInfo>
+							<ViewSize>
+								<RadioButton value="pequeno" color={colors.primary} />
+								<TextSize>Pequeno</TextSize>
+							</ViewSize>
+
+							<ViewSize>
+								<RadioButton value="medio" color={colors.primary} />
+								<TextSize>Médio</TextSize>
+							</ViewSize>
+
+							<ViewSize>
+								<RadioButton value="grande" color={colors.primary} />
+								<TextSize>Grande</TextSize>
+							</ViewSize>
+						</RadioButton.Group>
+						<ContainerAge>
 							<RadioButton.Group
-								onValueChange={(checked) => setSize(checked)}
-								value={size}
+								onValueChange={(gen) => setGender(gen)}
+								value={gender}
 							>
-								<TextInfo>Tamanho:</TextInfo>
+								<TextInfo>Sexo:</TextInfo>
 								<ViewSize>
-									<RadioButton value="pequeno" color={colors.primary} />
-									<TextSize>Pequeno</TextSize>
+									<RadioButton value="M" color={colors.primary} />
+									<TextSize>Masculino</TextSize>
 								</ViewSize>
 
 								<ViewSize>
-									<RadioButton value="medio" color={colors.primary} />
-									<TextSize>Médio</TextSize>
-								</ViewSize>
-
-								<ViewSize>
-									<RadioButton value="grande" color={colors.primary} />
-									<TextSize>Grande</TextSize>
+									<RadioButton value="F" color={colors.primary} />
+									<TextSize>Feminino</TextSize>
 								</ViewSize>
 							</RadioButton.Group>
-							<ContainerAge>
-								<RadioButton.Group
-									onValueChange={(gen) => setGender(gen)}
-									value={gender}
-								>
-									<TextInfo>Sexo:</TextInfo>
-									<ViewSize>
-										<RadioButton value="M" color={colors.primary} />
-										<TextSize>Masculino</TextSize>
-									</ViewSize>
-
-									<ViewSize>
-										<RadioButton value="F" color={colors.primary} />
-										<TextSize>Feminino</TextSize>
-									</ViewSize>
-								</RadioButton.Group>
-							</ContainerAge>
-						</InfoRadioBtn>
-						<TextInfo>Idade em meses:</TextInfo>
-						<InputForm
-							placeholder="Idade em meses"
-							control={control}
-							name="age"
-							keyboardType="numeric"
-							error={errors.age}
-						/>
+						</ContainerAge>
+					</InfoRadioBtn>
+					<TextInfo>Idade em meses:</TextInfo>
+					<InputForm
+						placeholder="Idade em meses"
+						control={control}
+						name="age"
+						keyboardType="numeric"
+						error={errors.age}
+					/>
 
 					<DescriptioInput
 						placeholder="Descrição"

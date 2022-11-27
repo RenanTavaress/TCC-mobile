@@ -31,7 +31,7 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<NavigationContainer>
 				<AuthProvider>
-					<Routes />
+						<Routes />
 				</AuthProvider>
 			</NavigationContainer>
 		</ThemeProvider>

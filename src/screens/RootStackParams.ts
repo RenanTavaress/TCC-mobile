@@ -22,6 +22,10 @@ export type RootStackParamList = {
 		typePet: string;
 		size: string;
 		vaccines: string;
+		photo1: string;
+		photo2: string;
+		photo3: string;
+		photo4: string;
 	};
 	ongScreen: {
 		name: string;

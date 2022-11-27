@@ -1,12 +1,12 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useContext, useEffect } from "react";
-import {Alert} from 'react-native'
+import React, { useContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { Image, View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { DeleteButton } from "../../../components/Button/Delete";
 import { Header } from "../../../components/Header";
-import { DataPetContext } from "../../../contexts/DataPet";
+import { DataPetContext, DataPetProps } from "../../../contexts/DataPet";
 import api from "../../../services/api";
 import { RootStackParamList } from "../../RootStackParams";
 import {
@@ -19,6 +19,10 @@ import {
 	InfoPet,
 	ContainerDescription,
 	ContainerButtonInfo,
+	ImageContainer,
+	ImageLeft,
+	ImageButton,
+	ImagePet,
 } from "./styles";
 
 export type propsLoginOng = NativeStackScreenProps<
@@ -28,8 +32,9 @@ export type propsLoginOng = NativeStackScreenProps<
 
 export function PetScreen() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+	const [petDetail, setPetDetail] = useState<DataPetProps>({} as DataPetProps);
 	const navigate = useNavigation();
-	const {datasPet, getDataPet} = useContext(DataPetContext)
+	const { datasPet, getDataPet } = useContext(DataPetContext);
 	const { params } = useRoute() as {
 		params: {
 			guid: string;
@@ -47,58 +52,61 @@ export function PetScreen() {
 
 	const {
 		guid,
-		age,
-		breed,
-		description,
-		medication,
-		typePet,
-		size,
-		vaccines,
-		gender,
-		photo1,
 	} = params;
 
 	async function handleDeletePet(guid: string) {
-		await api.delete(`/api/pet/delete/guid/${guid}`)
+		await api.delete(`/api/pet/delete/guid/${guid}`);
 		Alert.alert("Deletado", "Pet Deletado com sucesso!");
 		return navigate.goBack();
-		
 	}
+
+	async function getPetDetail() {
+		const { data } = await api.get(`/api/pet/detail/guid/${guid}`);
+
+		setPetDetail(data.data);
+	}
+
+	useEffect(() => {
+		getPetDetail();
+	}, []);
 
 	return (
 		<Container>
-			<Header title={typePet} icon="left" />
+			<Header title={petDetail.typePet} icon="left" />
 			<ContainerInfos>
-				<View>
-					{
-						<Image
-							source={{ uri: photo1 }}
-							style={{ width: 200, height: 200 }}
-						/>
-					}
-				</View>
+				<ImageContainer>
+					{petDetail.photo1 && (
+						<ImageLeft>
+							<ImageButton>
+								<ImagePet source={{ uri: petDetail.photo1 }} />
+							</ImageButton>
+						</ImageLeft>
+					)}
+				</ImageContainer>
 				<View>
 					<ContainerPetInfo>
 						<ContainerInfo>
 							<TextInfo>Raça:</TextInfo>
-							<InfoPet>{breed}</InfoPet>
+							<InfoPet>{petDetail.breed}</InfoPet>
 							<TextInfo>Idade:</TextInfo>
-							<InfoPet>{age}</InfoPet>
+							<InfoPet>{petDetail.age}</InfoPet>
 							<TextInfo>Tamanho:</TextInfo>
-							<InfoPet>{size}</InfoPet>
+							<InfoPet>{petDetail.size}</InfoPet>
 						</ContainerInfo>
 						<ContainerHeath>
 							<TextInfo>Medicamento:</TextInfo>
-							<InfoPet>{medication}</InfoPet>
+							<InfoPet>{petDetail.medication}</InfoPet>
 							<TextInfo>Vacinas:</TextInfo>
-							<InfoPet>{vaccines}</InfoPet>
+							<InfoPet>{petDetail.vaccines}</InfoPet>
 							<TextInfo>Sexo:</TextInfo>
-							<InfoPet>{gender === "M" ? "Masculino" : "Feminino"}</InfoPet>
+							<InfoPet>
+								{petDetail.gender === "M" ? "Masculino" : "Feminino"}
+							</InfoPet>
 						</ContainerHeath>
 					</ContainerPetInfo>
 					<ContainerDescription>
 						<TextInfo>Descrição:</TextInfo>
-						<InfoPet>{description}</InfoPet>
+						<InfoPet>{petDetail.description}</InfoPet>
 					</ContainerDescription>
 				</View>
 
@@ -107,10 +115,10 @@ export function PetScreen() {
 						title="Editar Pet"
 						onPress={() => {
 							// console.log(params.category.key)
-							navigation.navigate("EditingPetScreen", params);
+							navigation.navigate("EditingPetScreen", petDetail);
 						}}
 					/>
-					<DeleteButton onPress={() => handleDeletePet(guid)}/>
+					<DeleteButton onPress={() => handleDeletePet(guid)} />
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

@@ -1,5 +1,6 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { InputForm } from "../../../components/Form/InputForm";
 
 export const Container = styled.View`
@@ -13,8 +14,6 @@ export const ContainerAdd = styled.ScrollView.attrs({
 	
 	height: 100%;
 `;
-
-export const ImageContainer = styled.View``;
 
 export const FormContainer = styled.View`
 	/* height: 100%; */
@@ -65,6 +64,8 @@ export const ButtonContainer = styled.View`
 	margin-top: 15px;
 `;
 
+export const ImageContainer = styled.View``;
+
 export const ImageLeft = styled.View`
 	width: 100%;
 	flex-direction: row;
@@ -74,17 +75,8 @@ export const ImageLeft = styled.View`
 	visibility: hidden;
 `;
 
-export const ImageRigh = styled.View`
-	width: 100%;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: space-between;
-	margin: 0 10px 10px 0;
-	visibility: hidden;
-`;
-
 export const ImageButton = styled.View`
-	width: 47%;
+	width: 95%;
 	height: auto;
 	background-color: white;
 	border: 1px solid ${({ theme }) => theme.colors.text};
@@ -92,6 +84,13 @@ export const ImageButton = styled.View`
 `;
 
 export const ImagePet = styled.Image`
-	height: 100px;
+	height: 150px;
 	width: auto;
 `;
+
+
+export const ButtonPickImage = styled(ContainerButton)`
+	margin-bottom: 5px;
+	width: 100%;
+
+`

@@ -53,3 +53,28 @@ export const ContainerButtonInfo = styled.View`
 	align-items: center;
 
 `
+
+export const ImageContainer = styled.View``;
+
+export const ImageLeft = styled.View`
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: space-between;
+	margin: 0 10px 10px 0;
+	visibility: hidden;
+`;
+
+export const ImageButton = styled.View`
+	width: 100%;
+	height: auto;
+	background-color: white;
+	border: 1px solid ${({ theme }) => theme.colors.text};
+	visibility: hidden;
+`;
+
+export const ImagePet = styled.Image`
+	height: 150px;
+	width: auto;
+`;
+

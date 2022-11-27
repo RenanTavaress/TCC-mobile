@@ -6,10 +6,10 @@ interface Props extends TouchableOpacityProps {
 	title: string;
 }
 
-export const ContainerButton = ({ title, ...rest }: Props) => {
+export function ContainerButton({ title, ...rest }: Props) {
 	return (
 		<Container {...rest}>
 			<Title>{title}</Title>
 		</Container>
 	);
-};
+}

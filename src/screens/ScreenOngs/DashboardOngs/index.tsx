@@ -39,8 +39,6 @@ export function Dashboard() {
 	const {datasPet, getDataPet} = useContext(DataPetContext)
 	const { datasOngs } = useContext(DataOngContext);
 
-
-
 	useFocusEffect(
 		useCallback(() => {
 			getDataPet();
