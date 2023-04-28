@@ -1,3 +1,5 @@
+import { DataPetsProps } from "../components/PetCard";
+
 export type RootStackParamList = {
 	Welcome: undefined;
 	LoginOng: undefined;
@@ -51,4 +53,6 @@ export type RootStackParamList = {
 		phone: string;
 		photo1: string;
 	};
+	FavoritesPets: undefined;
+
 };

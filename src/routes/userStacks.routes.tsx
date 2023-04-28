@@ -1,14 +1,21 @@
 import React from "react";
 import { Perfil } from "../screens/ScreenUser/Perfil";
+import { FavoriteScreen } from "../screens/ScreenUser/FavoriteScreen";
 import { EditingPerfil } from "../screens/ScreenUser/EditingPerfil";
 import { createStackNavigator } from "@react-navigation/stack";
 import { OngScreen } from "../screens/ScreenUser/OngScreen";
+import { PetScreen } from "../screens/ScreenUser/PetScreen";
+import { FavoritePet } from "../contexts/FavoritesPets";
 
 const { Navigator, Screen } = createStackNavigator();
 
 export const UserStacks: React.FC = () => (
-	<Navigator screenOptions={{ headerShown: false }}>
-		<Screen name="Perfil User" component={Perfil} />
-		<Screen name="EditingPerfil" component={EditingPerfil} />
-	</Navigator>
+	<FavoritePet>
+		<Navigator screenOptions={{ headerShown: false }}>
+			<Screen name="Perfil User" component={Perfil} />
+			<Screen name="EditingPerfil" component={EditingPerfil} />
+			<Screen name="FavoritesPets" component={FavoriteScreen} />
+			<Screen name="petScreen" component={PetScreen} />
+		</Navigator>
+	</FavoritePet>
 );

@@ -1,8 +1,9 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
+import { AntDesign } from "@expo/vector-icons";
 import { Header } from "../../../components/Header";
 import api from "../../../services/api";
 import {
@@ -20,6 +21,7 @@ import {
 	ImageButton,
 	ImagePet,
 } from "./styles";
+import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
 
 interface PropsDatailCompany {
 	name: string;
@@ -27,12 +29,19 @@ interface PropsDatailCompany {
 	phone: string;
 }
 
+interface PropsParameterId {
+	guid: string;
+}
+
 export function PetScreen() {
+	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 	const [petsCompany, setPetsCompany] = useState<PropsDatailCompany>(
 		{} as PropsDatailCompany
 	);
+	const [favorite, setFavorite] = useState(false);
 	const { params } = useRoute() as {
 		params: {
+			guid: string;
 			age: string;
 			breed: string;
 			description: string;
@@ -50,6 +59,7 @@ export function PetScreen() {
 	};
 
 	const {
+		guid,
 		age,
 		breed,
 		description,
@@ -60,9 +70,6 @@ export function PetScreen() {
 		gender,
 		companyGuid,
 		photo1,
-		photo2,
-		photo3,
-		photo4,
 	} = params;
 
 	useEffect(() => {
@@ -71,7 +78,33 @@ export function PetScreen() {
 			setPetsCompany(response.data.data);
 		}
 		getPetsCompany();
+
+		async function getFavorites() {
+			const response = await api.get(`/api/favorite/list/${datasUser.guid}`);
+			const pet = response.data.data.find(
+				(petId: PropsParameterId) => petId.guid === guid
+			);
+			setFavorite(() => pet?.guid === guid);
+		}
+		getFavorites();
 	}, []);
+
+	async function favoritePet() {
+		await api.post(`/api/favorite/add/${datasUser.guid}`, {
+			petGuid: guid,
+		});
+
+		setFavorite(true);
+	}
+
+	async function removeFavoritePet() {
+		await api.delete(`/api/favorite/remove/${datasUser.guid}`, {
+			data: {
+				petGuid: guid,
+			},
+		});
+		setFavorite(false);
+	}
 
 	function showInfoOng() {
 		Alert.alert(
@@ -118,6 +151,16 @@ export function PetScreen() {
 				</View>
 
 				<ContainerButtonInfo>
+					<ContainerButton
+						title="Salvar Pet"
+						onPress={!favorite ? favoritePet : removeFavoritePet}
+					>
+						<AntDesign
+							name={!favorite ? "hearto" : "heart"}
+							size={24}
+							color="black"
+						/>
+					</ContainerButton>
 					<ContainerButton
 						title="Entre em contato com a ONG."
 						onPress={showInfoOng}

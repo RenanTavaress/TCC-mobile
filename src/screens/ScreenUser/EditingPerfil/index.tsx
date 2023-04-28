@@ -16,7 +16,7 @@ type FormData = {
 	document: string;
 	email: string;
 	phone: string;
-	password: string;
+	//password: string;
 	guid: string;
 };
 
@@ -31,8 +31,12 @@ const schema = yup.object({
 		.email("Email invalido")
 		.required("O Email é obrigatório")
 		.trim(),
-	phone: yup.string().required("O Telefone é obrigatório").trim(),
-	password: yup.string().required("A Senha é obrigatória").trim(),
+	phone: yup
+		.string()
+		.required("O Telefone é obrigatório")
+		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
+		.trim(),
+	//password: yup.string().required("A Senha é obrigatória").trim(),
 });
 
 export function EditingPerfil() {
@@ -44,6 +48,12 @@ export function EditingPerfil() {
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
+		defaultValues: {
+			name: datasUser.name,
+			document: datasUser.document,
+			email: datasUser.email,
+			phone: datasUser.phone,
+		},
 	});
 
 	async function handleUpdateDataUser(datas: FormData) {
@@ -91,6 +101,7 @@ export function EditingPerfil() {
 						keyboardType="numeric"
 						maxLength={11}
 						error={errors.document}
+						editable={false}
 					/>
 					<InputForm
 						placeholder="Email"
@@ -105,17 +116,17 @@ export function EditingPerfil() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={11}
+						maxLength={10}
 						error={errors.phone}
 					/>
-					<InputForm
+					{/* <InputForm
 						placeholder="Senha"
 						control={control}
 						name="password"
 						autoCapitalize="none"
 						secureTextEntry={true}
 						error={errors.password}
-					/>
+					/> */}
 					<RegisterButton
 						title="Atualizar"
 						onPress={handleSubmit(handleUpdateDataUser)}

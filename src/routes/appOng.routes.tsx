@@ -1,5 +1,3 @@
-// as rotas que o usuario vai poder navegar enquanto ele nao estiver autenticado na aplicação
-// as rotas que o usuario vai poder navegar enquanto ele nao estiver autenticado na aplicação
 import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";

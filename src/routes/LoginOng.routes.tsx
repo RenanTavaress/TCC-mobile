@@ -13,9 +13,7 @@ const Stack = createNativeStackNavigator();
 export default function LoginOngRoutes() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="Welcome" component={Welcome} />
 			<Stack.Screen name="LoginOng" component={LoginOng} />
-			<Stack.Screen name="User" component={LoginUser} />
 			<Stack.Screen name="RegisterOng" component={RegisterOng} />
 			<Stack.Screen name="RegisterUser" component={RegisterUser} />
 			<Stack.Screen name="ForgotPassword" component={ForgotPassword} />

@@ -31,7 +31,7 @@ const schema = yup.object({
 		.email("Email invalido")
 		.required("O Email é obrigatório")
 		.trim(),
-	phone: yup.string().required("O Telefone é obrigatório").trim(),
+	phone: yup.string().required("O Telefone é obrigatório").min(10, "O Campo deve ter 10 digitos contando com o DDD").trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
 });
 
@@ -99,7 +99,7 @@ export function RegisterUser() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={11}
+						maxLength={10}
 						error={errors.phone}
 					/>
 					<InputForm

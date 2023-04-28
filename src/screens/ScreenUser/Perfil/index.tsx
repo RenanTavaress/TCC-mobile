@@ -12,32 +12,34 @@ import {
 } from "./styles";
 import { RootStackParamList } from "../../RootStackParams";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
+import api from "../../../services/api";
+import {
+	FavoritePetContext,
+	PetFavoriteProps,
+} from "../../../contexts/FavoritesPets";
 
 type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
 	"EditingPerfil"
 >;
 
-interface DataUserProps {
-	guid: string;
-	name: string;
-	email: string;
-	document: string;
-	phone: string;
-}
-
-// interface DataProps {
-// 	datasUser: DataUserProps;
-// 	setDatasUser: (datasUser: DataUserProps) => void;
-// }
-
 export function Perfil() {
 	const { logOut } = useContext(AuthContext);
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
+	const { listFavoritePet, getFavoritesPets } = useContext<PetFavoriteProps>(
+		FavoritePetContext
+	) as PetFavoriteProps;
+	const isFocused = useIsFocused();
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	//console.log(datasUser)
+
+	useEffect(() => {
+		if(isFocused){
+			getFavoritesPets()
+		}
+		
+	},[isFocused])
 
 	function handleLogout() {
 		logOut();
@@ -66,7 +68,14 @@ export function Perfil() {
 						title="Editar perfil"
 						onPress={() => navigation.navigate("EditingPerfil")}
 					/>
-
+					{listFavoritePet?.length !== 0 && (
+						<ContainerButton
+							title="Seus Pets Favoritors"
+							onPress={() =>
+								navigation.navigate("FavoritesPets")
+							}
+						/>
+					)}
 					<ContainerButton title="sair" onPress={handleLogout} />
 				</ContainerBtn>
 			</ContainerInfo>

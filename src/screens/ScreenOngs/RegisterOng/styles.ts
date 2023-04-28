@@ -48,4 +48,9 @@ export const DescriptioInput = styled(InputForm)`
 export const RegisterButton = styled(ContainerButton)`
 	height: ${RFValue(45)}px;
 	width: 100%;
+
+	/* border-color: ${({ theme }) => theme.colors.text};
+	border-color: #61626210 */
+
+	
 `;

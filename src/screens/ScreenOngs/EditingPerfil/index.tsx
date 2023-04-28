@@ -55,7 +55,7 @@ const schema = yup.object({
 	numberAddress: yup.string().required("O Numero é obrigatório"),
 	district: yup.string().required("O Bairro é obrigatório").trim(),
 	uf: yup.string().required("O UF é obrigatório").trim(),
-	phone: yup.string().required("O Telefone é obrigatório").trim(),
+	phone: yup.string().required("O Telefone é obrigatório").min(10, "O Campo deve ter 10 digitos contando com o DDD").trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 });
 
@@ -131,7 +131,7 @@ export function EditingOng() {
 				datas
 			);
 			if (data!.code === 304) {
-				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
+				Alert.alert("Tente novamente", "Já existe usuario com esse nome ou email");
 				return;
 			} else {
 				setDatasOngs(data.data);
@@ -169,6 +169,7 @@ export function EditingOng() {
 						keyboardType="numeric"
 						maxLength={14}
 						error={errors.document}
+						editable={false}
 					/>
 					<InputForm
 						placeholder="Email de acesso"
@@ -242,7 +243,7 @@ export function EditingOng() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={11}
+						maxLength={10}
 						error={errors.phone}
 					/>
 					<InputForm

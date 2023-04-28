@@ -62,7 +62,7 @@ export function PetScreen() {
 
 	async function getPetDetail() {
 		const { data } = await api.get(`/api/pet/detail/guid/${guid}`);
-
+		console.log(data)
 		setPetDetail(data.data);
 	}
 
@@ -76,17 +76,17 @@ export function PetScreen() {
 		}, [])
 	);
 
-	console.log(petDetail.gender)
+	//console.log(petDetail.gender)
 
 	return (
 		<Container>
-			<Header title={petDetail.typePet} icon="left" />
+			<Header title={petDetail?.typePet} icon="left" />
 			<ContainerInfos>
 				<ImageContainer>
-					{petDetail.photo1 && (
+					{petDetail?.photo1 && (
 						<ImageLeft>
 							<ImageButton>
-								<ImagePet source={{ uri: petDetail.photo1 }} />
+								<ImagePet source={{ uri: petDetail?.photo1 }} />
 							</ImageButton>
 						</ImageLeft>
 					)}
@@ -95,26 +95,26 @@ export function PetScreen() {
 					<ContainerPetInfo>
 						<ContainerInfo>
 							<TextInfo>Raça:</TextInfo>
-							<InfoPet>{petDetail.breed}</InfoPet>
+							<InfoPet>{petDetail?.breed}</InfoPet>
 							<TextInfo>Idade:</TextInfo>
-							<InfoPet>{petDetail.age}</InfoPet>
+							<InfoPet>{petDetail?.age}</InfoPet>
 							<TextInfo>Tamanho:</TextInfo>
-							<InfoPet>{petDetail.size}</InfoPet>
+							<InfoPet>{petDetail?.size}</InfoPet>
 						</ContainerInfo>
 						<ContainerHeath>
 							<TextInfo>Medicamento:</TextInfo>
-							<InfoPet>{petDetail.medication}</InfoPet>
+							<InfoPet>{petDetail?.medication}</InfoPet>
 							<TextInfo>Vacinas:</TextInfo>
-							<InfoPet>{petDetail.vaccines}</InfoPet>
+							<InfoPet>{petDetail?.vaccines}</InfoPet>
 							<TextInfo>Sexo:</TextInfo>
 							<InfoPet>
-								{petDetail.gender === "M" ? "Masculino" : "Feminino"}
+								{petDetail?.gender === "M" ? "Masculino" : "Feminino"}
 							</InfoPet>
 						</ContainerHeath>
 					</ContainerPetInfo>
 					<ContainerDescription>
 						<TextInfo>Descrição:</TextInfo>
-						<InfoPet>{petDetail.description}</InfoPet>
+						<InfoPet>{petDetail?.description}</InfoPet>
 					</ContainerDescription>
 				</View>
 

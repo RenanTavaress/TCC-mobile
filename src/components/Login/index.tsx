@@ -22,15 +22,19 @@ import { Keyboard } from "react-native";
 
 interface ScreenLoginProps {
 	handleSignIn?: (username: string, password: string) => void;
-	screenRegister: "RegisterUser" | "RegisterOng";
+	screenRegister:| "RegisterOng";
 	linkRegister: string;
 	forgotPassword: string;
-}
+	screenRegister2: "RegisterUser" 
+	linkRegister2: string;
+} 
 
 export function Login({
 	handleSignIn,
 	screenRegister,
+	screenRegister2,
 	linkRegister,
+	linkRegister2,
 	forgotPassword
 }: ScreenLoginProps) {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
@@ -52,7 +56,7 @@ export function Login({
 	return (
 		<TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
 			<Container>
-				<Header title="Faça seu login" icon="left" />
+				<Header title="Faça seu login"  />
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					enabled
@@ -81,6 +85,11 @@ export function Login({
 						<Link onPress={() => navigation.navigate(screenRegister)}>
 							<LinkRegister>{linkRegister}</LinkRegister>
 						</Link>
+
+						<Link onPress={() => navigation.navigate(screenRegister2)}>
+							<LinkRegister>{linkRegister2}</LinkRegister>
+						</Link>
+
 						<Link onPress={() => navigation.navigate("ForgotPassword")}>
 							<LinkRegister>{forgotPassword}</LinkRegister>
 						</Link>

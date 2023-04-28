@@ -5,11 +5,11 @@ import { Login } from "../../../components/Login";
 import { Alert } from "react-native";
 
 export function LoginOng() {
-	const { signed, user, signIn } = useContext(AuthContext);
+	const { signed, user, signIn} = useContext(AuthContext);
 
-	function handleSignIn(username: string, password: string) {
+	async function handleSignIn(username: string, password: string) {
 		try {
-			signIn(username, password);
+			await signIn(username, password);
 		} catch (error) {
 			Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
 		}
@@ -21,6 +21,8 @@ export function LoginOng() {
 			screenRegister="RegisterOng"
 			linkRegister="Sua ONG ainda não é cadastrada?"
 			forgotPassword="Esqueci Senha"
+			screenRegister2="RegisterUser"
+			linkRegister2="Ainda não é cadastrado?"
 		/>
 	);
 }

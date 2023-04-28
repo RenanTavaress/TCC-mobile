@@ -1,20 +1,16 @@
-import react, { useContext } from "react";
+import react, { useContext, useEffect } from "react";
 import { Header } from "../../../components/Header";
-import { PetCard } from "../../../components/PetCard";
-import { FontAwesome, AntDesign  } from "@expo/vector-icons";
+import { DataPetsProps, PetCard } from "../../../components/PetCard";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import {
 	Container,
 	ContainerPets,
-	FilterContainer,
-	CleanFilterBox,
-	CleanFilterText,
-	FilterBox,
-	FilterText,
 } from "./styles";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
 import { PetsFilterContext } from "../../../contexts/FilterPet";
+import { FavoritePetContext, PetFavoriteProps } from "../../../contexts/FavoritesPets";
 
 export type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -34,26 +30,25 @@ export interface FormData {
 	typePet: string;
 }
 
-export function ListPets() {
-	// const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
-	const { petsFilter, submitForm } = useContext(PetsFilterContext);
+export function FavoriteScreen() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+	const isFocused = useIsFocused();
+	const { getFavoritesPets, listFavoritePet } = useContext<PetFavoriteProps>(
+		FavoritePetContext
+	) as PetFavoriteProps;
 	
+	useEffect(() => {
+		if(isFocused){
+			getFavoritesPets()
+		}
+		
+	},[isFocused])
+
 	return (
 		<Container>
-			<Header title="Pets" />
-			<FilterContainer>
-				<CleanFilterBox onPress={submitForm}>
-					<AntDesign name="closecircleo" size={15} color="black" />
-					<CleanFilterText>Limpar</CleanFilterText>
-				</CleanFilterBox>
-				<FilterBox onPress={() => navigation.navigate("FilterScreen")}>
-					<FontAwesome name="filter" size={24} color="black" />
-					<FilterText>Filtro</FilterText>
-				</FilterBox>
-			</FilterContainer>
+			<Header title="Pets" icon="left" />
 			<ContainerPets
-				data={petsFilter}
+				data={listFavoritePet}
 				keyExtractor={(item) => item.guid}
 				renderItem={({ item }) => (
 					<PetCard

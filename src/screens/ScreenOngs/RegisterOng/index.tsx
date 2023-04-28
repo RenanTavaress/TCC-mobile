@@ -55,20 +55,25 @@ const schema = yup.object({
 	document: yup
 		.string()
 		.required("O CNPJ/CPF é obrigatório")
-		.min(11, "O Campo deve ter pelo menos 11 digitos"),
+		.min(11, "O Campo deve ter pelo menos 11 digitos")
+		.trim(),
 	email: yup
 		.string()
 		.email("Email invalido")
 		.required("O Email é obrigatório")
 		.trim(),
 	street: yup.string().required("A Rua é obrigatória").trim(),
-	cep: yup.string().required("O CEP é obrigatório"),
+	cep: yup.string().required("O CEP é obrigatório").trim(),
 	city: yup.string().required("A cidade é obrigatória").trim(),
 	country: yup.string().required("O País é obrigatória").trim(),
-	numberAddress: yup.string().required("O Numero é obrigatório"),
+	numberAddress: yup.string().required("O Numero é obrigatório").trim(),
 	district: yup.string().required("O Bairro é obrigatório").trim(),
 	uf: yup.string().required("O UF é obrigatório").trim(),
-	phone: yup.string().required("O Telefone é obrigatório").trim(),
+	phone: yup
+		.string()
+		.required("O Telefone é obrigatório")
+		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
+		.trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
 });
@@ -84,6 +89,7 @@ export function RegisterOng() {
 		clearErrors,
 		formState: { errors },
 	} = useForm<FormData>({
+		mode: "onChange",
 		resolver: yupResolver(schema),
 	});
 
@@ -103,7 +109,7 @@ export function RegisterOng() {
 				setValue("district", response.data.bairro);
 				setValue("city", response.data.localidade);
 				setValue("uf", response.data.uf);
-				clearErrors("cep")
+				clearErrors("cep");
 			} else {
 				setError("cep", {
 					message: "Cep Não existe",
@@ -119,7 +125,7 @@ export function RegisterOng() {
 			setValue("district", "");
 			setValue("city", "");
 			setValue("uf", "");
-			clearErrors("cep")
+			clearErrors("cep");
 		}
 	}
 
@@ -236,7 +242,7 @@ export function RegisterOng() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={11}
+						maxLength={10}
 						error={errors.phone}
 					/>
 					<InputForm
