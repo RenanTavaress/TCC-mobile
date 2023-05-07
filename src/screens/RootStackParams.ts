@@ -53,6 +53,8 @@ export type RootStackParamList = {
 		phone: string;
 		photo1: string;
 	};
-	FavoritesPets: undefined;
+	favoritesPets: undefined;
+	preferences: undefined;
+	createPreferences: undefined;
 
 };

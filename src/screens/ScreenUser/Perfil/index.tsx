@@ -14,7 +14,6 @@ import { RootStackParamList } from "../../RootStackParams";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
-import api from "../../../services/api";
 import {
 	FavoritePetContext,
 	PetFavoriteProps,
@@ -35,11 +34,10 @@ export function Perfil() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 
 	useEffect(() => {
-		if(isFocused){
-			getFavoritesPets()
+		if (isFocused) {
+			getFavoritesPets();
 		}
-		
-	},[isFocused])
+	}, [isFocused]);
 
 	function handleLogout() {
 		logOut();
@@ -71,11 +69,14 @@ export function Perfil() {
 					{listFavoritePet?.length !== 0 && (
 						<ContainerButton
 							title="Seus Pets Favoritors"
-							onPress={() =>
-								navigation.navigate("FavoritesPets")
-							}
+							onPress={() => navigation.navigate("favoritesPets")}
 						/>
 					)}
+
+					<ContainerButton
+						title="Criar Preferencias"
+						onPress={() => navigation.navigate("preferences")}
+					/>
 					<ContainerButton title="sair" onPress={handleLogout} />
 				</ContainerBtn>
 			</ContainerInfo>
