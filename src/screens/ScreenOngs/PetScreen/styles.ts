@@ -37,11 +37,13 @@ export const TextInfo = styled.Text`
 	font-size: ${RFValue(16)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
+	margin-bottom: ${RFValue(2)}px;
 `;
 export const InfoPet = styled.Text`
 	font-size: ${RFValue(12)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.medium};
+	margin-bottom: ${RFValue(10)}px;
 `;
 
 export const ContainerButtonInfo = styled.View`

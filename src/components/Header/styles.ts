@@ -5,7 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export const Container = styled.View`
 	width: 100%;
-	height: ${Platform.OS === "ios" ? RFPercentage(6) : RFPercentage(8)}px;
+	height: ${Platform.OS === "ios" ? RFPercentage(6) : RFPercentage(10)}px;
 
 	background-color: ${({ theme }) => theme.colors.primary};
 	flex-direction: row;
@@ -16,8 +16,8 @@ export const BackScreen = styled.TouchableOpacity`
 	height: 100%;
 
 	align-items: center;
-	justify-content: flex-end;
-	padding-bottom: 9px;
+	justify-content: center;
+	padding-top: 8px;
 	padding-right: 50px;
 	text-align: center;
 `;
@@ -25,16 +25,14 @@ export const BackScreen = styled.TouchableOpacity`
 export const Icon = styled(AntDesign)`
 	font-size: ${RFValue(24)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
-	/* margin-right: 20px; */
 `;
 
 export const HeaderText = styled.View`
 	width: 50%;
 	height: 100%;
-
 	align-items: center;
-	justify-content: flex-end;
-	padding-bottom: 5px;
+	justify-content: center;
+	padding-top: 8px;
 `;
 
 export const Text = styled.Text`
@@ -43,7 +41,7 @@ export const Text = styled.Text`
 	font-size: ${RFValue(14)}px;
 `;
 
-export const ViewContainer = styled.View`
-	width: 25%;
-	height: 100%;
-`;
+// export const ViewContainer = styled.View`
+// 	width: 25%;
+// 	height: 100%;
+// `;

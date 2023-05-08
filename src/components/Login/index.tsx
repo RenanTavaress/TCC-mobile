@@ -56,7 +56,7 @@ export function Login({
 	return (
 		<TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
 			<Container>
-				<Header title="Faça seu login"  />
+				<Header title="Login"  />
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					enabled

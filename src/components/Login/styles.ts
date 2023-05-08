@@ -42,7 +42,10 @@ export const ButtonText = styled.Text`
 
 export const Link = styled.TouchableOpacity.attrs({
 	activeOpacity: 0.5,
-})``;
+})`
+	margin-bottom: ${RFValue(7)}px
+
+`;
 
 export const LinkRegister = styled.Text.attrs({
 	textDecorationLine: "underline",

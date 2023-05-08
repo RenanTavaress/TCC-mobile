@@ -22,6 +22,7 @@ import {
 	ImagePet,
 } from "./styles";
 import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
+import { useTheme } from "styled-components";
 
 interface PropsDatailCompany {
 	name: string;
@@ -34,6 +35,7 @@ interface PropsParameterId {
 }
 
 export function PetScreen() {
+	const {colors } = useTheme()
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 	const [petsCompany, setPetsCompany] = useState<PropsDatailCompany>(
 		{} as PropsDatailCompany
@@ -108,7 +110,7 @@ export function PetScreen() {
 
 	function showInfoOng() {
 		Alert.alert(
-			"Contatos",
+			"Informações de Contato",
 			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone}`
 		);
 	}
@@ -132,12 +134,10 @@ export function PetScreen() {
 							<InfoPet>{breed}</InfoPet>
 							<TextInfo>Idade:</TextInfo>
 							<InfoPet>{age}</InfoPet>
-							<TextInfo>Tamanho:</TextInfo>
+							<TextInfo>Porte:</TextInfo>
 							<InfoPet>{size}</InfoPet>
 						</ContainerInfo>
 						<ContainerHeath>
-							<TextInfo>Medicamento:</TextInfo>
-							<InfoPet>{medication}</InfoPet>
 							<TextInfo>Vacinas:</TextInfo>
 							<InfoPet>{vaccines}</InfoPet>
 							<TextInfo>Sexo:</TextInfo>
@@ -152,13 +152,13 @@ export function PetScreen() {
 
 				<ContainerButtonInfo>
 					<ContainerButton
-						title="Salvar Pet"
+						title="Favoritar Pet"
 						onPress={!favorite ? favoritePet : removeFavoritePet}
 					>
 						<AntDesign
 							name={!favorite ? "hearto" : "heart"}
 							size={24}
-							color="black"
+							color={colors.primary}
 						/>
 					</ContainerButton>
 					<ContainerButton

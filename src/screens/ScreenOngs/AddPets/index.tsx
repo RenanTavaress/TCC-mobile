@@ -238,7 +238,7 @@ export function AddPet() {
 								onValueChange={(checked) => setSize(checked)}
 								value={size}
 							>
-								<TextInfo>Tamanho:</TextInfo>
+								<TextInfo>Porte:</TextInfo>
 								<ViewSize>
 									<RadioButton value="pequeno" color={colors.primary} />
 									<TextSize>Pequeno</TextSize>

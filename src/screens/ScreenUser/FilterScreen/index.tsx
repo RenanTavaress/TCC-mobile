@@ -104,7 +104,7 @@ export function FilterScreen() {
 					autoCapitalize="sentences"
 				/>
 				<InputForm
-					placeholder="descrição"
+					placeholder="Descrição"
 					control={control}
 					name="description"
 					autoCapitalize="sentences"
@@ -114,7 +114,7 @@ export function FilterScreen() {
 						onValueChange={(check) => setSize(check)}
 						value={size}
 					>
-						<TextInfo>Tamanho:</TextInfo>
+						<TextInfo>Porte:</TextInfo>
 						<ViewSize>
 							<RadioButton value="pequeno" color={colors.primary} />
 							<TextSize>Pequeno</TextSize>

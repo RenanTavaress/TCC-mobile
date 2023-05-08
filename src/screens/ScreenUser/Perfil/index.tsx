@@ -44,7 +44,7 @@ export function Perfil() {
 	}
 	return (
 		<Container>
-			<Header title="Perfil" />
+			<Header title="Perfil do Usuário" />
 
 			<ContainerInfo>
 				<PefilInformations>
@@ -77,7 +77,7 @@ export function Perfil() {
 						title="Criar Preferencias"
 						onPress={() => navigation.navigate("preferences")}
 					/>
-					<ContainerButton title="sair" onPress={handleLogout} />
+					<ContainerButton title="Sair" onPress={handleLogout} />
 				</ContainerBtn>
 			</ContainerInfo>
 		</Container>

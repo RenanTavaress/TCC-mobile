@@ -62,7 +62,7 @@ export function SendEmail({endPoint}: sendEmailProps) {
 				/>
 
 				<ContainerButton
-					title="enviar"
+					title="Enviar"
 					onPress={handleSubmit(handleResetPassWord)}
 				/>
 			</EmailContainer>

@@ -12,7 +12,7 @@ import { DataUser } from "../contexts/dataUsers";
 import { useTheme } from "styled-components";
 import { Platform } from "react-native";
 import { Donation } from "../screens/ScreenUser/Donation";
-//import { DashboardUserStack } from "./DashboardUserStack.routes";
+
 import { ListPetStack } from "./FilterPet.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -56,7 +56,7 @@ export const AppRoutes: React.FC = () => {
 					component={UserStacks}
 					options={{
 						tabBarIcon: ({ size, color }) => (
-							<FontAwesome5 name="user" size={size} color={color} />
+							<FontAwesome5 name="user-alt" size={size} color={color} />
 						),
 					}}
 				/>
@@ -67,7 +67,7 @@ export const AppRoutes: React.FC = () => {
 					options={{
 						tabBarIcon: ({ size, color }) => (
 							<MaterialCommunityIcons
-								name="hand-heart-outline"
+								name="hand-heart"
 								size={size}
 								color={color}
 							/>

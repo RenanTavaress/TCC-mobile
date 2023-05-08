@@ -79,7 +79,7 @@ export function EditingPerfil() {
 
 	return (
 		<Container>
-			<Header title="Editar" icon="left" />
+			<Header title="Detalhes do Usuário" icon="left" />
 
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}

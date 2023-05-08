@@ -6,7 +6,7 @@ import {
 	Icon,
 	HeaderText,
 	Text,
-	ViewContainer,
+	// ViewContainer,
 } from "./styles";
 
 interface HeaderProps {
@@ -18,15 +18,14 @@ export function Header({ title, icon }: HeaderProps) {
 	const navigate = useNavigation();
 	return (
 		<Container>
-			{icon && (
-				<BackScreen onPress={() => navigate.goBack()}>
-					<Icon name={icon} />
-				</BackScreen>
-			)}
+			<BackScreen>
+				{icon && <Icon name={icon} onPress={() => navigate.goBack()} />}
+			</BackScreen>
+
 			<HeaderText>
 				<Text>{title}</Text>
 			</HeaderText>
-			<ViewContainer></ViewContainer>
+			{/* <ViewContainer></ViewContainer> */}
 		</Container>
 	);
 }

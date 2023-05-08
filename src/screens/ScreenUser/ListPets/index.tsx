@@ -1,7 +1,7 @@
 import react, { useContext } from "react";
 import { Header } from "../../../components/Header";
 import { PetCard } from "../../../components/PetCard";
-import { FontAwesome, AntDesign  } from "@expo/vector-icons";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import {
 	Container,
 	ContainerPets,
@@ -38,7 +38,7 @@ export function ListPets() {
 	// const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
 	const { petsFilter, submitForm } = useContext(PetsFilterContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	
+
 	return (
 		<Container>
 			<Header title="Pets" />
@@ -47,6 +47,7 @@ export function ListPets() {
 					<AntDesign name="closecircleo" size={15} color="black" />
 					<CleanFilterText>Limpar</CleanFilterText>
 				</CleanFilterBox>
+
 				<FilterBox onPress={() => navigation.navigate("FilterScreen")}>
 					<FontAwesome name="filter" size={24} color="black" />
 					<FilterText>Filtro</FilterText>
