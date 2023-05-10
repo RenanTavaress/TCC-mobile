@@ -25,9 +25,10 @@ interface FormData {
 
 interface sendEmailProps {
 	endPoint: string;
+	title: string;
 }
 
-export function SendEmail({endPoint}: sendEmailProps) {
+export function SendEmail({endPoint, title}: sendEmailProps) {
 	const navigate = useNavigation();
 	const {
 		control,
@@ -50,7 +51,7 @@ export function SendEmail({endPoint}: sendEmailProps) {
 
 	return (
 		<Container>
-			<Header title="Esqueci Senha" icon="left" />
+			<Header title={title} icon="left" />
 			<EmailContainer>
 				<InputForm
 					placeholder="Email"

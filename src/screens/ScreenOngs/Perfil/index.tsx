@@ -84,7 +84,7 @@ export function PerfilOng() {
 						onPress={() => navigation.navigate("SendRating")}
 					/>
 
-					<ContainerButton title="sair" onPress={handleLogout} />
+					<ContainerButton title="Sair" onPress={handleLogout} />
 				</ContainerBtn>
 			</ContainerInfo>
 		</Container>

@@ -147,7 +147,7 @@ export function EditingOng() {
 
 	return (
 		<Container>
-			<Header title="Edite suas informações" icon="left" />
+			<Header title="Edite Detalhes do Usuário" icon="left" />
 
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}

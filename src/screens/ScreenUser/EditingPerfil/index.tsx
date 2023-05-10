@@ -119,14 +119,6 @@ export function EditingPerfil() {
 						maxLength={10}
 						error={errors.phone}
 					/>
-					{/* <InputForm
-						placeholder="Senha"
-						control={control}
-						name="password"
-						autoCapitalize="none"
-						secureTextEntry={true}
-						error={errors.password}
-					/> */}
 					<RegisterButton
 						title="Atualizar"
 						onPress={handleSubmit(handleUpdateDataUser)}

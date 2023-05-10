@@ -184,7 +184,7 @@ export function AddPet() {
 				})}
 			>
 				<ContainerAdd>
-					<Header title="Cadastre pet para adoção" icon="left" />
+					<Header title="Cadastre seu novo pet" icon="left" />
 					<FormContainer>
 						<ImageContainer>
 							{photo.length == 1 && (
@@ -206,7 +206,7 @@ export function AddPet() {
 								/>
 							)}
 							<InputForm
-								placeholder="vacina"
+								placeholder="Vacina tomadas"
 								control={control}
 								name="vaccines"
 								autoCapitalize="sentences"
@@ -262,12 +262,12 @@ export function AddPet() {
 									<TextInfo>Sexo:</TextInfo>
 									<ViewSize>
 										<RadioButton value="M" color={colors.primary} />
-										<TextSize>Masculino</TextSize>
+										<TextSize>Macho</TextSize>
 									</ViewSize>
 
 									<ViewSize>
 										<RadioButton value="F" color={colors.primary} />
-										<TextSize>Feminino</TextSize>
+										<TextSize>"Fêmea"</TextSize>
 									</ViewSize>
 								</RadioButton.Group>
 							</ContainerAge>
@@ -292,7 +292,7 @@ export function AddPet() {
 						<ButtonContainer>
 							<ContainerButton
 								onPress={handleSubmit(submitForm)}
-								title="enivar"
+								title="Salvar"
 							/>
 						</ButtonContainer>
 					</FormContainer>
