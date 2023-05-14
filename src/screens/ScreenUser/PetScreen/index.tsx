@@ -1,11 +1,12 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 import { View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import { Header } from "../../../components/Header";
 import api from "../../../services/api";
+
 import {
 	Container,
 	ContainerInfos,
@@ -35,7 +36,8 @@ interface PropsParameterId {
 }
 
 export function PetScreen() {
-	const {colors } = useTheme()
+	const { colors } = useTheme();
+
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 	const [petsCompany, setPetsCompany] = useState<PropsDatailCompany>(
 		{} as PropsDatailCompany

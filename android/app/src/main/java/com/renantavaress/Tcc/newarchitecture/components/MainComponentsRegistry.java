@@ -1,4 +1,4 @@
-package com.tcc.newarchitecture.components;
+package com.renantavaress.Tcc.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

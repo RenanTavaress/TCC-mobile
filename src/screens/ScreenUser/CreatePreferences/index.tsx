@@ -35,7 +35,7 @@ export function CreatePreferences() {
 	const [gender, setGender] = useState("");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [size, setSize] = useState("");
-	const [category, setCategory] = useState("Categoria");
+	const [category, setCategory] = useState("Espécie");
 	const {
 		control,
 		handleSubmit,
@@ -51,7 +51,7 @@ export function CreatePreferences() {
 	}
 
 	async function submitForm(data: FormData) {
-		if (category === "Categoria") {
+		if (category === "Espécie") {
 			Alert.alert(
 				"Não foi criar a preferencia",
 				"Selecione uma categoria pro seu pet"
@@ -133,7 +133,7 @@ export function CreatePreferences() {
 				</RadioContainer>
 				<CategoryCard
 					onPress={handleOpenSelectCategoryModal}
-					title={category === "" ? "Categoria" : category}
+					title={category}
 				/>
 			</FormContainer>
 			<Footer>

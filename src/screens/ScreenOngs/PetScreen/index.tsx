@@ -74,7 +74,6 @@ export function PetScreen() {
 
 	async function getPetDetail() {
 		const { data } = await api.get(`/api/pet/detail/guid/${guid}`);
-		console.log(data);
 		setPetDetail(data.data);
 	}
 

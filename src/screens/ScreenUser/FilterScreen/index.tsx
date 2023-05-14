@@ -137,18 +137,18 @@ export function FilterScreen() {
 						<TextInfo>Sexo:</TextInfo>
 						<ViewSize>
 							<RadioButton value="M" color={colors.primary} />
-							<TextSize>Masculino</TextSize>
+							<TextSize>Macho</TextSize>
 						</ViewSize>
 
 						<ViewSize>
 							<RadioButton value="F" color={colors.primary} />
-							<TextSize>Feminino</TextSize>
+							<TextSize>Fêmea</TextSize>
 						</ViewSize>
 					</RadioButton.Group>
 				</RadioContainer>
 				<CategoryCard
 					onPress={handleOpenSelectCategoryModal}
-					title={category === "" ? "Categoria" : category}
+					title={category === "" ? "Espécie" : category}
 				/>
 			</FormContainer>
 			<Footer>

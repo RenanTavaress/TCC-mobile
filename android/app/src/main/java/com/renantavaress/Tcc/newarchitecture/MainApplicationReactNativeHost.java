@@ -1,4 +1,4 @@
-package com.tcc.newarchitecture;
+package com.renantavaress.Tcc.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.tcc.BuildConfig;
-import com.tcc.newarchitecture.components.MainComponentsRegistry;
-import com.tcc.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.renantavaress.Tcc.BuildConfig;
+import com.renantavaress.Tcc.newarchitecture.components.MainComponentsRegistry;
+import com.renantavaress.Tcc.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

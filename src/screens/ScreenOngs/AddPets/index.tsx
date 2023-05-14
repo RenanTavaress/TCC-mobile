@@ -80,7 +80,7 @@ export function AddPet() {
 	const [size, setSize] = useState("pequeno");
 	const [gender, setGender] = useState("M");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
-	const [category, setCategory] = useState("Categoria");
+	const [category, setCategory] = useState("Espécie");
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
 	const [photo, setPhoto] = useState([]);
@@ -115,11 +115,11 @@ export function AddPet() {
 			quality: 1,
 		});
 
-		if (result.cancelled) {
+		if (result.canceled) {
 			return;
 		}
 
-		setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
+		setPhoto(photo.concat(`data:image/jpg;base64,${result.assets[0].base64}`));
 		console.log(`tamanho do array dps que adicionou foto: ${photo.length}`);
 	};
 
@@ -132,7 +132,7 @@ export function AddPet() {
 	}
 
 	async function submitForm(data: FormData) {
-		if (category === "Categoria") {
+		if (category === "Espécie") {
 			Alert.alert(
 				"Não foi possivel cadastrar",
 				"Selecione uma categoria pro seu pet"
@@ -267,7 +267,7 @@ export function AddPet() {
 
 									<ViewSize>
 										<RadioButton value="F" color={colors.primary} />
-										<TextSize>"Fêmea"</TextSize>
+										<TextSize>Fêmea</TextSize>
 									</ViewSize>
 								</RadioButton.Group>
 							</ContainerAge>

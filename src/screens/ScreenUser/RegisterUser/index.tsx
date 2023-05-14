@@ -8,8 +8,6 @@ import { useNavigation } from "@react-navigation/native";
 import { Container, MainForm, RegisterButton } from "./styles";
 import { Header } from "../../../components/Header";
 import api from "../../../services/api";
-import { Keyboard } from "react-native";
-import { TouchableWithoutFeedback } from "react-native";
 
 type FormData = {
 	[name: string]: any;

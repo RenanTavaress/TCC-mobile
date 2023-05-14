@@ -181,11 +181,11 @@ export function EditingPet() {
 			quality: 1,
 		});
 
-		if (result.cancelled) {
+		if (result.canceled) {
 			return;
 		}
 
-		setPhoto(photo.concat(`data:image/jpg;base64,${result.base64}`));
+		setPhoto(photo.concat(`data:image/jpg;base64,${result.assets[0].base64}`));
 	};
 
 	useEffect(() => {
@@ -276,12 +276,12 @@ export function EditingPet() {
 								<TextInfo>Sexo:</TextInfo>
 								<ViewSize>
 									<RadioButton value="M" color={colors.primary} />
-									<TextSize>Masculino</TextSize>
+									<TextSize>Macho</TextSize>
 								</ViewSize>
 
 								<ViewSize>
 									<RadioButton value="F" color={colors.primary} />
-									<TextSize>Feminino</TextSize>
+									<TextSize>Fêmea</TextSize>
 								</ViewSize>
 							</RadioButton.Group>
 						</ContainerAge>
