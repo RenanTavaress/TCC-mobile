@@ -1,6 +1,6 @@
-import react, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import { Header } from "../../../components/Header";
-import { PetCard } from "../../../components/PetCard";
+import { DataPetsProps, PetCard } from "../../../components/PetCard";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import {
 	Container,
@@ -22,6 +22,10 @@ export type propsLoginOng = NativeStackScreenProps<
 	"petScreen"
 >;
 
+export interface PropsItem {
+	item: DataPetsProps
+}
+
 export interface FormData {
 	[name: string]: any;
 	breed: string;
@@ -35,9 +39,19 @@ export interface FormData {
 }
 
 export function ListPets() {
-	// const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
 	const { petsFilter, submitForm } = useContext(PetsFilterContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+
+	const CardPet = memo(({ item }: PropsItem) => {
+		return (
+			<PetCard
+				{...item}
+				onPress={() => {
+					navigation.navigate("petScreen", item);
+				}}
+			/>
+		);
+	});
 
 	return (
 		<Container>
@@ -56,14 +70,9 @@ export function ListPets() {
 			<ContainerPets
 				data={petsFilter}
 				keyExtractor={(item) => item.guid}
-				renderItem={({ item }) => (
-					<PetCard
-						{...item}
-						onPress={() => {
-							navigation.navigate("petScreen", item);
-						}}
-					/>
-				)}
+				renderItem={({ item }) => 
+					<CardPet item={item}/>
+				}
 			/>
 		</Container>
 	);

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, JSXElementConstructor } from "react";
 import * as auth from "../services/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../services/api";
@@ -11,6 +11,9 @@ interface User {
 	type: string;
 	permission: string;
 }
+interface IProps {
+	children: React.ReactNode;
+  }
 
 interface AuthContextData {
 	signed: boolean;
@@ -22,7 +25,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider = ({ children }:IProps) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 

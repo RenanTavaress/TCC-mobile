@@ -3,6 +3,7 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./src/global/styles/theme";
 import * as SplashScreen from "expo-splash-screen";
+
 import {
 	useFonts,
 	Poppins_400Regular,
@@ -12,6 +13,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { Routes } from "./src/routes";
 import { AuthProvider } from "./src/contexts/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
 	SplashScreen.preventAutoHideAsync();
@@ -31,7 +33,7 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<NavigationContainer>
 				<AuthProvider>
-						<Routes />
+					<Routes />
 				</AuthProvider>
 			</NavigationContainer>
 		</ThemeProvider>

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useState } from "react";
 import api from "../../../services/api";
 import { Container, ContainerPets } from "./styles";
 import { Header } from "../../../components/Header";
@@ -13,6 +13,7 @@ import { FabButton } from "../../../components/Button/FAB";
 import AuthContext from "../../../contexts/auth";
 import { DataOngContext } from "../../../contexts/DataOng";
 import { DataPetContext } from "../../../contexts/DataPet";
+import { PropsItem } from "../../ScreenUser/ListPets";
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
@@ -29,6 +30,23 @@ export function Dashboard() {
 	const { datasPet, getDataPet } = useContext(DataPetContext);
 	const { datasOngs } = useContext(DataOngContext);
 
+	const CardPet = memo(({ item }: PropsItem) => {
+		return (
+			<PetCard
+				{...item}
+				onPress={() => {
+					navigation.navigate("petScreen", item);
+				}}
+			/>
+		);
+	});
+
+	const keyExtractor = (item: DataPetsProps, index: number) => {
+		return `${item.guid}_${index}`;
+	 };
+  
+
+
 	useFocusEffect(
 		useCallback(() => {
 			getDataPet();
@@ -41,15 +59,8 @@ export function Dashboard() {
 
 			<ContainerPets
 				data={datasPet}
-				keyExtractor={(item) => item.guid}
-				renderItem={({ item }) => (
-					<PetCard
-						{...item}
-						onPress={() => {
-							navigation.navigate("petScreen", item);
-						}}
-					/>
-				)}
+				keyExtractor={keyExtractor}
+				renderItem={({ item }) => <CardPet item={item}/>}
 			/>
 
 			<FabButton title="+" onPress={() => navigation.navigate("AddPet")} />

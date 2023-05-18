@@ -31,9 +31,13 @@ export type PetProps = {
 	getDataPet: () => void;
 };
 
+interface IProps {
+	children: React.ReactNode;
+  }
+
 export const DataPetContext = createContext<PetProps>({} as PetProps);
 
-export const DataPet: React.FC = ({ children }) => {
+export const DataPet = ({ children }: IProps) => {
 	const { user } = useContext(AuthContext);
 
 	const [datasPet, setDataPet] = useState<DataPetProps[]>([]);

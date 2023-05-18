@@ -154,7 +154,7 @@ export function AddPet() {
 			typePet: category,
 			photo1: photo[0] || null,
 		};
-		//console.log(datas);
+		console.log(datas);
 		try {
 			const { data } = await api.post(
 				`/api/pet/add/companyguid/${user?.guid}`,

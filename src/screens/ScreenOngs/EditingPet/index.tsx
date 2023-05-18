@@ -2,17 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-	View,
-	Button,
-	Text,
-	Alert,
-	TouchableWithoutFeedback,
-	Keyboard,
-	Platform,
-	KeyboardAvoidingView,
-	Modal,
-} from "react-native";
+import { Alert, Platform, KeyboardAvoidingView, Modal } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
@@ -35,7 +25,6 @@ import {
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
 import {
-	useFocusEffect,
 	useNavigation,
 	useRoute,
 } from "@react-navigation/native";
