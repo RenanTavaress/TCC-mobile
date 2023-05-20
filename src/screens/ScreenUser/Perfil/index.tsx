@@ -73,10 +73,10 @@ export function Perfil() {
 						/>
 					)}
 
-					{/* <ContainerButton
+					<ContainerButton
 						title="Criar Preferencias"
 						onPress={() => navigation.navigate("preferences")}
-					/> */}
+					/>
 					<ContainerButton title="Sair" onPress={handleLogout} />
 				</ContainerBtn>
 			</ContainerInfo>

@@ -34,6 +34,10 @@ export const AuthProvider = ({ children }:IProps) => {
 			const storageUser = await AsyncStorage.getItem("@RNAuth2:user");
 			const storageToken = await AsyncStorage.getItem("@RNAuth2:token");
 
+			if(!storageToken){
+				logOut()
+			}
+
 			if (storageUser && storageToken) {
 				api.defaults.headers.common["token"] = `${storageToken}`;
 				setUser(JSON.parse(storageUser));

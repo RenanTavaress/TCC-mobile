@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { set, useForm } from "react-hook-form";
-import { Alert, KeyboardAvoidingView, Platform } from "react-native";
+import { Alert, KeyboardAvoidingView, Platform, View } from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import {
 	Container,
-	// Header,
 	Title,
 	MainForm,
 	AdressForm,
@@ -15,9 +14,12 @@ import {
 	ContainerLeftForm,
 	DescriptioInput,
 	RegisterButton,
+	ConditionsView,
 } from "./styles";
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
+import { Checkbox, Props } from "react-native-paper";
+import { Text } from "react-native";
 
 export interface DataAdress {
 	bairro: string;
@@ -54,6 +56,7 @@ const schema = yup.object({
 	name: yup.string().required("O nome é obrigatório").trim(),
 	document: yup
 		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("O CNPJ/CPF é obrigatório")
 		.min(11, "O Campo deve ter pelo menos 11 digitos")
 		.trim(),
@@ -63,22 +66,33 @@ const schema = yup.object({
 		.required("O Email é obrigatório")
 		.trim(),
 	street: yup.string().required("A Rua é obrigatória").trim(),
-	cep: yup.string().required("O CEP é obrigatório").trim(),
+	cep: yup
+		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.min(8, "O cep tem quer 8 digitos")
+		.required("O CEP é obrigatório")
+		.trim(),
 	city: yup.string().required("A cidade é obrigatória").trim(),
 	country: yup.string().required("O País é obrigatória").trim(),
-	numberAddress: yup.string().required("O Numero é obrigatório").trim(),
+	numberAddress: yup
+		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.required("O Numero é obrigatório")
+		.trim(),
 	district: yup.string().required("O Bairro é obrigatório").trim(),
 	uf: yup.string().required("O UF é obrigatório").trim(),
 	phone: yup
 		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("O Telefone é obrigatório")
 		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
 		.trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
-});
+})
 
 export function RegisterOng() {
+	const [checkBox, setCheckBox] = useState(false);
 	const navigate = useNavigation();
 	const {
 		control,
@@ -89,7 +103,6 @@ export function RegisterOng() {
 		clearErrors,
 		formState: { errors },
 	} = useForm<FormData>({
-		mode: "onChange",
 		resolver: yupResolver(schema),
 	});
 
@@ -99,6 +112,7 @@ export function RegisterOng() {
 		);
 		return response;
 	}
+
 
 	async function handleCepOng() {
 		const values = getValues();
@@ -110,12 +124,28 @@ export function RegisterOng() {
 				setValue("city", response.data.localidade);
 				setValue("uf", response.data.uf);
 				clearErrors("cep");
+				clearErrors("city");
+				clearErrors("district");
+				clearErrors("numberAddress");
+				clearErrors("uf");
+				clearErrors("street");
 			} else {
 				setError("cep", {
-					message: "Cep Não existe",
+					message: "Cep não existe",
 				});
 			}
-		}
+		} 
+		// else if (values.cep?.length === 0 || values.cep === undefined) {
+		// 	clearErrors("cep");
+		// } else {
+		// 	setError("cep", {
+		// 		message: "O Cep está imcompleto",
+		// 	});
+		// }
+	}
+
+	function handleChecked() {
+		setCheckBox(!checkBox);
 	}
 
 	function verifyLengthInputCep() {
@@ -267,9 +297,23 @@ export function RegisterOng() {
 						secureTextEntry={true}
 						error={errors.password}
 					/>
+
+					<ConditionsView>
+						<Checkbox.Item
+							label=""
+							status={checkBox ? "checked" : "unchecked"}
+							onPress={() => handleChecked()}
+						/>
+						<Text>
+							Aceito os Termos de Políticas e Privacidade sobre o
+							compartilhamento de dados pessoas citados na LGPD -Lei 13.709 -
+							Art. 5º.
+						</Text>
+					</ConditionsView>
 					<RegisterButton
 						title="Cadastrar"
 						onPress={handleSubmit(handleOngRegister)}
+						disabled={!checkBox}
 					/>
 				</MainForm>
 			</KeyboardAvoidingView>

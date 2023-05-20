@@ -2,10 +2,12 @@ import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { InputForm } from "../../../components/Form/InputForm";
+import theme from "../../../global/styles/theme";
 
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.colors.background};
+
 `;
 
 export const Header = styled.View`
@@ -24,7 +26,8 @@ export const Title = styled.Text`
 
 export const MainForm = styled.ScrollView`
 	width: 100%;
-	padding: 24px 35px;
+	padding: 24px 25px;
+	
 `;
 
 export const AdressForm = styled.View`
@@ -49,8 +52,18 @@ export const RegisterButton = styled(ContainerButton)`
 	height: ${RFValue(45)}px;
 	width: 100%;
 
-	/* border-color: ${({ theme }) => theme.colors.text};
-	border-color: #61626210 */
-
-	
+	background-color:  ${({disabled}) => disabled ? theme.colors.inputDesable: theme.colors.shape};
+	border-color:  ${({disabled}) => disabled ? theme.colors.inputDesable: theme.colors.primary};
 `;
+
+export const ConditionsView = styled.View`
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 90%;
+
+	padding: 0 ${RFValue(15)}px;
+
+	margin: ${RFValue(10)}px 0;
+
+`
