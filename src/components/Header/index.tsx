@@ -6,7 +6,6 @@ import {
 	Icon,
 	HeaderText,
 	Text,
-	// ViewContainer,
 } from "./styles";
 
 interface HeaderProps {

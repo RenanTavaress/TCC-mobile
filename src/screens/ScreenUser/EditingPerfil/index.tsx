@@ -16,7 +16,6 @@ type FormData = {
 	document: string;
 	email: string;
 	phone: string;
-	//password: string;
 	guid: string;
 };
 
@@ -33,10 +32,10 @@ const schema = yup.object({
 		.trim(),
 	phone: yup
 		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("O Telefone é obrigatório")
 		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
 		.trim(),
-	//password: yup.string().required("A Senha é obrigatória").trim(),
 });
 
 export function EditingPerfil() {

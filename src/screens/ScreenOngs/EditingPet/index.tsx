@@ -55,6 +55,7 @@ const schema = yup.object({
 	breed: yup.string().required("A raça é obrigatorio").trim(),
 	age: yup
 		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("A idade é obrigatório")
 		.min(1, "O Campo deve ter pelo menos 1 digito"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),

@@ -24,29 +24,31 @@ export interface DataPetProps {
 	photo1: string;
 }
 
-
+interface ChildrenProps {
+	children: JSX.Element;
+}
 
 export type PetFavoriteProps = {
 	listFavoritePet: DataPetsProps[];
 	setListFavoritePet: (data: DataPetProps[]) => void;
-   getFavoritesPets: () => void
+	getFavoritesPets: () => void;
 };
 
 export const FavoritePetContext = createContext<PetFavoriteProps>(
 	{} as PetFavoriteProps
 );
 
-export const FavoritePet: React.FC = ({ children }) => {
+export const FavoritePet = ({ children }: ChildrenProps) => {
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 	const [listFavoritePet, setListFavoritePet] = useState<DataPetProps[]>([]);
-   async function getFavoritesPets() {
-      try {
-         const { data } = await api.get(`/api/favorite/list/${datasUser.guid}`);
-         setListFavoritePet(data.data);
-      } catch (error) {
-         console.log(error);
-      }
-   }
+	async function getFavoritesPets() {
+		try {
+			const { data } = await api.get(`/api/favorite/list/${datasUser.guid}`);
+			setListFavoritePet(data.data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	return (
 		<FavoritePetContext.Provider

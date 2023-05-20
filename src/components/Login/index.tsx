@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useContext, useState } from "react";
-import AuthContext from "../../contexts/auth";
+import React, { useState } from "react";
 import { Input } from "../../components/Form/Input";
 import { propsLoginOng } from "../../screens/Welcome";
 import {
@@ -22,12 +21,12 @@ import { Keyboard } from "react-native";
 
 interface ScreenLoginProps {
 	handleSignIn?: (username: string, password: string) => void;
-	screenRegister:| "RegisterOng";
+	screenRegister: "RegisterOng";
 	linkRegister: string;
 	forgotPassword: string;
-	screenRegister2: "RegisterUser" 
+	screenRegister2: "RegisterUser";
 	linkRegister2: string;
-} 
+}
 
 export function Login({
 	handleSignIn,
@@ -35,16 +34,9 @@ export function Login({
 	screenRegister2,
 	linkRegister,
 	linkRegister2,
-	forgotPassword
+	forgotPassword,
 }: ScreenLoginProps) {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	//const { signed, user, signIn } = useContext(AuthContext);
-	//console.log(signed);
-	//console.log(user);
-	// function handleSignIn() {
-	// 	//console.log("logar");
-	// 	signIn();
-	// }
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -56,7 +48,7 @@ export function Login({
 	return (
 		<TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
 			<Container>
-				<Header title="Login"  />
+				<Header title="Login" />
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					enabled

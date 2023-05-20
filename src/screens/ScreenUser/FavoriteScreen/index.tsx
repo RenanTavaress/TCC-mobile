@@ -1,4 +1,4 @@
-import react, { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Header } from "../../../components/Header";
 import { DataPetsProps, PetCard } from "../../../components/PetCard";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
@@ -46,7 +46,7 @@ export function FavoriteScreen() {
 
 	return (
 		<Container>
-			<Header title="Pets" icon="left" />
+			<Header title="Pets Favoritados" icon="left" />
 			<ContainerPets
 				data={listFavoritePet}
 				keyExtractor={(item) => item.guid}
