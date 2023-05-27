@@ -12,6 +12,7 @@ export const Container = styled.TouchableOpacity.attrs({
 	justify-content: space-between;
 	align-items: center;
 	padding: 18px 16px;
+	margin-bottom: 10px;
 `;
 
 export const TitleCategory = styled.Text`

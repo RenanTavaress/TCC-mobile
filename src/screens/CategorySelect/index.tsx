@@ -11,28 +11,34 @@ import {
 	Separetor,
 	Footer,
 } from "./styles";
-import { categories } from "../../utils/categories";
-import {Header} from '../../components/Header'
+//import { categories } from "../../utils/categories";
+import { Header } from "../../components/Header";
 
 import { ContainerButton } from "../../components/Button/ContainerLogin";
 
+export interface CategoriesProps {
+	key: string;
+	typePet: string;
+	icon?: string;
+}
 interface Props {
 	category: string;
 	setCategory: (category: string) => void;
 	closeSelectCategory: () => void;
+	categories: CategoriesProps[];
+	titleAnimal: string;
 }
 
 export const CategorySelect = ({
 	category,
 	setCategory,
 	closeSelectCategory,
+	categories,
+	titleAnimal,
 }: Props) => {
 	return (
 		<Container>
-			<Header title="Categoria do Animal" icon="left"/>
-				{/* <Title>Categoria do Animal</Title>
-			</Header> */}
-
+			<Header title={titleAnimal} icon="left" />
 			<FlatList
 				data={categories}
 				style={{ flex: 1, width: "100%" }}
@@ -42,11 +48,12 @@ export const CategorySelect = ({
 						onPress={() => setCategory(item.typePet)}
 						isActive={category === item.typePet}
 					>
-						<Icon name={item.icon} />
+						{item.icon && <Icon name={item.icon} />}
 						<CategoryName>{item.typePet}</CategoryName>
 					</Categorys>
 				)}
 				ItemSeparatorComponent={() => <Separetor />}
+				
 			/>
 
 			<Footer>

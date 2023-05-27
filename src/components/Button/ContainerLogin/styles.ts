@@ -13,7 +13,7 @@ export const Container = styled(TouchableOpacity)`
 	justify-content: space-around;
 	align-items: center;
 	flex-direction: row;
-	padding: ${RFValue(5)}px;;
+	padding: ${RFValue(5)}px;
 
 
 

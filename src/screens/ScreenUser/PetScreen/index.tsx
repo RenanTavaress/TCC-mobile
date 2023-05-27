@@ -24,6 +24,7 @@ import {
 } from "./styles";
 import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
 import { useTheme } from "styled-components";
+import { PetDetail } from "../../../components/PetDetail";
 
 interface PropsDatailCompany {
 	name: string;
@@ -120,37 +121,9 @@ export function PetScreen() {
 		<Container>
 			<Header title={typePet} icon="left" />
 			<ContainerInfos>
-				<ImageContainer>
-					{photo1 && (
-						<ImageLeft>
-							<ImageButton>
-								<ImagePet source={{ uri: photo1 }} />
-							</ImageButton>
-						</ImageLeft>
-					)}
-				</ImageContainer>
-				<View>
-					<ContainerPetInfo>
-						<ContainerInfo>
-							<TextInfo>Raça:</TextInfo>
-							<InfoPet>{breed}</InfoPet>
-							<TextInfo>Idade:</TextInfo>
-							<InfoPet>{age}</InfoPet>
-							<TextInfo>Porte:</TextInfo>
-							<InfoPet>{size}</InfoPet>
-						</ContainerInfo>
-						<ContainerHeath>
-							<TextInfo>Vacinas:</TextInfo>
-							<InfoPet>{vaccines}</InfoPet>
-							<TextInfo>Sexo:</TextInfo>
-							<InfoPet>{gender === "M" ? "Masculino" : "Feminino"}</InfoPet>
-						</ContainerHeath>
-					</ContainerPetInfo>
-					<ContainerDescription>
-						<TextInfo>Descrição:</TextInfo>
-						<InfoPet>{description}</InfoPet>
-					</ContainerDescription>
-				</View>
+	
+
+				<PetDetail petDetail={{photo1, breed, age, size, vaccines, gender, description}} />
 
 				<ContainerButtonInfo>
 					<ContainerButton

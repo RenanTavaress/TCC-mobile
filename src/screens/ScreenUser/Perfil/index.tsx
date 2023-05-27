@@ -63,7 +63,7 @@ export function Perfil() {
 
 				<ContainerBtn>
 					<ContainerButton
-						title="Editar perfil"
+						title="Editar Perfil"
 						onPress={() => navigation.navigate("EditingPerfil")}
 					/>
 					{listFavoritePet?.length !== 0 && (
@@ -74,7 +74,7 @@ export function Perfil() {
 					)}
 
 					<ContainerButton
-						title="Criar Preferencias"
+						title="Preferências"
 						onPress={() => navigation.navigate("preferences")}
 					/>
 					<ContainerButton title="Sair" onPress={handleLogout} />

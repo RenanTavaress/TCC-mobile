@@ -23,7 +23,7 @@ export type propsLoginOng = NativeStackScreenProps<
 >;
 
 export interface PropsItem {
-	item: DataPetsProps
+	item: DataPetsProps;
 }
 
 export interface FormData {
@@ -39,8 +39,9 @@ export interface FormData {
 }
 
 export function ListPets() {
-	const { petsFilter, submitForm } = useContext(PetsFilterContext);
+	const { petsFilter, submitForm, isFiltered } = useContext(PetsFilterContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+
 
 	const CardPet = memo(({ item }: PropsItem) => {
 		return (
@@ -57,10 +58,12 @@ export function ListPets() {
 		<Container>
 			<Header title="Pets" />
 			<FilterContainer>
-				<CleanFilterBox onPress={submitForm}>
-					<AntDesign name="closecircleo" size={15} color="black" />
-					<CleanFilterText>Limpar</CleanFilterText>
-				</CleanFilterBox>
+				{isFiltered && (
+					<CleanFilterBox onPress={submitForm}>
+						<AntDesign name="closecircleo" size={15} color="black" />
+						<CleanFilterText>Limpar</CleanFilterText>
+					</CleanFilterBox>
+				)}
 
 				<FilterBox onPress={() => navigation.navigate("FilterScreen")}>
 					<FontAwesome name="filter" size={24} color="black" />
@@ -70,9 +73,7 @@ export function ListPets() {
 			<ContainerPets
 				data={petsFilter}
 				keyExtractor={(item) => item.guid}
-				renderItem={({ item }) => 
-					<CardPet item={item}/>
-				}
+				renderItem={({ item }) => <CardPet item={item} />}
 			/>
 		</Container>
 	);

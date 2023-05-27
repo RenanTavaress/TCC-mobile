@@ -1,3 +1,4 @@
+import React from "react";
 import { FabButton } from "../../../components/Button/FAB";
 import { Header } from "../../../components/Header";
 import { useNavigation } from "@react-navigation/native";
@@ -47,7 +48,7 @@ export function Preferences() {
 
 	return (
 		<>
-			<Header title="Preferencias" icon="left" />
+			<Header title="Suas Preferências" icon="left" />
 			<Container>
 				<ListPreferences
 					data={preferences}

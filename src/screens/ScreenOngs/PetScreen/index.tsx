@@ -13,21 +13,8 @@ import { Header } from "../../../components/Header";
 import { DataPetProps } from "../../../contexts/DataPet";
 import api from "../../../services/api";
 import { RootStackParamList } from "../../RootStackParams";
-import {
-	Container,
-	ContainerInfos,
-	ContainerPetInfo,
-	ContainerInfo,
-	ContainerHeath,
-	TextInfo,
-	InfoPet,
-	ContainerDescription,
-	ContainerButtonInfo,
-	ImageContainer,
-	ImageLeft,
-	ImageButton,
-	ImagePet,
-} from "./styles";
+import { Container, ContainerInfos, ContainerButtonInfo } from "./styles";
+import { PetDetail } from "../../../components/PetDetail";
 
 export type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -91,39 +78,7 @@ export function PetScreen() {
 		<Container>
 			<Header title={petDetail?.typePet} icon="left" />
 			<ContainerInfos>
-				<ImageContainer>
-					{petDetail?.photo1 && (
-						<ImageLeft>
-							<ImageButton>
-								<ImagePet source={{ uri: petDetail?.photo1 }} />
-							</ImageButton>
-						</ImageLeft>
-					)}
-				</ImageContainer>
-				<View>
-					<ContainerPetInfo>
-						<ContainerInfo>
-							<TextInfo>Raça:</TextInfo>
-							<InfoPet>{petDetail?.breed}</InfoPet>
-							<TextInfo>Idade:</TextInfo>
-							<InfoPet>{petDetail?.age}</InfoPet>
-							<TextInfo>Porte:</TextInfo>
-							<InfoPet>{petDetail?.size}</InfoPet>
-						</ContainerInfo>
-						<ContainerHeath>
-							<TextInfo>Vacinas:</TextInfo>
-							<InfoPet>{petDetail?.vaccines}</InfoPet>
-							<TextInfo>Sexo:</TextInfo>
-							<InfoPet>
-								{petDetail?.gender === "M" ? "Masculino" : "Feminino"}
-							</InfoPet>
-						</ContainerHeath>
-					</ContainerPetInfo>
-					<ContainerDescription>
-						<TextInfo>Descrição:</TextInfo>
-						<InfoPet>{petDetail?.description}</InfoPet>
-					</ContainerDescription>
-				</View>
+				<PetDetail petDetail={petDetail} />
 
 				<ContainerButtonInfo>
 					<ContainerButton

@@ -1,3 +1,4 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { InputForm } from "../../../components/Form/InputForm";
 import { Header } from "../../../components/Header";
@@ -19,6 +20,8 @@ import {
 	ViewSize,
 	Footer,
 } from "./styles";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type FormData = {
 	[name: string]: any;
@@ -28,6 +31,10 @@ type FormData = {
 	size: string;
 	typePet: string;
 };
+
+const schema = yup.object({
+	age: yup.string().matches(/^[0-9]+$/, "Por favor, insira apenas numeros."),
+});
 
 export function CreatePreferences() {
 	const navigate = useNavigation();
@@ -40,7 +47,9 @@ export function CreatePreferences() {
 		control,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<FormData>();
+	} = useForm<FormData>({
+		resolver: yupResolver(schema),
+	});
 
 	function handleOpenSelectCategoryModal() {
 		setModalSelectCategory(true);
@@ -80,6 +89,10 @@ export function CreatePreferences() {
 		<Container>
 			<Header title="Preferences" icon="left" />
 			<FormContainer>
+			<CategoryCard
+					onPress={handleOpenSelectCategoryModal}
+					title={category}
+				/>
 				<TextInfo>Idade em meses:</TextInfo>
 				<InputForm
 					placeholder="Idade em meses"
@@ -99,7 +112,7 @@ export function CreatePreferences() {
 						onValueChange={(check) => setSize(check)}
 						value={size}
 					>
-						<TextInfo>Tamanho:</TextInfo>
+						<TextInfo>Porte:</TextInfo>
 						<ViewSize>
 							<RadioButton value="pequeno" color={colors.primary} />
 							<TextSize>Pequeno</TextSize>
@@ -122,19 +135,16 @@ export function CreatePreferences() {
 						<TextInfo>Sexo:</TextInfo>
 						<ViewSize>
 							<RadioButton value="M" color={colors.primary} />
-							<TextSize>Masculino</TextSize>
+							<TextSize>Macho</TextSize>
 						</ViewSize>
 
 						<ViewSize>
 							<RadioButton value="F" color={colors.primary} />
-							<TextSize>Feminino</TextSize>
+							<TextSize>Fêmea</TextSize>
 						</ViewSize>
 					</RadioButton.Group>
 				</RadioContainer>
-				<CategoryCard
-					onPress={handleOpenSelectCategoryModal}
-					title={category}
-				/>
+				
 			</FormContainer>
 			<Footer>
 				<ContainerButton

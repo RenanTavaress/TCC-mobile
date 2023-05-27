@@ -2,14 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-	Alert,
-	Modal,
-	View,
-	KeyboardAvoidingView,
-	Button,
-	Image,
-} from "react-native";
+import { Alert, Modal, KeyboardAvoidingView } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
@@ -35,14 +28,15 @@ import { useTheme } from "styled-components";
 import api from "../../../services/api";
 import { useNavigation } from "@react-navigation/native";
 import AuthContext from "../../../contexts/auth";
-import { TouchableWithoutFeedback, TouchableOpacity } from "react-native";
-import { Keyboard } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Platform } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { CategoryCard } from "../../../components/CategoryCard";
 import { CategorySelect } from "../../CategorySelect";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { categories } from "../../../utils/categories";
+import { breeds } from "../../../utils/breeds";
 
 type FormData = {
 	[name: string]: any;
@@ -57,17 +51,16 @@ type FormData = {
 	photo1: string;
 };
 
-interface ImagesProps {
-	cancelled: boolean;
-	height: number;
-	type: string;
-	uri: string;
-	width: number;
-}
-
 const schema = yup.object({
 	medication: yup.string().required("A cor é obrigatorio").trim(),
-	breed: yup.string().required("A raça é obrigatorio").trim(),
+	category: yup.boolean(),
+	breed: yup
+		.string()
+		.when("category", {
+			is: "Cachorro",
+			then: yup.string().required("A raça é obrigatorio"),
+		})
+		.trim(),
 	age: yup
 		.string()
 		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
@@ -81,7 +74,9 @@ export function AddPet() {
 	const [size, setSize] = useState("pequeno");
 	const [gender, setGender] = useState("M");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
+	const [modalSelectBreed, setModalSelectBreed] = useState(false);
 	const [category, setCategory] = useState("Espécie");
+	const [breed, setBreed] = useState("Raça");
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
 	const [photo, setPhoto] = useState([]);
@@ -132,11 +127,26 @@ export function AddPet() {
 		setModalSelectCategory(false);
 	}
 
+	function handleOpenSelectBreedModal() {
+		setModalSelectBreed(true);
+	}
+
+	function handleCloseSelectBreedModal() {
+		setModalSelectBreed(false);
+	}
+
 	async function submitForm(data: FormData) {
 		if (category === "Espécie") {
 			Alert.alert(
 				"Não foi possivel cadastrar",
 				"Selecione uma categoria pro seu pet"
+			);
+			return;
+		}
+		if (breed === "Raça" && category === "Cachorro") {
+			Alert.alert(
+				"Não foi possivel cadastrar",
+				"Selecione uma Raça para o seu cachorro"
 			);
 			return;
 		}
@@ -148,12 +158,15 @@ export function AddPet() {
 			);
 			return;
 		}
+
+		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
+			breed: isDog,
 			size,
 			gender,
 			typePet: category,
-			photo1: photo[0] || null,
+			//photo1: photo[0] || null,
 		};
 		console.log(datas);
 		try {
@@ -185,8 +198,20 @@ export function AddPet() {
 				})}
 			>
 				<ContainerAdd>
-					<Header title="Cadastre seu novo pet" icon="left" />
+					<Header title="Cadastro de Novo Pet" icon="left" />
 					<FormContainer>
+						<CategoryCard
+							onPress={handleOpenSelectCategoryModal}
+							title={category}
+						/>
+						{category === "Cachorro" && (
+							<CategoryCard
+								onPress={handleOpenSelectBreedModal}
+								title={breed}
+								error={errors.breed}
+							/>
+						)}
+
 						<ImageContainer>
 							{photo.length == 1 && (
 								<ImageLeft>
@@ -206,34 +231,17 @@ export function AddPet() {
 									onPress={pickImage}
 								/>
 							)}
-							<InputForm
-								placeholder="Vacina tomadas"
-								control={control}
-								name="vaccines"
-								autoCapitalize="sentences"
-								error={errors.vaccines}
-							/>
-							<InputForm
-								placeholder="Cor"
-								control={control}
-								name="medication"
-								autoCapitalize="sentences"
-								error={errors.medication}
-							/>
-
-							<InputForm
-								placeholder="Raça"
-								control={control}
-								name="breed"
-								autoCapitalize="sentences"
-								error={errors.breed}
-							/>
+							{/* {category === "Cachorro" && (
+								<InputForm
+									placeholder="Raça"
+									control={control}
+									name="breed"
+									autoCapitalize="sentences"
+									error={errors.breed}
+								/>
+							)} */}
 						</InfoDataPet>
 
-						<CategoryCard
-							onPress={handleOpenSelectCategoryModal}
-							title={category}
-						/>
 						<InfoRadioBtn>
 							<RadioButton.Group
 								onValueChange={(checked) => setSize(checked)}
@@ -290,6 +298,21 @@ export function AddPet() {
 							autoCapitalize="sentences"
 							error={errors.description}
 						/>
+
+						<InputForm
+							placeholder="Cor"
+							control={control}
+							name="medication"
+							autoCapitalize="sentences"
+							error={errors.medication}
+						/>
+						<InputForm
+							placeholder="Vacinas Tomadas"
+							control={control}
+							name="vaccines"
+							autoCapitalize="sentences"
+							error={errors.vaccines}
+						/>
 						<ButtonContainer>
 							<ContainerButton
 								onPress={handleSubmit(submitForm)}
@@ -303,6 +326,17 @@ export function AddPet() {
 							category={category}
 							setCategory={setCategory}
 							closeSelectCategory={handleCloseSelectCategoryModal}
+							titleAnimal="Espécie do animal"
+							categories={categories}
+						/>
+					</Modal>
+					<Modal visible={modalSelectBreed}>
+						<CategorySelect
+							category={breed}
+							setCategory={setBreed}
+							closeSelectCategory={handleCloseSelectBreedModal}
+							titleAnimal="Escolha a raça"
+							categories={breeds}
 						/>
 					</Modal>
 				</ContainerAdd>

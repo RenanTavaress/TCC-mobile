@@ -50,7 +50,7 @@ export function PetCard({
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
 				<AgePet>
-					{age} {breed}
+					{age} Meses, {breed}
 				</AgePet>
 			</ContaineCardDescription>
 		</CardPet>

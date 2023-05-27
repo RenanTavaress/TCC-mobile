@@ -1,5 +1,5 @@
 import React from "react";
-import { Control, Controller, FieldError, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldError } from "react-hook-form";
 import { Input, InputProps } from "../Input";
 import { Container, Error } from "./styles";
 

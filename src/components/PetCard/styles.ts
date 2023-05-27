@@ -11,6 +11,7 @@ export const CardPet = styled.TouchableOpacity`
 	justify-content: space-between;
 	align-items: center;
 	margin-left: ${RFValue(13)}px;
+	border-radius: ${RFValue(15)}px;
 `;
 
 export const ContainerImage = styled.View`

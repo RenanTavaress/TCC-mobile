@@ -71,6 +71,6 @@ export const ImageButton = styled.View`
 `;
 
 export const ImagePet = styled.Image`
-	height: 150px;
+	height: 180px;
 	width: auto;
 `;

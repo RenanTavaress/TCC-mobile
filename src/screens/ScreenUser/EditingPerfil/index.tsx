@@ -115,7 +115,7 @@ export function EditingPerfil() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={10}
+						maxLength={11}
 						error={errors.phone}
 					/>
 					<RegisterButton

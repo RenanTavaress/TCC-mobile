@@ -1,7 +1,7 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { FontAwesome5, MaterialCommunityIcons  } from "@expo/vector-icons";
-import {GestureHandlerRootView} from 'react-native-gesture-handler'
+import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import theme from "../../global/styles/theme";
 
 interface TouchProps {
@@ -37,10 +37,11 @@ export const Categorys = styled.TouchableOpacity<TouchProps>`
 	flex-direction: row;
 	align-items: center;
 
-	background-color: ${({isActive}) => isActive ? theme.colors.primary_light : theme.colors.background};
+	background-color: ${({ isActive }) =>
+		isActive ? theme.colors.primary_light : theme.colors.background};
 `;
 
-export const Icon = styled(MaterialCommunityIcons )`
+export const Icon = styled(MaterialCommunityIcons)`
 	font-size: ${RFValue(20)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	margin-right: 5px;
@@ -60,7 +61,8 @@ export const Separetor = styled.View`
 
 export const Footer = styled.View`
 	width: 100%;
-	padding: 24px;
+
+	padding: 15px;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-end;
 `;

@@ -12,6 +12,8 @@ export type PetProps = {
 	petsFilter: DataPetsProps[];
 	setPetsFilter: (datasPet: DataPetsProps[]) => void;
    submitForm: () => void;
+	isFiltered: boolean;
+	setIsFiltered: (param: boolean) => void;
 };
 
 export const PetsFilterContext = createContext<PetProps>({} as PetProps);
@@ -19,6 +21,7 @@ export const PetsFilterContext = createContext<PetProps>({} as PetProps);
 export const FilterPet: React.FC = ({ children }) => {
 
    const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
+	const [isFiltered, setIsFiltered] = useState(false);
 
    async function submitForm() {
 		try {
@@ -33,6 +36,7 @@ export const FilterPet: React.FC = ({ children }) => {
 				typePet: "",
 			});
 			setPetsFilter(data.data);
+			setIsFiltered(false)
 		} catch (error) {
 			console.log(error);
 			return "error";
@@ -44,7 +48,7 @@ export const FilterPet: React.FC = ({ children }) => {
 
 
 	return (
-		<PetsFilterContext.Provider value={{ petsFilter, setPetsFilter, submitForm }}>
+		<PetsFilterContext.Provider value={{ petsFilter, setPetsFilter, submitForm, isFiltered, setIsFiltered }}>
 			{children}
 		</PetsFilterContext.Provider>
 	);
