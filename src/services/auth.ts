@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import api from "./api";
 
 interface Response {
@@ -5,7 +6,7 @@ interface Response {
 	email: string;
 	guid: string;
 	type: string;
-	permission: string;
+	permission: number;
 }
 
 interface SignInOptions {
@@ -19,7 +20,7 @@ export async function signIn({email, password}: SignInOptions): Promise<Response
 			email,
 			password,
 		});
-
+		console.log(response)
 		return response.data?.data;
 	} catch (error) {
 		// @ts-ignore

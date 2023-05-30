@@ -1,9 +1,9 @@
 import styled from "styled-components/native";
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export const CardPreference = styled.View`
 	width: 100%;
-	height: ${RFValue(55)}px;
+	height: ${RFPercentage(15)}px;
 	background-color: ${({ theme }) => theme.colors.shape};
 
 	padding: ${RFValue(7)}px ${RFValue(3)}px;

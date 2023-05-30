@@ -1,11 +1,14 @@
-import React, { memo, useCallback, useContext, useEffect, useState } from "react";
+import React, {
+	memo,
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import api from "../../../services/api";
 import { Container, ContainerPets } from "./styles";
 import { Header } from "../../../components/Header";
-import {
-	useFocusEffect,
-	useNavigation,
-} from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { DataPetsProps, PetCard } from "../../../components/PetCard";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
@@ -14,6 +17,8 @@ import AuthContext from "../../../contexts/auth";
 import { DataOngContext } from "../../../contexts/DataOng";
 import { DataPetContext } from "../../../contexts/DataPet";
 import { PropsItem } from "../../ScreenUser/ListPets";
+import { SkeletonCard } from "../../../components/SkeletonCard";
+import { LinearGradient } from "expo-linear-gradient";
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
@@ -27,7 +32,7 @@ export type propsLoginOng = NativeStackScreenProps<
 export function Dashboard() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const { user } = useContext(AuthContext);
-	const { datasPet, getDataPet } = useContext(DataPetContext);
+	const { datasPet, getDataPet, isLoading, setIsloading } = useContext(DataPetContext);
 	const { datasOngs } = useContext(DataOngContext);
 
 	const CardPet = memo(({ item }: PropsItem) => {
@@ -43,13 +48,12 @@ export function Dashboard() {
 
 	const keyExtractor = (item: DataPetsProps, index: number) => {
 		return `${item.guid}_${index}`;
-	 };
-  
-
+	};
 
 	useFocusEffect(
 		useCallback(() => {
 			getDataPet();
+			setIsloading(false);
 		}, [])
 	);
 
@@ -60,7 +64,9 @@ export function Dashboard() {
 			<ContainerPets
 				data={datasPet}
 				keyExtractor={keyExtractor}
-				renderItem={({ item }) => <CardPet item={item}/>}
+				renderItem={({ item }) =>
+					isLoading ? <SkeletonCard /> : <CardPet item={item} />
+				}
 			/>
 
 			<FabButton title="+" onPress={() => navigation.navigate("AddPet")} />

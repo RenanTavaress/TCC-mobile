@@ -8,7 +8,7 @@ import {
 	DescriptionPet,
 	AgePet,
 	ContainerImage,
-	ImagePet
+	ImagePet,
 } from "./styles";
 
 export interface DataPetsProps {
@@ -33,25 +33,21 @@ export function PetCard({
 	age,
 	breed,
 	description,
-	medication,
 	typePet,
-	size,
 	vaccines,
 	onPress,
-	photo1
+	photo1,
 }: DataPetsProps) {
 	return (
 		<CardPet onPress={onPress}>
 			<ContainerImage>
 				<TextNamePet>{typePet}</TextNamePet>
-				<ImagePet source={{ uri: photo1 }}/>
+				<ImagePet source={{ uri: photo1 }} />
 			</ContainerImage>
-			
+
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
-				<AgePet>
-					{age} Meses, {breed}
-				</AgePet>
+				<AgePet>{breed ? `${age}, ${breed}` : `${age}`}</AgePet>
 			</ContaineCardDescription>
 		</CardPet>
 	);

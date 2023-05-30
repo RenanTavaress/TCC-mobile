@@ -9,7 +9,7 @@ interface User {
 	email: string;
 	guid: string;
 	type: string;
-	permission: string;
+	permission?: number;
 }
 interface IProps {
 	children: React.ReactNode;
@@ -55,7 +55,6 @@ export const AuthProvider = ({ children }:IProps) => {
 			api.defaults.headers.common["token"] = `${response.token}`;
 
 			setUser(response);
-
 			await AsyncStorage.setItem("@RNAuth2:user", JSON.stringify(response));
 			await AsyncStorage.setItem("@RNAuth2:token", response.token);
 		} catch {

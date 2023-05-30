@@ -139,14 +139,6 @@ export function FilterScreen() {
 				{category === "Cachorro" && (
 					<CategoryCard onPress={handleOpenSelectBreedModal} title={breed} />
 				)}
-				{/* {category === "Cachorro" && (
-					<InputForm
-						placeholder="Raça"
-						control={control}
-						name="breed"
-						autoCapitalize="sentences"
-					/>
-				)} */}
 				<InputForm
 					placeholder="Cidade"
 					control={control}

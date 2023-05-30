@@ -6,31 +6,28 @@ import { Alert, Platform, KeyboardAvoidingView, Modal } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
-import {
-	Container,
-	ContainerAdd,
-	InfoDataPet,
-	InfoRadioBtn,
-	ViewSize,
-	ContainerAge,
-	DescriptioInput,
-	TextInfo,
-	TextSize,
-	ImageContainer,
-	ImageLeft,
-	ImageButton,
-	ImagePet,
-	ButtonPickImage,
-} from "./styles";
+// import {
+// 	Container,
+// 	ContainerAdd,
+// 	InfoDataPet,
+// 	InfoRadioBtn,
+// 	ViewSize,
+// 	ContainerAge,
+// 	DescriptioInput,
+// 	TextInfo,
+// 	TextSize,
+// 	ImageContainer,
+// 	ImageLeft,
+// 	ImageButton,
+// 	ImagePet,
+// 	ButtonPickImage,
+// } from "./styles";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
-import {
-	useNavigation,
-	useRoute,
-} from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import AuthContext from "../../../contexts/auth";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
-import { ButtonContainer } from "../AddPets/styles";
+import { ButtonContainer, ButtonPickImage, Container, ContainerAdd, ContainerAge, ContainerLeftAge, ContainerRigthAge, ContainerSex, DescriptioInput, FormContainer, ImageButton, ImageContainer, ImageLeft, ImagePet, InfoDataPet, InfoRadioBtn, TextInfo, TextSize, ViewSize } from "../AddPets/styles";
 import { DataPetContext, DataPetProps } from "../../../contexts/DataPet";
 import { CategoryCard } from "../../../components/CategoryCard";
 import { CategorySelect } from "../../CategorySelect";
@@ -38,6 +35,9 @@ import { propsLoginOng } from "../DashboardOngs";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { categories } from "../../../utils/categories";
+import { breeds } from "../../../utils/breeds";
+import { ListItem } from "../../../components/List";
 
 type FormData = {
 	[name: string]: any;
@@ -76,6 +76,7 @@ export function EditingPet() {
 			photo1: string;
 		};
 	};
+	const [age, month] = params.age.split(" ")
 	const { colors } = useTheme();
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
@@ -86,17 +87,19 @@ export function EditingPet() {
 	const { datasPet, getDataPet, setDataPet } = useContext(DataPetContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const [photo, setPhoto] = useState([params?.photo1]);
-
-	//console.log(photo)
+	const [modalSelectBreed, setModalSelectBreed] = useState(false);
+	const [breed, setBreed] = useState(params.breed ? params.breed : "Raça");
+	const [selectAge, setSelectAge] = useState(month);
 
 	const {
 		control,
 		handleSubmit,
+		watch,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 		defaultValues: {
-			age: params.age,
+			age,
 			name: params.typePet,
 			medication: params.medication,
 			size: params.size,
@@ -105,6 +108,7 @@ export function EditingPet() {
 			vaccines: params.vaccines,
 		},
 	});
+
 	function handleOpenSelectCategoryModal() {
 		setModalSelectCategory(true);
 	}
@@ -113,7 +117,24 @@ export function EditingPet() {
 		setModalSelectCategory(false);
 	}
 
+	function handleOpenSelectBreedModal() {
+		setModalSelectBreed(true);
+	}
+
+	function handleCloseSelectBreedModal() {
+		setModalSelectBreed(false);
+	}
+	const concatenatingAge = `${watch("age")} ${selectAge}`;
+
 	async function submitForm(data: FormData) {
+		if (breed === "Raça" && category === "Cachorro") {
+			Alert.alert(
+				"Não foi possivel atualizar seu pet",
+				"Selecione uma Raça para o seu cachorro"
+			);
+			return;
+		}
+
 		if (photo.length === 0) {
 			Alert.alert(
 				"Não foi possivel atualizar o pet",
@@ -121,14 +142,19 @@ export function EditingPet() {
 			);
 			return;
 		}
+
+		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
+			age: concatenatingAge,
+			breed: isDog,
 			size,
 			typePet: category,
 			gender,
 			photo1: photo[0],
 		};
 
+		console.log(datas)
 		try {
 			const { data } = await api.put(
 				`/api/pet/update/guid/${params.guid}`,
@@ -186,36 +212,114 @@ export function EditingPet() {
 
 	return (
 		<Container>
-			<Header title="Edite o pet" icon="left" />
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
-				keyboardVerticalOffset={Platform.select({ ios: 0, android: -2000 })}
-				style={{ flex: 1 }}
+				keyboardVerticalOffset={Platform.select({
+					ios: 0,
+					android: -2000,
+				})}
 			>
 				<ContainerAdd>
-					<ImageContainer>
-						{photo.length == 1 && (
-							<ImageLeft>
-								<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
-									<AntDesign name="delete" size={14} color="red" />
-								</TouchableOpacity>
-								<ImageButton>
-									<ImagePet source={{ uri: photo[0] }} />
-								</ImageButton>
-							</ImageLeft>
-						)}
-						{photo.length === 0 && (
-							<ButtonPickImage title="Escolha uma imagem" onPress={pickImage} />
-						)}
-					</ImageContainer>
-					<InfoDataPet>
-						<InputForm
-							placeholder="vacina"
-							control={control}
-							name="vaccines"
-							autoCapitalize="sentences"
-							error={errors.vaccines}
+					<Header title="Cadastro de Novo Pet" icon="left" />
+					<FormContainer>
+						<CategoryCard
+							onPress={handleOpenSelectCategoryModal}
+							title={category}
 						/>
+						{category === "Cachorro" && (
+							<CategoryCard
+								onPress={handleOpenSelectBreedModal}
+								title={breed}
+							/>
+						)}
+
+						<ImageContainer>
+							{photo.length == 1 && (
+								<ImageLeft>
+									<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
+										<AntDesign name="delete" size={14} color="red" />
+									</TouchableOpacity>
+									<ImageButton>
+										<ImagePet source={{ uri: photo[0] }} />
+									</ImageButton>
+								</ImageLeft>
+							)}
+						</ImageContainer>
+						<InfoDataPet>
+							{photo.length == 0 && (
+								<ButtonPickImage
+									title="Escolha uma imagem"
+									onPress={pickImage}
+								/>
+							)}
+						</InfoDataPet>
+
+						<InfoRadioBtn>
+							<RadioButton.Group
+								onValueChange={(checked) => setSize(checked)}
+								value={size}
+							>
+								<TextInfo>Porte:</TextInfo>
+								<ViewSize>
+									<RadioButton value="pequeno" color={colors.primary} />
+									<TextSize>Pequeno</TextSize>
+								</ViewSize>
+
+								<ViewSize>
+									<RadioButton value="medio" color={colors.primary} />
+									<TextSize>Médio</TextSize>
+								</ViewSize>
+
+								<ViewSize>
+									<RadioButton value="grande" color={colors.primary} />
+									<TextSize>Grande</TextSize>
+								</ViewSize>
+							</RadioButton.Group>
+							<ContainerSex>
+								<RadioButton.Group
+									onValueChange={(gen) => setGender(gen)}
+									value={gender}
+								>
+									<TextInfo>Sexo:</TextInfo>
+									<ViewSize>
+										<RadioButton value="M" color={colors.primary} />
+										<TextSize>Macho</TextSize>
+									</ViewSize>
+
+									<ViewSize>
+										<RadioButton value="F" color={colors.primary} />
+										<TextSize>Fêmea</TextSize>
+									</ViewSize>
+								</RadioButton.Group>
+							</ContainerSex>
+						</InfoRadioBtn>
+
+						<ContainerAge>
+							<ContainerRigthAge>
+								<TextInfo>Idade do pet:</TextInfo>
+								<InputForm
+									placeholder="Idade"
+									control={control}
+									name="age"
+									keyboardType="numeric"
+									error={errors.age}
+								/>
+							</ContainerRigthAge>
+							<ContainerLeftAge>
+								<ListItem
+									selectedItem={selectAge}
+									setSelectedItem={setSelectAge}
+								/>
+							</ContainerLeftAge>
+						</ContainerAge>
+						<DescriptioInput
+							placeholder="Descrição"
+							control={control}
+							name="description"
+							autoCapitalize="sentences"
+							error={errors.description}
+						/>
+
 						<InputForm
 							placeholder="Cor"
 							control={control}
@@ -223,86 +327,37 @@ export function EditingPet() {
 							autoCapitalize="sentences"
 							error={errors.medication}
 						/>
-
 						<InputForm
-							placeholder="Raça"
+							placeholder="Vacinas Tomadas"
 							control={control}
-							name="breed"
+							name="vaccines"
 							autoCapitalize="sentences"
-							error={errors.breed}
+							error={errors.vaccines}
 						/>
-						<CategoryCard
-							onPress={handleOpenSelectCategoryModal}
-							title={category}
-						/>
-					</InfoDataPet>
+						<ButtonContainer>
+							<ContainerButton
+								onPress={handleSubmit(submitForm)}
+								title="Salvar"
+							/>
+						</ButtonContainer>
+					</FormContainer>
 
-					<InfoRadioBtn>
-						<RadioButton.Group
-							onValueChange={(checked) => setSize(checked)}
-							value={size}
-						>
-							<TextInfo>Tamanho:</TextInfo>
-							<ViewSize>
-								<RadioButton value="pequeno" color={colors.primary} />
-								<TextSize>Pequeno</TextSize>
-							</ViewSize>
-
-							<ViewSize>
-								<RadioButton value="medio" color={colors.primary} />
-								<TextSize>Médio</TextSize>
-							</ViewSize>
-
-							<ViewSize>
-								<RadioButton value="grande" color={colors.primary} />
-								<TextSize>Grande</TextSize>
-							</ViewSize>
-						</RadioButton.Group>
-						<ContainerAge>
-							<RadioButton.Group
-								onValueChange={(gen) => setGender(gen)}
-								value={gender}
-							>
-								<TextInfo>Sexo:</TextInfo>
-								<ViewSize>
-									<RadioButton value="M" color={colors.primary} />
-									<TextSize>Macho</TextSize>
-								</ViewSize>
-
-								<ViewSize>
-									<RadioButton value="F" color={colors.primary} />
-									<TextSize>Fêmea</TextSize>
-								</ViewSize>
-							</RadioButton.Group>
-						</ContainerAge>
-					</InfoRadioBtn>
-					<TextInfo>Idade em meses:</TextInfo>
-					<InputForm
-						placeholder="Idade em meses"
-						control={control}
-						name="age"
-						keyboardType="numeric"
-						error={errors.age}
-					/>
-
-					<DescriptioInput
-						placeholder="Descrição"
-						control={control}
-						name="description"
-						autoCapitalize="sentences"
-						error={errors.description}
-					/>
-					<ButtonContainer>
-						<ContainerButton
-							onPress={handleSubmit(submitForm)}
-							title="Editar"
-						/>
-					</ButtonContainer>
 					<Modal visible={modalSelectCategory}>
 						<CategorySelect
 							category={category}
 							setCategory={setCategory}
 							closeSelectCategory={handleCloseSelectCategoryModal}
+							titleAnimal="Espécie do animal"
+							categories={categories}
+						/>
+					</Modal>
+					<Modal visible={modalSelectBreed}>
+						<CategorySelect
+							category={breed}
+							setCategory={setBreed}
+							closeSelectCategory={handleCloseSelectBreedModal}
+							titleAnimal="Escolha a raça"
+							categories={breeds}
 						/>
 					</Modal>
 				</ContainerAdd>

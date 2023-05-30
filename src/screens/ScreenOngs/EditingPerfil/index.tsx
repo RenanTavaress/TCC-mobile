@@ -19,6 +19,7 @@ import api from "../../../services/api";
 import { Header } from "../../../components/Header";
 import { DataOngContext } from "../../../contexts/DataOng";
 import { DataAdress } from "../RegisterOng";
+import axios, { AxiosError } from "axios";
 
 type FormData = {
 	[name: string]: any;
@@ -41,21 +42,37 @@ const schema = yup.object({
 	name: yup.string().required("O nome é obrigatório").trim(),
 	document: yup
 		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("O CNPJ/CPF é obrigatório")
-		.min(11, "O Campo deve ter pelo menos 11 digitos"),
+		.min(11, "O Campo deve ter pelo menos 11 digitos")
+		.trim(),
 	email: yup
 		.string()
 		.email("Email invalido")
 		.required("O Email é obrigatório")
 		.trim(),
 	street: yup.string().required("A Rua é obrigatória").trim(),
-	cep: yup.string().required("O CEP é obrigatório"),
+	cep: yup
+		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.min(8, "O cep tem quer 8 digitos")
+		.required("O CEP é obrigatório")
+		.trim(),
 	city: yup.string().required("A cidade é obrigatória").trim(),
 	country: yup.string().required("O País é obrigatória").trim(),
-	numberAddress: yup.string().required("O Numero é obrigatório"),
+	numberAddress: yup
+		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.required("O Numero é obrigatório")
+		.trim(),
 	district: yup.string().required("O Bairro é obrigatório").trim(),
 	uf: yup.string().required("O UF é obrigatório").trim(),
-	phone: yup.string().required("O Telefone é obrigatório").min(10, "O Campo deve ter 10 digitos contando com o DDD").trim(),
+	phone: yup
+		.string()
+		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.required("O Telefone é obrigatório")
+		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
+		.trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 });
 
@@ -89,27 +106,41 @@ export function EditingOng() {
 	});
 
 	async function getCep(values: string) {
-		const response = await api.get<DataAdress>(
-			`https://viacep.com.br/ws/${values}/json/`
-		);
-		return response;
+		try {
+			const { data, status } = await axios.get<DataAdress>(
+				`https://viacep.com.br/ws/${values}/json/`
+			);
+			return { data, status };
+		} catch (error) {
+			throw new Error("Erro na requisição");
+		}
 	}
 
 	async function handleCepOng() {
 		const values = getValues();
-		if (values.cep?.length === 8) {
-			const response = await getCep(values.cep);
-			if (response.data?.erro !== true) {
-				setValue("street", response.data.logradouro);
-				setValue("district", response.data.bairro);
-				setValue("city", response.data.localidade);
-				setValue("uf", response.data.uf);
-				clearErrors("cep")
+		if (values && values.cep?.length === 8 && /^\d+$/.test(values.cep)) {
+			const { data, status } = await getCep(values.cep);
+			if (status === 200 && !data.erro) {
+				setValue("street", data.logradouro);
+				setValue("district", data.bairro);
+				setValue("city", data.localidade);
+				setValue("uf", data.uf);
+				clearErrors("cep");
+				clearErrors("city");
+				clearErrors("district");
+				clearErrors("numberAddress");
+				clearErrors("uf");
+				clearErrors("street");
 			} else {
 				setError("cep", {
-					message: "Cep Não existe",
+					message: "Cep inválido",
 				});
 			}
+		} else if(values && values.cep?.length < 8) {
+			
+			setError("cep", {
+				message: "O cep tem quer 8 digitos",
+			});
 		}
 	}
 
@@ -120,7 +151,7 @@ export function EditingOng() {
 			setValue("district", "");
 			setValue("city", "");
 			setValue("uf", "");
-			clearErrors("cep")
+			clearErrors("cep");
 		}
 	}
 
@@ -131,7 +162,10 @@ export function EditingOng() {
 				datas
 			);
 			if (data!.code === 304) {
-				Alert.alert("Tente novamente", "Já existe usuario com esse nome ou email");
+				Alert.alert(
+					"Tente novamente",
+					"Já existe usuario com esse nome ou email"
+				);
 				return;
 			} else {
 				setDatasOngs(data.data);

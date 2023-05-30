@@ -37,7 +37,7 @@ export const InfoRadioBtn = styled.View`
 	margin: 15px 0;
 `;
 
-export const ContainerAge = styled.View`
+export const ContainerSex = styled.View`
 	width: 30%;
 	margin-right: 40px;
 `;
@@ -94,3 +94,29 @@ export const ButtonPickImage = styled(ContainerButton)`
 	width: 100%;
 
 `
+
+export const ContainerAge = styled.View`
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-around;
+
+`
+
+export const ContainerLeftAge = styled.View`
+	width: 52%;
+	justify-content: center;
+	padding-top: ${RFValue(20)}px;
+	//align-items: flex-start;
+`;
+
+export const ContainerRigthAge = styled.View`
+	width: 44%;
+	
+	
+`;
+
+// export const InputAge = styled(InputForm)`
+// 	width: 50%;
+// 	justify-content: center;
+// 	align-items: center;
+// `

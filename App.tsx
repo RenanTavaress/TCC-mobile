@@ -15,6 +15,7 @@ import { Routes } from "./src/routes";
 import { AuthProvider } from "./src/contexts/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 export default function App() {
 	SplashScreen.preventAutoHideAsync();
 	const [fontsLoaded] = useFonts({

@@ -20,6 +20,7 @@ import api from "../../../services/api";
 import { Header } from "../../../components/Header";
 import { Checkbox, Props } from "react-native-paper";
 import { Text } from "react-native";
+import axios, { AxiosError } from "axios";
 
 export interface DataAdress {
 	bairro: string;
@@ -89,7 +90,7 @@ const schema = yup.object({
 		.trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
-})
+});
 
 export function RegisterOng() {
 	const [checkBox, setCheckBox] = useState(false);
@@ -107,22 +108,25 @@ export function RegisterOng() {
 	});
 
 	async function getCep(values: string) {
-		const response = await api.get<DataAdress>(
-			`https://viacep.com.br/ws/${values}/json/`
-		);
-		return response;
+		try {
+			const { data, status } = await axios.get<DataAdress>(
+				`https://viacep.com.br/ws/${values}/json/`
+			);
+			return { data, status };
+		} catch (error) {
+			throw new Error("Erro na requisição");
+		}
 	}
-
 
 	async function handleCepOng() {
 		const values = getValues();
-		if (values.cep?.length === 8) {
-			const response = await getCep(values.cep);
-			if (response.data?.erro !== true) {
-				setValue("street", response.data.logradouro);
-				setValue("district", response.data.bairro);
-				setValue("city", response.data.localidade);
-				setValue("uf", response.data.uf);
+		if (values && values.cep?.length === 8 && /^\d+$/.test(values.cep)) {
+			const { data, status } = await getCep(values.cep);
+			if (status === 200 && !data.erro) {
+				setValue("street", data.logradouro);
+				setValue("district", data.bairro);
+				setValue("city", data.localidade);
+				setValue("uf", data.uf);
 				clearErrors("cep");
 				clearErrors("city");
 				clearErrors("district");
@@ -131,19 +135,16 @@ export function RegisterOng() {
 				clearErrors("street");
 			} else {
 				setError("cep", {
-					message: "Cep não existe",
+					message: "Cep inválido",
 				});
 			}
-		} 
-		// else if (values.cep?.length === 0 || values.cep === undefined) {
-		// 	clearErrors("cep");
-		// } else {
-		// 	setError("cep", {
-		// 		message: "O Cep está imcompleto",
-		// 	});
-		// }
+		} else if(values && values.cep?.length < 8) {
+			
+			setError("cep", {
+				message: "O cep tem quer 8 digitos",
+			});
+		}
 	}
-
 	function handleChecked() {
 		setCheckBox(!checkBox);
 	}

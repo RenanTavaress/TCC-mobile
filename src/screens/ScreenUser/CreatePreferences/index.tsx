@@ -22,6 +22,10 @@ import {
 } from "./styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { categories } from "../../../utils/categories";
+import { breeds } from "../../../utils/breeds";
+import { ContainerAge, ContainerLeftAge, ContainerRigthAge } from "../../ScreenOngs/AddPets/styles";
+import { ListItem } from "../../../components/List";
 
 type FormData = {
 	[name: string]: any;
@@ -34,22 +38,36 @@ type FormData = {
 
 const schema = yup.object({
 	age: yup.string().matches(/^[0-9]+$/, "Por favor, insira apenas numeros."),
+	category: yup.boolean(),
+	breed: yup
+		.string()
+		.when("category", {
+			is: "Cachorro",
+			then: yup.string().required("A raça é obrigatorio"),
+		})
+		.trim(),
 });
 
 export function CreatePreferences() {
 	const navigate = useNavigation();
 	const { colors } = useTheme();
-	const [gender, setGender] = useState("");
+	const [gender, setGender] = useState("M");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
-	const [size, setSize] = useState("");
+	const [modalSelectBreed, setModalSelectBreed] = useState(false);
+	const [selectAge, setSelectAge] = useState("Ano(s)");
+	const [size, setSize] = useState("pequeno");
 	const [category, setCategory] = useState("Espécie");
+	const [breed, setBreed] = useState("Raça");
 	const {
 		control,
 		handleSubmit,
+		watch,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 	});
+
+	const concatenatingAge = `${watch("age")} ${selectAge}`;
 
 	function handleOpenSelectCategoryModal() {
 		setModalSelectCategory(true);
@@ -57,6 +75,13 @@ export function CreatePreferences() {
 
 	function handleCloseSelectCategoryModal() {
 		setModalSelectCategory(false);
+	}
+	function handleOpenSelectBreedModal() {
+		setModalSelectBreed(true);
+	}
+
+	function handleCloseSelectBreedModal() {
+		setModalSelectBreed(false);
 	}
 
 	async function submitForm(data: FormData) {
@@ -67,13 +92,23 @@ export function CreatePreferences() {
 			);
 			return;
 		}
+
+		if (breed === "Raça" && category === "Cachorro") {
+			Alert.alert(
+				"Não foi possivel cadastrar",
+				"Selecione uma Raça para o seu cachorro"
+			);
+			return;
+		}
+		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
+			age: concatenatingAge,
+			breed: isDog,
 			size,
 			gender,
 			typePet: category,
 		};
-
 		try {
 			const { data } = await api.post(`/api/preferences/add`, datas);
 			console.log(data.data);
@@ -89,24 +124,29 @@ export function CreatePreferences() {
 		<Container>
 			<Header title="Preferences" icon="left" />
 			<FormContainer>
-			<CategoryCard
+				<CategoryCard
 					onPress={handleOpenSelectCategoryModal}
 					title={category}
 				/>
-				<TextInfo>Idade em meses:</TextInfo>
-				<InputForm
-					placeholder="Idade em meses"
-					control={control}
-					name="age"
-					keyboardType="numeric"
-					error={errors.age}
-				/>
-				<InputForm
-					placeholder="Raça"
-					control={control}
-					name="breed"
-					autoCapitalize="sentences"
-				/>
+				{category === "Cachorro" && (
+					<CategoryCard onPress={handleOpenSelectBreedModal} title={breed} />
+				)}
+
+				<ContainerAge>
+					<ContainerRigthAge>
+						<TextInfo>Idade do pet:</TextInfo>
+						<InputForm
+							placeholder="Idade"
+							control={control}
+							name="age"
+							keyboardType="numeric"
+							error={errors.age}
+						/>
+					</ContainerRigthAge>
+					<ContainerLeftAge>
+						<ListItem selectedItem={selectAge} setSelectedItem={setSelectAge} />
+					</ContainerLeftAge>
+				</ContainerAge>
 				<RadioContainer>
 					<RadioButton.Group
 						onValueChange={(check) => setSize(check)}
@@ -144,7 +184,6 @@ export function CreatePreferences() {
 						</ViewSize>
 					</RadioButton.Group>
 				</RadioContainer>
-				
 			</FormContainer>
 			<Footer>
 				<ContainerButton
@@ -158,6 +197,17 @@ export function CreatePreferences() {
 					category={category}
 					setCategory={setCategory}
 					closeSelectCategory={handleCloseSelectCategoryModal}
+					categories={categories}
+					titleAnimal="Espécie do animal"
+				/>
+			</Modal>
+			<Modal visible={modalSelectBreed}>
+				<CategorySelect
+					category={breed}
+					setCategory={setBreed}
+					closeSelectCategory={handleCloseSelectBreedModal}
+					titleAnimal="Escolha a raça"
+					categories={breeds}
 				/>
 			</Modal>
 		</Container>

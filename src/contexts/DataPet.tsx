@@ -9,7 +9,7 @@ export interface DataPetProps {
 	age: string;
 	description: string;
 	vaccines: string;
-	category:string;
+	category: string;
 	guid: string;
 	companyGuid: string;
 	typePet: string;
@@ -29,16 +29,19 @@ export type PetProps = {
 	datasPet: DataPetProps[];
 	setDataPet: (datasPet: DataPetProps[]) => void;
 	getDataPet: () => void;
+	isLoading: boolean;
+	setIsloading: (param: boolean) => void;
 };
 
 interface IProps {
 	children: React.ReactNode;
-  }
+}
 
 export const DataPetContext = createContext<PetProps>({} as PetProps);
 
 export const DataPet = ({ children }: IProps) => {
 	const { user } = useContext(AuthContext);
+	const [isLoading, setIsloading] = useState(true);
 
 	const [datasPet, setDataPet] = useState<DataPetProps[]>([]);
 	async function getDataPet() {
@@ -55,10 +58,13 @@ export const DataPet = ({ children }: IProps) => {
 
 	useEffect(() => {
 		getDataPet();
+	
 	}, []);
 
 	return (
-		<DataPetContext.Provider value={{ datasPet, setDataPet, getDataPet }}>
+		<DataPetContext.Provider
+			value={{ datasPet, setDataPet, getDataPet, isLoading, setIsloading }}
+		>
 			{children}
 		</DataPetContext.Provider>
 	);

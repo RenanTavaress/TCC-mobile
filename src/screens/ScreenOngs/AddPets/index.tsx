@@ -6,12 +6,14 @@ import { Alert, Modal, KeyboardAvoidingView } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
+
 import {
 	Container,
 	ContainerAdd,
 	InfoDataPet,
 	InfoRadioBtn,
 	ViewSize,
+	ContainerSex,
 	ContainerAge,
 	DescriptioInput,
 	TextInfo,
@@ -23,6 +25,8 @@ import {
 	ImagePet,
 	ImageContainer,
 	ButtonPickImage,
+	ContainerRigthAge,
+	ContainerLeftAge,
 } from "./styles";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
@@ -37,6 +41,7 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
+import { ListItem } from "../../../components/List";
 
 type FormData = {
 	[name: string]: any;
@@ -78,16 +83,20 @@ export function AddPet() {
 	const [category, setCategory] = useState("Espécie");
 	const [breed, setBreed] = useState("Raça");
 	const navigate = useNavigation();
+	const [selectAge, setSelectAge] = useState("Ano(s)");
 	const { user } = useContext(AuthContext);
 	const [photo, setPhoto] = useState([]);
 
 	const {
 		control,
 		handleSubmit,
+		watch,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 	});
+
+	const concatenatingAge = `${watch("age")} ${selectAge}`;
 
 	function handleRemovePhoto(index: string) {
 		if (!index) {
@@ -162,13 +171,14 @@ export function AddPet() {
 		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
+			age: concatenatingAge,
 			breed: isDog,
 			size,
 			gender,
 			typePet: category,
-			//photo1: photo[0] || null,
+			photo1: photo[0] || null,
 		};
-		console.log(datas);
+
 		try {
 			const { data } = await api.post(
 				`/api/pet/add/companyguid/${user?.guid}`,
@@ -208,7 +218,6 @@ export function AddPet() {
 							<CategoryCard
 								onPress={handleOpenSelectBreedModal}
 								title={breed}
-								error={errors.breed}
 							/>
 						)}
 
@@ -231,15 +240,6 @@ export function AddPet() {
 									onPress={pickImage}
 								/>
 							)}
-							{/* {category === "Cachorro" && (
-								<InputForm
-									placeholder="Raça"
-									control={control}
-									name="breed"
-									autoCapitalize="sentences"
-									error={errors.breed}
-								/>
-							)} */}
 						</InfoDataPet>
 
 						<InfoRadioBtn>
@@ -263,7 +263,7 @@ export function AddPet() {
 									<TextSize>Grande</TextSize>
 								</ViewSize>
 							</RadioButton.Group>
-							<ContainerAge>
+							<ContainerSex>
 								<RadioButton.Group
 									onValueChange={(gen) => setGender(gen)}
 									value={gender}
@@ -279,18 +279,27 @@ export function AddPet() {
 										<TextSize>Fêmea</TextSize>
 									</ViewSize>
 								</RadioButton.Group>
-							</ContainerAge>
+							</ContainerSex>
 						</InfoRadioBtn>
 
-						<TextInfo>Idade em meses:</TextInfo>
-						<InputForm
-							placeholder="Idade em meses"
-							control={control}
-							name="age"
-							keyboardType="numeric"
-							error={errors.age}
-						/>
-
+						<ContainerAge>
+							<ContainerRigthAge>
+								<TextInfo>Idade do pet:</TextInfo>
+								<InputForm
+									placeholder="Idade"
+									control={control}
+									name="age"
+									keyboardType="numeric"
+									error={errors.age}
+								/>
+							</ContainerRigthAge>
+							<ContainerLeftAge>
+								<ListItem
+									selectedItem={selectAge}
+									setSelectedItem={setSelectAge}
+								/>
+							</ContainerLeftAge>
+						</ContainerAge>
 						<DescriptioInput
 							placeholder="Descrição"
 							control={control}
