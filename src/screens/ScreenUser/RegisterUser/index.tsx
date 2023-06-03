@@ -51,6 +51,7 @@ export function RegisterUser() {
 
 	async function handleUserRegister(datas: FormData) {
 		try {
+			console.log(datas);
 			const { data } = await api.post("/user/add", datas);
 
 			if (data!.code === 304) {
@@ -103,7 +104,7 @@ export function RegisterUser() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={11}
+						maxLength={15}
 						error={errors.phone}
 					/>
 					<InputForm

@@ -5,13 +5,16 @@ import { Login } from "../../../components/Login";
 import { Alert } from "react-native";
 
 export function LoginOng() {
-	const { signed, user, signIn} = useContext(AuthContext);
+	const { signed, user, signIn } = useContext(AuthContext);
 
 	async function handleSignIn(username: string, password: string) {
 		try {
 			await signIn(username, password);
 		} catch (error) {
-			Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
+			Alert.alert(
+				"Algo deu Errado",
+				"Seu E-mail ou senha está incorreto"
+			);
 		}
 	}
 

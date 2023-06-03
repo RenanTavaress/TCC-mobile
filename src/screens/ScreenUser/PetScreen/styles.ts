@@ -1,4 +1,4 @@
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
 export const Container = styled.ScrollView`
@@ -19,12 +19,12 @@ export const ContainerPetInfo = styled.View`
 export const ContainerInfo = styled.View`
 	width: 50%;
 `;
+
 export const ContainerHeath = styled.View`
 	width: 50%;
 `;
 
 export const ContainerDescription = styled.View`
-	//flex: auto;
 	justify-content: flex-start;
 	align-items: flex-start;
 	height: auto;
@@ -48,6 +48,7 @@ export const ContainerButtonInfo = styled.View`
 	align-items: center;
 	justify-content: center;
 `;
+
 export const ImageContainer = styled.View``;
 
 export const ImageLeft = styled.View`

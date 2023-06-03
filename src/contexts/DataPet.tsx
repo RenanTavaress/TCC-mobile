@@ -19,6 +19,7 @@ export interface DataPetProps {
 	email: string;
 	phone: string;
 	photo1: string;
+	color:string;
 }
 
 export interface PropsContextDataPet {

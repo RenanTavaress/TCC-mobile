@@ -27,6 +27,7 @@ export interface DataPetsProps {
 	email: string;
 	phone: string;
 	photo1: string;
+	color: string;
 }
 
 export function PetCard({

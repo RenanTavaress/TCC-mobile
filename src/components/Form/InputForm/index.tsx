@@ -4,7 +4,7 @@ import { Input, InputProps } from "../Input";
 import { Container, Error } from "./styles";
 
 type Props = InputProps & {
-	control: Control<any>;
+	control?: Control<any>;
 	name: string;
 	error?: FieldError;
 
@@ -20,7 +20,6 @@ export const InputForm = ({ control, name, error,  ...rest }: Props) => {
 					<Input {...rest} onChangeText={onChange} value={value} />
 				)}
 				name={name}
-				
 			/>
 		</Container>
 	);

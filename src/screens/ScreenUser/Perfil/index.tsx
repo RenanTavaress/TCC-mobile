@@ -68,13 +68,13 @@ export function Perfil() {
 					/>
 					{listFavoritePet?.length !== 0 && (
 						<ContainerButton
-							title="Seus Pets Favoritors"
+							title="Seus Pets Favoritos"
 							onPress={() => navigation.navigate("favoritesPets")}
 						/>
 					)}
 
 					<ContainerButton
-						title="Preferências"
+						title="Descreva seu Pet Ideal"
 						onPress={() => navigation.navigate("preferences")}
 					/>
 					<ContainerButton title="Sair" onPress={handleLogout} />

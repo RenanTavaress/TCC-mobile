@@ -8,6 +8,21 @@ interface Props {
 	data: DataPetsProps[];
 }
 
+type FormData = {
+	[name: string]: any;
+	breed: string | null 
+	city: string | null;
+	companyName: string | null;
+	gender: string | null | undefined;
+	size: string | null | undefined;
+	typePet: string | null;
+};
+
+
+interface FilterPetProps {
+	children: React.ReactNode
+}
+
 export type PetProps = {
 	petsFilter: DataPetsProps[];
 	setPetsFilter: (datasPet: DataPetsProps[]) => void;
@@ -18,19 +33,25 @@ export type PetProps = {
 
 export const PetsFilterContext = createContext<PetProps>({} as PetProps);
 
-export const FilterPet: React.FC = ({ children }) => {
+export const FilterPet = ({ children }: FilterPetProps) => {
 
    const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
 	const [isFiltered, setIsFiltered] = useState(false);
+	const [inputFilterd, setInputFilterd] = useState<FormData>({
+		breed: null,
+		city: null,
+		companyName: null,
+		gender: undefined,
+		size: undefined,
+		typePet: null,
+	});
 
    async function submitForm() {
 		try {
 			const { data } = await api.post(`/api/pet/list`, {
 				breed: "",
-				city: "",
-				companyName: "",
-				description: "",
-				district: "",
+				city: null,
+				companyName: "",    
 				gender: "",
 				size: "",
 				typePet: "",

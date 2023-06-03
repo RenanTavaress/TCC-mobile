@@ -25,6 +25,7 @@ export type RootStackParamList = {
 		size: string;
 		vaccines: string;
 		photo1: string;
+		color:string;
 	};
 	ongScreen: {
 		name: string;
@@ -52,6 +53,7 @@ export type RootStackParamList = {
 		email: string;
 		phone: string;
 		photo1: string;
+		color:string;
 	};
 	favoritesPets: undefined;
 	preferences: undefined;

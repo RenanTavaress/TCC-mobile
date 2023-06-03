@@ -6,28 +6,32 @@ import { Alert, Platform, KeyboardAvoidingView, Modal } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
-// import {
-// 	Container,
-// 	ContainerAdd,
-// 	InfoDataPet,
-// 	InfoRadioBtn,
-// 	ViewSize,
-// 	ContainerAge,
-// 	DescriptioInput,
-// 	TextInfo,
-// 	TextSize,
-// 	ImageContainer,
-// 	ImageLeft,
-// 	ImageButton,
-// 	ImagePet,
-// 	ButtonPickImage,
-// } from "./styles";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AuthContext from "../../../contexts/auth";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
-import { ButtonContainer, ButtonPickImage, Container, ContainerAdd, ContainerAge, ContainerLeftAge, ContainerRigthAge, ContainerSex, DescriptioInput, FormContainer, ImageButton, ImageContainer, ImageLeft, ImagePet, InfoDataPet, InfoRadioBtn, TextInfo, TextSize, ViewSize } from "../AddPets/styles";
+import {
+	ButtonContainer,
+	ButtonPickImage,
+	Container,
+	ContainerAdd,
+	ContainerAge,
+	ContainerLeftAge,
+	ContainerRigthAge,
+	ContainerSex,
+	DescriptioInput,
+	FormContainer,
+	ImageButton,
+	ImageContainer,
+	ImageLeft,
+	ImagePet,
+	InfoDataPet,
+	InfoRadioBtn,
+	TextInfo,
+	TextSize,
+	ViewSize,
+} from "../AddPets/styles";
 import { DataPetContext, DataPetProps } from "../../../contexts/DataPet";
 import { CategoryCard } from "../../../components/CategoryCard";
 import { CategorySelect } from "../../CategorySelect";
@@ -48,10 +52,11 @@ type FormData = {
 	age: string;
 	description: string;
 	vaccines: string;
+	color: string;
 };
 
 const schema = yup.object({
-	medication: yup.string().required("A cor é obrigatorio").trim(),
+	color: yup.string().required("A cor é obrigatorio").trim(),
 	breed: yup.string().required("A raça é obrigatorio").trim(),
 	age: yup
 		.string()
@@ -59,6 +64,7 @@ const schema = yup.object({
 		.required("A idade é obrigatório")
 		.min(1, "O Campo deve ter pelo menos 1 digito"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
+	vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
 });
 
 export function EditingPet() {
@@ -74,9 +80,10 @@ export function EditingPet() {
 			breed: string;
 			gender: string;
 			photo1: string;
+			color: string;
 		};
 	};
-	const [age, month] = params.age.split(" ")
+	const [age, month] = params.age.split(" ");
 	const { colors } = useTheme();
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
@@ -106,6 +113,7 @@ export function EditingPet() {
 			description: params.description,
 			breed: params.breed,
 			vaccines: params.vaccines,
+			color: params.color
 		},
 	});
 
@@ -154,7 +162,7 @@ export function EditingPet() {
 			photo1: photo[0],
 		};
 
-		console.log(datas)
+		console.log(datas);
 		try {
 			const { data } = await api.put(
 				`/api/pet/update/guid/${params.guid}`,
@@ -313,7 +321,7 @@ export function EditingPet() {
 							</ContainerLeftAge>
 						</ContainerAge>
 						<DescriptioInput
-							placeholder="Descrição"
+							placeholder="Descrição do Pet"
 							control={control}
 							name="description"
 							autoCapitalize="sentences"
@@ -323,9 +331,9 @@ export function EditingPet() {
 						<InputForm
 							placeholder="Cor"
 							control={control}
-							name="medication"
+							name="color"
 							autoCapitalize="sentences"
-							error={errors.medication}
+							error={errors.color}
 						/>
 						<InputForm
 							placeholder="Vacinas Tomadas"

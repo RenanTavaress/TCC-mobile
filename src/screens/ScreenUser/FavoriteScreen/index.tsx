@@ -28,6 +28,7 @@ export interface FormData {
 	gender: string;
 	size: string;
 	typePet: string;
+	color: string;
 }
 
 export function FavoriteScreen() {

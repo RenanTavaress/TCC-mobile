@@ -22,6 +22,7 @@ export interface DataPetProps {
 	email: string;
 	phone: string;
 	photo1: string;
+	color: string;
 }
 
 interface ChildrenProps {
@@ -41,6 +42,7 @@ export const FavoritePetContext = createContext<PetFavoriteProps>(
 export const FavoritePet = ({ children }: ChildrenProps) => {
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 	const [listFavoritePet, setListFavoritePet] = useState<DataPetProps[]>([]);
+	
 	async function getFavoritesPets() {
 		try {
 			const { data } = await api.get(`/api/favorite/list/${datasUser.guid}`);

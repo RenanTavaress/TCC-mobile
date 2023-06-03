@@ -9,21 +9,32 @@ interface Response {
 	permission: number;
 }
 
+interface SignInResponse {
+	data: Response | null;
+	code: number | null;
+ }
+
 interface SignInOptions {
 	email: string;
 	password: string;
 }
 
-export async function signIn({email, password}: SignInOptions): Promise<Response> {
+export async function signIn2({
+	email,
+	password,
+ }: SignInOptions): Promise<SignInResponse> {
 	try {
-		 const response = await api.post('/logon', {
-			email,
-			password,
-		});
-		console.log(response)
-		return response.data?.data;
+	  const response = await api.post("/logon", {
+		 email,
+		 password,
+	  });
+ 
+	  if (response.data.code === 403) {
+		 return { data: null, code: response.data.code };
+	  }
+ 
+	  return { data: response.data.data, code: response.data.code };
 	} catch (error) {
-		// @ts-ignore
-		return Promise.reject(error?.message)
+	  throw error;
 	}
-}
+ }

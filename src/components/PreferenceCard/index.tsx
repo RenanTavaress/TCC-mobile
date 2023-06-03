@@ -1,5 +1,5 @@
 import React from "react";
-import { CardPreference, TextInfo, DeleteView, TextView } from "./styles";
+import { CardPreference, TextInfo, DeleteView, TextView, InfoContainer, TitlePet } from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 
 export interface PreferencePetProps {
@@ -24,7 +24,15 @@ export function PreferenceCard({
 	return (
 		<CardPreference>
 			<TextView>
-				<TextInfo>{typePet}</TextInfo>
+				<InfoContainer>
+					<TitlePet>{typePet}</TitlePet>
+					<TextInfo>Porte: {size}</TextInfo>
+				</InfoContainer>
+				<InfoContainer>
+					{breed && <TextInfo>{breed}</TextInfo>}
+					<TextInfo>{age}</TextInfo>
+					<TextInfo>{gender === "M" ? "Macho": "Fêmea"}</TextInfo>
+				</InfoContainer>
 			</TextView>
 
 			<DeleteView onPress={deletePreferences}>

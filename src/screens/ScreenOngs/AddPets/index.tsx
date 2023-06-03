@@ -6,7 +6,20 @@ import { Alert, Modal, KeyboardAvoidingView } from "react-native";
 import { Header } from "../../../components/Header";
 import { RadioButton } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
-
+import { useTheme } from "styled-components";
+import api from "../../../services/api";
+import { useNavigation } from "@react-navigation/native";
+import AuthContext from "../../../contexts/auth";
+import { TouchableOpacity } from "react-native";
+import { Platform } from "react-native";
+import { ContainerButton } from "../../../components/Button/ContainerLogin";
+import { CategoryCard } from "../../../components/CategoryCard";
+import { CategorySelect } from "../../CategorySelect";
+import { AntDesign } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import { categories } from "../../../utils/categories";
+import { breeds } from "../../../utils/breeds";
+import { ListItem } from "../../../components/List";
 import {
 	Container,
 	ContainerAdd,
@@ -28,20 +41,6 @@ import {
 	ContainerRigthAge,
 	ContainerLeftAge,
 } from "./styles";
-import { useTheme } from "styled-components";
-import api from "../../../services/api";
-import { useNavigation } from "@react-navigation/native";
-import AuthContext from "../../../contexts/auth";
-import { TouchableOpacity } from "react-native";
-import { Platform } from "react-native";
-import { ContainerButton } from "../../../components/Button/ContainerLogin";
-import { CategoryCard } from "../../../components/CategoryCard";
-import { CategorySelect } from "../../CategorySelect";
-import { AntDesign } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
-import { categories } from "../../../utils/categories";
-import { breeds } from "../../../utils/breeds";
-import { ListItem } from "../../../components/List";
 
 type FormData = {
 	[name: string]: any;
@@ -54,10 +53,11 @@ type FormData = {
 	gender: string;
 	typePet: string;
 	photo1: string;
+	color: string;
 };
 
 const schema = yup.object({
-	medication: yup.string().required("A cor é obrigatorio").trim(),
+	color: yup.string().required("A cor é obrigatorio").trim(),
 	category: yup.boolean(),
 	breed: yup
 		.string()
@@ -72,6 +72,7 @@ const schema = yup.object({
 		.required("A idade é obrigatório")
 		.min(1, "O Campo deve ter pelo menos 1 digito"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
+	vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
 });
 
 export function AddPet() {
@@ -301,7 +302,7 @@ export function AddPet() {
 							</ContainerLeftAge>
 						</ContainerAge>
 						<DescriptioInput
-							placeholder="Descrição"
+							placeholder="Descrição do Pet"
 							control={control}
 							name="description"
 							autoCapitalize="sentences"
@@ -311,9 +312,9 @@ export function AddPet() {
 						<InputForm
 							placeholder="Cor"
 							control={control}
-							name="medication"
+							name="color"
 							autoCapitalize="sentences"
-							error={errors.medication}
+							error={errors.color}
 						/>
 						<InputForm
 							placeholder="Vacinas Tomadas"

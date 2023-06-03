@@ -18,14 +18,14 @@ import { ContainerButton } from "../../components/Button/ContainerLogin";
 
 export interface CategoriesProps {
 	key: string;
-	typePet: string;
+	type: string;
 	icon?: string;
 }
 interface Props {
-	category: string;
+	category: string | null;
 	setCategory: (category: string) => void;
 	closeSelectCategory: () => void;
-	categories: CategoriesProps[];
+	categories: CategoriesProps[] | null;
 	titleAnimal: string;
 }
 
@@ -38,26 +38,28 @@ export const CategorySelect = ({
 }: Props) => {
 	return (
 		<Container>
-			<Header title={titleAnimal} icon="left" />
+			<Header title={titleAnimal} />
 			<FlatList
 				data={categories}
 				style={{ flex: 1, width: "100%" }}
 				keyExtractor={(item) => item.key}
 				renderItem={({ item }) => (
 					<Categorys
-						onPress={() => setCategory(item.typePet)}
-						isActive={category === item.typePet}
+						onPress={() => {
+							setCategory(item.type);
+						}}
+						isActive={category === item.type}
 					>
 						{item.icon && <Icon name={item.icon} />}
-						<CategoryName>{item.typePet}</CategoryName>
+						<CategoryName>{item.type}</CategoryName>
 					</Categorys>
 				)}
 				ItemSeparatorComponent={() => <Separetor />}
-				
 			/>
 
 			<Footer>
 				<ContainerButton onPress={closeSelectCategory} title="Selecionar" />
+				<ContainerButton onPress={closeSelectCategory} title="Cancelar" />
 			</Footer>
 		</Container>
 	);

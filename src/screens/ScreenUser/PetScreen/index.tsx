@@ -1,27 +1,11 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { Alert, Text } from "react-native";
-import { View } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { Header } from "../../../components/Header";
 import api from "../../../services/api";
-
-import {
-	Container,
-	ContainerInfos,
-	ContainerPetInfo,
-	ContainerInfo,
-	ContainerHeath,
-	TextInfo,
-	InfoPet,
-	ContainerDescription,
-	ContainerButtonInfo,
-	ImageContainer,
-	ImageLeft,
-	ImageButton,
-	ImagePet,
-} from "./styles";
+import { Container, ContainerInfos, ContainerButtonInfo } from "./styles";
 import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
 import { useTheme } from "styled-components";
 import { PetDetail } from "../../../components/PetDetail";
@@ -57,9 +41,7 @@ export function PetScreen() {
 			gender: string;
 			companyGuid: string;
 			photo1: string;
-			photo2: string;
-			photo3: string;
-			photo4: string;
+			color: string;
 		};
 	};
 
@@ -75,6 +57,7 @@ export function PetScreen() {
 		gender,
 		companyGuid,
 		photo1,
+		color,
 	} = params;
 
 	useEffect(() => {
@@ -114,16 +97,25 @@ export function PetScreen() {
 	function showInfoOng() {
 		Alert.alert(
 			"Informações de Contato",
-			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone}`
+			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\nChave Pix: 4petsolution@gmail.com`
 		);
 	}
 	return (
 		<Container>
 			<Header title={typePet} icon="left" />
 			<ContainerInfos>
-	
-
-				<PetDetail petDetail={{photo1, breed, age, size, vaccines, gender, description}} />
+				<PetDetail
+					petDetail={{
+						photo1,
+						breed,
+						age,
+						size,
+						vaccines,
+						gender,
+						description,
+						color,
+					}}
+				/>
 
 				<ContainerButtonInfo>
 					<ContainerButton

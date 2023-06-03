@@ -37,6 +37,7 @@ export function PetScreen() {
 			vaccines: string;
 			gender: string;
 			photo1: string;
+			color: string;
 		};
 	};
 

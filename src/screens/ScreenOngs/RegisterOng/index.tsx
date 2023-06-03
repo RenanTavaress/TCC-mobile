@@ -284,7 +284,7 @@ export function RegisterOng() {
 						error={errors.country}
 					/>
 					<DescriptioInput
-						placeholder="Descrição"
+						placeholder="Descrição da Ong"
 						control={control}
 						name="description"
 						autoCapitalize="sentences"

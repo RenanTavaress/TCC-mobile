@@ -38,6 +38,8 @@ export function Donation() {
 				</VideoCover>
 				<PixView>
 					<Span isActive={false}>Faça ja sua doação</Span>
+					<Span isActive={false}>Os valores aqui doados serão para a manutenção do aplicativo</Span>
+					
 					<PixKey>
 						Chave Pix: <Span isActive={false}>4petsolution@gmail.com</Span>
 					</PixKey>

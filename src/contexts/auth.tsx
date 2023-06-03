@@ -1,8 +1,15 @@
-import React, { createContext, useState, useEffect, useContext, JSXElementConstructor } from "react";
+import React, {
+	createContext,
+	useState,
+	useEffect,
+	useContext,
+	JSXElementConstructor,
+} from "react";
 import * as auth from "../services/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../services/api";
 import { Alert } from "react-native";
+import { AxiosError } from "axios";
 
 interface User {
 	token: string;
@@ -13,7 +20,7 @@ interface User {
 }
 interface IProps {
 	children: React.ReactNode;
-  }
+}
 
 interface AuthContextData {
 	signed: boolean;
@@ -25,7 +32,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider = ({ children }:IProps) => {
+export const AuthProvider = ({ children }: IProps) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 
@@ -34,8 +41,8 @@ export const AuthProvider = ({ children }:IProps) => {
 			const storageUser = await AsyncStorage.getItem("@RNAuth2:user");
 			const storageToken = await AsyncStorage.getItem("@RNAuth2:token");
 
-			if(!storageToken){
-				logOut()
+			if (!storageToken) {
+				logOut();
 			}
 
 			if (storageUser && storageToken) {
@@ -50,15 +57,34 @@ export const AuthProvider = ({ children }:IProps) => {
 
 	async function signIn(email: string, password: string) {
 		try {
-			const response = await auth.signIn({ email, password });
+			const response = await auth.signIn2({ email, password });
 
-			api.defaults.headers.common["token"] = `${response.token}`;
+			console.log(response.code);
 
-			setUser(response);
-			await AsyncStorage.setItem("@RNAuth2:user", JSON.stringify(response));
-			await AsyncStorage.setItem("@RNAuth2:token", response.token);
-		} catch {
-			Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
+			if (response.code === 403) {
+				throw new Error("403");
+			}
+
+			api.defaults.headers.common["token"] = `${response?.data?.token}`;
+
+			setUser(response.data);
+			await AsyncStorage.setItem(
+				"@RNAuth2:user",
+				JSON.stringify(response.data)
+			);
+
+			await AsyncStorage.setItem("@RNAuth2:token", response?.data?.token || "");
+			
+		} catch (error) {
+			if ((error as AxiosError).message === "403") {
+				Alert.alert(
+					"Acesso negado",
+					"Sua conta ainda nao foi liberada pela nossa equipe, aguarde alguns dias"
+				);
+			} else {
+				console.log((error as AxiosError).message);
+				Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
+			}
 		}
 	}
 	function logOut() {
