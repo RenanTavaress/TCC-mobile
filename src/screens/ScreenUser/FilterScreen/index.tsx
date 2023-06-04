@@ -41,7 +41,7 @@ const schema = yup.object({
 
 type FormData = {
 	[name: string]: any;
-	breed: string | null 
+	breed: string | null;
 	city: string | null;
 	companyName: string | null;
 	gender: string | null | undefined;
@@ -49,33 +49,43 @@ type FormData = {
 	typePet: string | null;
 };
 
-
 export function FilterScreen() {
 	const navigate = useNavigation();
-	const { setPetsFilter, setIsFiltered } = useContext(PetsFilterContext);
-	const [size, setSize] = useState("");
-	const [gender, setGender] = useState("");
+	const { setPetsFilter, setIsFiltered, inputFilterd, setInputFilterd } =
+		useContext(PetsFilterContext);
+	const [size, setSize] = useState(inputFilterd.size ? inputFilterd.size : "");
+	const [gender, setGender] = useState(
+		inputFilterd.gender ? inputFilterd.gender : ""
+	);
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
 	const [modalSelectCity, setModalSelectCity] = useState(false);
 	const [modalSelectOng, setModalSelectOng] = useState(false);
-	const [category, setCategory] = useState("Espécie");
-	const [breed, setBreed] = useState("Raça");
-	
-	const [nameCity, setNameCity] = useState("Cidade");
+	const [category, setCategory] = useState(
+		inputFilterd.typePet ? inputFilterd.typePet : "Espécie"
+	);
+	const [breed, setBreed] = useState(
+		inputFilterd.breed ? inputFilterd.breed : "Raça"
+	);
+
+	const [nameCity, setNameCity] = useState(
+		inputFilterd.city ? inputFilterd.city : "Cidade"
+	);
 	const [city, setCity] = useState(null);
-	const [companyName, setCompanyName] = useState("ONGs");
+	const [companyName, setCompanyName] = useState(
+		inputFilterd.companyName ? inputFilterd.companyName : "ONGs"
+	);
 	const [ong, setOng] = useState(null);
 	const { colors } = useTheme();
-	const { control, handleSubmit } = useForm<FormData>({
-		// defaultValues: {
-		// 	breed: inputFilterd.breed,
-		// 	city: inputFilterd.city,
-		// 	companyName: inputFilterd.companyName,
-		// 	gender: inputFilterd.gender,
-		// 	size: inputFilterd.size,
-		// 	typePet: inputFilterd.typePet,
-		// },
+	const { control, handleSubmit, setValue } = useForm<FormData>({
+		defaultValues: {
+			breed: inputFilterd.breed,
+			city: inputFilterd.city,
+			companyName: inputFilterd.companyName,
+			gender: inputFilterd.gender,
+			size: inputFilterd.size,
+			typePet: inputFilterd.typePet,
+		},
 		resolver: yupResolver(schema),
 	});
 
@@ -120,6 +130,16 @@ export function FilterScreen() {
 		consumirCities();
 	}, [modalSelectCity]);
 
+	// useEffect(() => {
+	// 	// if (Object.keys(inputFilterd).length > 0) {
+	// 	//   Object.entries(inputFilterd).forEach(([fieldName, value]) => {
+	// 	// 	 setValue(fieldName, value);
+	// 	//   });
+	// 	// }
+	// 	console.log(inputFilterd?.typePet)
+	// 	setCategory(inputFilterd?.typePet);
+	// }, [inputFilterd]);
+
 	useEffect(() => {
 		async function consumirOngs() {
 			const ongs = await getOngs();
@@ -150,9 +170,10 @@ export function FilterScreen() {
 			gender,
 			typePet: typeCategory,
 		};
-
-		//setInputFilterd(datas);
 		console.log(datas)
+
+		setInputFilterd(datas);
+
 		try {
 			const { data } = await api.post(`/api/pet/list`, datas);
 			setPetsFilter(data.data);
@@ -178,12 +199,6 @@ export function FilterScreen() {
 				)}
 				<CategoryCard onPress={handleOpenSelectCityModal} title={nameCity} />
 				<CategoryCard onPress={handleOpenSelectOngModal} title={companyName} />
-				{/* <InputForm
-					placeholder="Descrição"
-					control={control}
-					name="description"
-					autoCapitalize="sentences"
-				/> */}
 				<RadioContainer>
 					<RadioButton.Group
 						onValueChange={(check) => setSize(check)}
