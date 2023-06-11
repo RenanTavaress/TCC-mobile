@@ -42,6 +42,7 @@ export function PetScreen() {
 			companyGuid: string;
 			photo1: string;
 			color: string;
+			birthDate: string;
 		};
 	};
 
@@ -58,6 +59,7 @@ export function PetScreen() {
 		companyGuid,
 		photo1,
 		color,
+		birthDate,
 	} = params;
 
 	useEffect(() => {
@@ -75,16 +77,19 @@ export function PetScreen() {
 			setFavorite(() => pet?.guid === guid);
 		}
 		getFavorites();
+	}, []);
 
+	useEffect(() => {
 		async function getRating() {
 			const response = await api.get(
 				`/api/rating/average/companyguid/${companyGuid}`
 			);
+			console.log(response.data.data.average);
 			setRating(response.data.data.average);
 		}
 
 		getRating();
-	}, []);
+	}, [rating]);
 
 	async function favoritePet() {
 		await api.post(`/api/favorite/add/${datasUser.guid}`, {
@@ -123,6 +128,8 @@ export function PetScreen() {
 						gender,
 						description,
 						color,
+						birthDate,
+						rating,
 					}}
 				/>
 

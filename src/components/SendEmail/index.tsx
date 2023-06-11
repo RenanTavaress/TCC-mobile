@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import react, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { InputForm } from "../Form/InputForm";
 import * as yup from "yup";
@@ -9,6 +9,7 @@ import { Header } from "../Header";
 import { Container, EmailContainer } from "./styles";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AuthContext from "../../contexts/auth";
 
 const schema = yup.object({
 	email: yup
@@ -28,7 +29,8 @@ interface sendEmailProps {
 	title: string;
 }
 
-export function SendEmail({endPoint, title}: sendEmailProps) {
+export function SendEmail({ endPoint, title }: sendEmailProps) {
+	const { user } = useContext(AuthContext);
 	const navigate = useNavigation();
 	const {
 		control,
@@ -39,13 +41,14 @@ export function SendEmail({endPoint, title}: sendEmailProps) {
 	});
 
 	async function handleResetPassWord(datas: FormData) {
-		const { data } = await api.post(endPoint, datas);
+		const { data } = await api.post(endPoint, { ...datas, companyGuid: user?.guid });
+		console.log({ ...datas, companyGuid: user?.guid });
 		console.log(data);
 		if (data.code === 200) {
 			Alert.alert("Sucesso!", "Email enviado com sucesso");
-			return navigate.goBack()
+			return navigate.goBack();
 		} else {
-			Alert.alert("Email invalido", "Email não encontrado");
+			Alert.alert("Email inválido", "Email não encontrado");
 		}
 	}
 

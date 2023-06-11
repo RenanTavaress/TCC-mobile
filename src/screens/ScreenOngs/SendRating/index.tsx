@@ -1,4 +1,4 @@
-import react from 'react'
+import React, { useContext } from 'react'
 import { SendEmail } from '../../../components/SendEmail'
 
 export function SendRating(){

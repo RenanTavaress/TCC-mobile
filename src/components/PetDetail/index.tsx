@@ -26,6 +26,7 @@ interface PetProps {
 	photo1: string;
 	color: string;
 	birthDate: string;
+	rating: string;
 }
 
 interface PetDetailProps {
@@ -69,7 +70,7 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 				</ContainerPetInfo>
 				<ContainerRating>
 					<TextInfo>Nota de avaliação da ONG:</TextInfo>
-					<InfoPet>4,5</InfoPet>
+					<InfoPet>{rest?.rating}</InfoPet>
 				</ContainerRating>
 				<ContainerDescription>
 					<TextInfo>Descrição do Pet:</TextInfo>
