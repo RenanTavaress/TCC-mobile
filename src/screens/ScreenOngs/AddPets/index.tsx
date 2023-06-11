@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, Modal, KeyboardAvoidingView } from "react-native";
 import { Header } from "../../../components/Header";
@@ -19,7 +19,9 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
-import { ListItem } from "../../../components/List";
+import DateTimePicker, {
+	DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import {
 	Container,
 	ContainerAdd,
@@ -40,6 +42,7 @@ import {
 	ButtonPickImage,
 	ContainerRigthAge,
 	ContainerLeftAge,
+	PickdateContainer,
 } from "./styles";
 
 type FormData = {
@@ -47,7 +50,7 @@ type FormData = {
 	medication: string;
 	breed: string;
 	size: string;
-	age: string;
+	birthDate: string;
 	description: string;
 	vaccines: string;
 	gender: string;
@@ -66,9 +69,8 @@ const schema = yup.object({
 			then: yup.string().required("A raça é obrigatorio"),
 		})
 		.trim(),
-	age: yup
+	birthDate: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("A idade é obrigatório")
 		.min(1, "O Campo deve ter pelo menos 1 digito"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
@@ -76,6 +78,7 @@ const schema = yup.object({
 });
 
 export function AddPet() {
+	
 	const { colors } = useTheme();
 	const [size, setSize] = useState("pequeno");
 	const [gender, setGender] = useState("M");
@@ -84,20 +87,20 @@ export function AddPet() {
 	const [category, setCategory] = useState("Espécie");
 	const [breed, setBreed] = useState("Raça");
 	const navigate = useNavigation();
-	const [selectAge, setSelectAge] = useState("Ano(s)");
 	const { user } = useContext(AuthContext);
 	const [photo, setPhoto] = useState([]);
-
+	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+	const [showPicker, setShowPicker] = useState(false);
 	const {
 		control,
 		handleSubmit,
-		watch,
+		setValue,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 	});
-
-	const concatenatingAge = `${watch("age")} ${selectAge}`;
+	const minimumDate = new Date(2007, 0, 1);
+	const maximumDate = new Date();
 
 	function handleRemovePhoto(index: string) {
 		if (!index) {
@@ -145,6 +148,31 @@ export function AddPet() {
 		setModalSelectBreed(false);
 	}
 
+	//se o valor nao muda, ele nao abre novamente, mas se o valor mudar ele abre duas veses
+
+	const formatSelectedDate = (date: Date) => {
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		return `${day.toString().padStart(2, "0")}/${month
+			.toString()
+			.padStart(2, "0")}/${year.toString()}`;
+	};
+
+	const handleDateChange = useCallback(
+		(event: DateTimePickerEvent, date?: Date) => {
+			if (date) {
+				setSelectedDate(date);
+				const getDateString = formatSelectedDate(date);
+				setValue("birthDate", getDateString);
+			}
+			setShowPicker(false);
+		},
+		[showPicker]
+	);
+
+	const showDatePicker = () => setShowPicker(!showPicker);
+
 	async function submitForm(data: FormData) {
 		if (category === "Espécie") {
 			Alert.alert(
@@ -172,13 +200,14 @@ export function AddPet() {
 		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
-			age: concatenatingAge,
 			breed: isDog,
 			size,
 			gender,
 			typePet: category,
 			photo1: photo[0] || null,
 		};
+
+		console.log(datas);
 
 		try {
 			const { data } = await api.post(
@@ -284,23 +313,38 @@ export function AddPet() {
 						</InfoRadioBtn>
 
 						<ContainerAge>
-							<ContainerRigthAge>
-								<TextInfo>Idade do pet:</TextInfo>
-								<InputForm
-									placeholder="Idade"
-									control={control}
-									name="age"
-									keyboardType="numeric"
-									error={errors.age}
+							<TextInfo>Ano de nascimento do pet:</TextInfo>
+							<PickdateContainer>
+								<ContainerLeftAge>
+									<ContainerButton
+										title="Selecionar Data"
+										onPress={showDatePicker}
+									/>
+								</ContainerLeftAge>
+								<ContainerRigthAge>
+									<InputForm
+										placeholder="Data"
+										control={control}
+										name="birthDate"
+										error={errors.birthDate}
+										editable={false}
+									/>
+								</ContainerRigthAge>
+							</PickdateContainer>
+
+							{showPicker && (
+								<DateTimePicker
+									testID="dateTimePicker"
+									value={selectedDate}
+									mode="date"
+									display={Platform.OS === "ios" ? "spinner" : "default"}
+									minimumDate={minimumDate}
+									maximumDate={maximumDate}
+									onChange={handleDateChange}
 								/>
-							</ContainerRigthAge>
-							<ContainerLeftAge>
-								<ListItem
-									selectedItem={selectAge}
-									setSelectedItem={setSelectAge}
-								/>
-							</ContainerLeftAge>
+							)}
 						</ContainerAge>
+
 						<DescriptioInput
 							placeholder="Descrição do Pet"
 							control={control}

@@ -20,6 +20,7 @@ export interface DataPetProps {
 	phone: string;
 	photo1: string;
 	color:string;
+	birthDate: string;
 }
 
 export interface PropsContextDataPet {

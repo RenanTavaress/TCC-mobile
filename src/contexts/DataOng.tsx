@@ -22,6 +22,10 @@ interface Props {
 	data: DataOngProps;
 }
 
+interface PropsChildren {
+	children: React.ReactNode
+}
+
 export type OngProps = {
 	datasOngs: DataOngProps;
 	setDatasOngs: (datasOngs: DataOngProps) => void;
@@ -29,7 +33,7 @@ export type OngProps = {
 
 export const DataOngContext = createContext<OngProps>({} as OngProps);
 
-export const DataOng: React.FC = ({ children }) => {
+export const DataOng = ({ children } :PropsChildren) => {
 	const { user } = useContext(AuthContext);
 
 	const [datasOngs, setDatasOngs] = useState<DataOngProps>({} as DataOngProps);

@@ -28,6 +28,7 @@ export interface DataPetsProps {
 	phone: string;
 	photo1: string;
 	color: string;
+	birthDate: string;
 }
 
 export function PetCard({
@@ -35,10 +36,11 @@ export function PetCard({
 	breed,
 	description,
 	typePet,
-	vaccines,
+	birthDate,
 	onPress,
 	photo1,
 }: DataPetsProps) {
+	const birthDay = age ? age : birthDate
 	return (
 		<CardPet onPress={onPress}>
 			<ContainerImage>
@@ -48,7 +50,7 @@ export function PetCard({
 
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
-				<AgePet>{breed ? `${age}, ${breed}` : `${age}`}</AgePet>
+				<AgePet>{breed ? `${birthDay}, ${breed}` : `${birthDay}`}</AgePet>
 			</ContaineCardDescription>
 		</CardPet>
 	);

@@ -21,6 +21,7 @@ export const AppOngRoutes: React.FC = () => {
 					tabBarActiveTintColor: theme.colors.primary,
 					tabBarInactiveTintColor: theme.colors.text,
 					tabBarLabelPosition: "beside-icon",
+					tabBarHideOnKeyboard: true,
 					tabBarStyle: {
 						height: Platform.OS === "ios" ? 65 : 55,
 						paddingVertical: Platform.OS === "ios" ? 0 : 0,

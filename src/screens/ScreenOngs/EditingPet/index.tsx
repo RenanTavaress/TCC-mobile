@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, Platform, KeyboardAvoidingView, Modal } from "react-native";
 import { Header } from "../../../components/Header";
@@ -28,6 +28,7 @@ import {
 	ImagePet,
 	InfoDataPet,
 	InfoRadioBtn,
+	PickdateContainer,
 	TextInfo,
 	TextSize,
 	ViewSize,
@@ -42,6 +43,9 @@ import * as ImagePicker from "expo-image-picker";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
 import { ListItem } from "../../../components/List";
+import DateTimePicker, {
+	DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 
 type FormData = {
 	[name: string]: any;
@@ -49,7 +53,7 @@ type FormData = {
 	medication: string;
 	breed: string;
 	size: string;
-	age: string;
+	birthDate: string;
 	description: string;
 	vaccines: string;
 	color: string;
@@ -58,9 +62,8 @@ type FormData = {
 const schema = yup.object({
 	color: yup.string().required("A cor é obrigatorio").trim(),
 	breed: yup.string().required("A raça é obrigatorio").trim(),
-	age: yup
+	birthDate: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
 		.required("A idade é obrigatório")
 		.min(1, "O Campo deve ter pelo menos 1 digito"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
@@ -81,9 +84,11 @@ export function EditingPet() {
 			gender: string;
 			photo1: string;
 			color: string;
+			birthDate: string;
 		};
 	};
-	const [age, month] = params.age.split(" ");
+	const birthDayString = params.birthDate;
+	const [day, month, year] = birthDayString.split("/");
 	const { colors } = useTheme();
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
@@ -96,26 +101,32 @@ export function EditingPet() {
 	const [photo, setPhoto] = useState([params?.photo1]);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
 	const [breed, setBreed] = useState(params.breed ? params.breed : "Raça");
-	const [selectAge, setSelectAge] = useState(month);
+	const [selectedDate, setSelectedDate] = useState<Date>(
+		new Date(Number(year), Number(month) - 1, Number(day))
+	);
+	const [showPicker, setShowPicker] = useState(false);
 
 	const {
 		control,
 		handleSubmit,
-		watch,
+		setValue,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 		defaultValues: {
-			age,
+			birthDate: params.birthDate,
 			name: params.typePet,
 			medication: params.medication,
 			size: params.size,
 			description: params.description,
 			breed: params.breed,
 			vaccines: params.vaccines,
-			color: params.color
+			color: params.color,
 		},
 	});
+
+	const minimumDate = new Date(2007, 0, 1);
+	const maximumDate = new Date();
 
 	function handleOpenSelectCategoryModal() {
 		setModalSelectCategory(true);
@@ -132,7 +143,29 @@ export function EditingPet() {
 	function handleCloseSelectBreedModal() {
 		setModalSelectBreed(false);
 	}
-	const concatenatingAge = `${watch("age")} ${selectAge}`;
+
+	const formatSelectedDate = (date: Date) => {
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		return `${day.toString().padStart(2, "0")}/${month
+			.toString()
+			.padStart(2, "0")}/${year.toString()}`;
+	};
+
+	const handleDateChange = useCallback(
+		(event: DateTimePickerEvent, date?: Date) => {
+			if (date) {
+				setSelectedDate(date);
+				const getDateString = formatSelectedDate(date);
+				setValue("birthDate", getDateString);
+			}
+			setShowPicker(false);
+		},
+		[showPicker]
+	);
+
+	const showDatePicker = () => setShowPicker(!showPicker);
 
 	async function submitForm(data: FormData) {
 		if (breed === "Raça" && category === "Cachorro") {
@@ -154,7 +187,6 @@ export function EditingPet() {
 		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
-			age: concatenatingAge,
 			breed: isDog,
 			size,
 			typePet: category,
@@ -303,22 +335,36 @@ export function EditingPet() {
 						</InfoRadioBtn>
 
 						<ContainerAge>
-							<ContainerRigthAge>
-								<TextInfo>Idade do pet:</TextInfo>
-								<InputForm
-									placeholder="Idade"
-									control={control}
-									name="age"
-									keyboardType="numeric"
-									error={errors.age}
+							<TextInfo>Ano de nascimento do pet:</TextInfo>
+							<PickdateContainer>
+								<ContainerLeftAge>
+									<ContainerButton
+										title="Selecionar Data"
+										onPress={showDatePicker}
+									/>
+								</ContainerLeftAge>
+								<ContainerRigthAge>
+									<InputForm
+										placeholder="Data"
+										control={control}
+										name="birthDate"
+										error={errors.birthDate}
+										editable={false}
+									/>
+								</ContainerRigthAge>
+							</PickdateContainer>
+
+							{showPicker && (
+								<DateTimePicker
+									testID="dateTimePicker"
+									value={selectedDate}
+									mode="date"
+									display={Platform.OS === "ios" ? "spinner" : "default"}
+									minimumDate={minimumDate}
+									maximumDate={maximumDate}
+									onChange={handleDateChange}
 								/>
-							</ContainerRigthAge>
-							<ContainerLeftAge>
-								<ListItem
-									selectedItem={selectAge}
-									setSelectedItem={setSelectAge}
-								/>
-							</ContainerLeftAge>
+							)}
 						</ContainerAge>
 						<DescriptioInput
 							placeholder="Descrição do Pet"

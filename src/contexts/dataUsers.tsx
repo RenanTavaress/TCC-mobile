@@ -19,9 +19,14 @@ export type UserProps = {
 	setDatasUser: (datasUser: DataUserProps) => void;
 };
 
+interface PropsChildren {
+	children: React.ReactNode
+}
+
+
 export const DataUserContext = createContext<UserProps>({} as UserProps);
 
-export const DataUser: React.FC = ({ children }) => {
+export const DataUser = ({ children }: PropsChildren) => {
 	const { user } = useContext(AuthContext);
 
 	const [datasUser, setDatasUser] = useState<DataUserProps>(

@@ -36,6 +36,13 @@ export const CategorySelect = ({
 	categories,
 	titleAnimal,
 }: Props) => {
+	const initialCategory: { [key: string]: string } = {
+		"Espécie do animal": "Espécie",
+		"Escolha a raça": "Raça",
+		"Escolha a cidade": "Cidade",
+		"Escolha a ONG": "ONGs",
+	};
+
 	return (
 		<Container>
 			<Header title={titleAnimal} />
@@ -59,7 +66,14 @@ export const CategorySelect = ({
 
 			<Footer>
 				<ContainerButton onPress={closeSelectCategory} title="Selecionar" />
-				<ContainerButton onPress={closeSelectCategory} title="Cancelar" />
+				<ContainerButton
+					onPress={() => {
+						setCategory(initialCategory[titleAnimal]);
+
+						closeSelectCategory();
+					}}
+					title="Cancelar"
+				/>
 			</Footer>
 		</Container>
 	);

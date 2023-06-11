@@ -17,6 +17,8 @@ import { ListPetStack } from "./FilterPet.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
+
+
 export const AppRoutes: React.FC = () => {
 	const theme = useTheme();
 	return (
@@ -27,6 +29,7 @@ export const AppRoutes: React.FC = () => {
 					tabBarActiveTintColor: theme.colors.primary,
 					tabBarInactiveTintColor: theme.colors.text,
 					tabBarLabelPosition: "beside-icon",
+					tabBarHideOnKeyboard: true,
 					tabBarStyle: {
 						height: Platform.OS === "ios" ? 65 : 55,
 						paddingVertical: Platform.OS === "ios" ? 0 : 0,

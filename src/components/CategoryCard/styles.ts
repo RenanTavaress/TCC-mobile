@@ -23,7 +23,21 @@ export const TitleCategory = styled.Text`
 	font-size: ${RFValue(14)}px;
 `;
 
+export const IconContainer = styled.View`
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+` 
+
+export const TextCleanFilter = styled.Text`
+	font-size: ${RFValue(16)}px;
+	color:  ${({ theme }) => theme.colors.text};
+
+`
+
+
 export const Icon = styled(Entypo)`
 	color: ${({ theme }) => theme.colors.text};
 	font-size: ${RFValue(20)}px;
+	margin-left: ${RFValue(5)}px;
 `;

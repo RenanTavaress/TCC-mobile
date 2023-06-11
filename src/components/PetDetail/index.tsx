@@ -11,6 +11,7 @@ import {
 	ImageLeft,
 	ImageButton,
 	ImagePet,
+	ContainerRating,
 } from "./styles";
 import { DataPetProps } from "../../contexts/DataPet";
 import { View } from "react-native";
@@ -24,6 +25,7 @@ interface PetProps {
 	gender: string;
 	photo1: string;
 	color: string;
+	birthDate: string;
 }
 
 interface PetDetailProps {
@@ -52,7 +54,7 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 							</>
 						)}
 						<TextInfo>Idade:</TextInfo>
-						<InfoPet>{rest?.age}</InfoPet>
+						<InfoPet>{rest?.age ? rest?.age : rest?.birthDate}</InfoPet>
 						<TextInfo>Porte:</TextInfo>
 						<InfoPet>{rest?.size}</InfoPet>
 					</ContainerInfo>
@@ -65,6 +67,10 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 						<InfoPet>{rest?.color}</InfoPet>
 					</ContainerHeath>
 				</ContainerPetInfo>
+				<ContainerRating>
+					<TextInfo>Nota de avaliação da ONG:</TextInfo>
+					<InfoPet>4,5</InfoPet>
+				</ContainerRating>
 				<ContainerDescription>
 					<TextInfo>Descrição do Pet:</TextInfo>
 					<InfoPet>{rest?.description}</InfoPet>

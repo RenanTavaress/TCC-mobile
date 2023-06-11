@@ -22,7 +22,7 @@ interface PropsParameterId {
 
 export function PetScreen() {
 	const { colors } = useTheme();
-
+	const [rating, setRating] = useState("");
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
 	const [petsCompany, setPetsCompany] = useState<PropsDatailCompany>(
 		{} as PropsDatailCompany
@@ -75,6 +75,15 @@ export function PetScreen() {
 			setFavorite(() => pet?.guid === guid);
 		}
 		getFavorites();
+
+		async function getRating() {
+			const response = await api.get(
+				`/api/rating/average/companyguid/${companyGuid}`
+			);
+			setRating(response.data.data.average);
+		}
+
+		getRating();
 	}, []);
 
 	async function favoritePet() {

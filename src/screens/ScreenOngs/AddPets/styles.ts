@@ -47,7 +47,7 @@ export const DescriptioInput = styled(InputForm)`
 `;
 
 export const TextInfo = styled.Text`
-	font-size: ${RFValue(18)}px;
+	font-size: ${RFValue(15)}px;
 	color: ${({ theme }) => theme.colors.text_dark};
 	font-family: ${({ theme }) => theme.fonts.bold};
 `;
@@ -97,21 +97,23 @@ export const ButtonPickImage = styled(ContainerButton)`
 
 export const ContainerAge = styled.View`
 	width: 100%;
+
+`
+
+export const PickdateContainer = styled.View`
 	flex-direction: row;
-	justify-content: space-around;
+	width: 100%;
+	justify-content: space-between;
 
 `
 
 export const ContainerLeftAge = styled.View`
-	width: 52%;
-	justify-content: center;
-	padding-top: ${RFValue(20)}px;
-	//align-items: flex-start;
+	width: 45%;
 `;
 
 export const ContainerRigthAge = styled.View`
-	width: 44%;
-	
+	width: 45%;
+
 	
 `;
 

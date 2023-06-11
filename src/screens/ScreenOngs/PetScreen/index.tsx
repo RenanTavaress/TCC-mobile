@@ -38,6 +38,7 @@ export function PetScreen() {
 			gender: string;
 			photo1: string;
 			color: string;
+			birthDate: string;
 		};
 	};
 

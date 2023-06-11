@@ -62,3 +62,13 @@ export const ImagePet = styled.Image`
 	height: 250px;
 	width: auto;
 `;
+
+export const ContainerRating = styled.View`
+	height: auto;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	background-color: ${({ theme }) => theme.colors.shape};
+
+
+`

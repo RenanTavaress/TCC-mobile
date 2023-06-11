@@ -150,16 +150,8 @@ export function FilterScreen() {
 	}, [modalSelectOng]);
 
 	async function submitForm() {
-		if (breed === "Raça" && category === "Cachorro") {
-			Alert.alert(
-				"Não foi possivel filtrar",
-				"Selecione uma Raça para o seu cachorro"
-			);
-			return;
-		}
-
 		const typeCategory = category === "Espécie" ? "" : category;
-		const isDog = category === "Cachorro" ? breed : null;
+		const isDog = breed === "Raça" ? null : breed;
 		const isCity = nameCity === "Cidade" ? null : nameCity;
 		const isOng = companyName === "ONGs" ? null : companyName;
 		const datas: FormData = {
@@ -170,7 +162,7 @@ export function FilterScreen() {
 			gender,
 			typePet: typeCategory,
 		};
-		console.log(datas)
+		console.log(datas);
 
 		setInputFilterd(datas);
 
@@ -192,13 +184,34 @@ export function FilterScreen() {
 				<CategoryCard
 					onPress={handleOpenSelectCategoryModal}
 					title={category}
+					originalTitle="Espécie"
+					isFiltering
+					setTitle={setCategory}
 				/>
 
 				{category === "Cachorro" && (
-					<CategoryCard onPress={handleOpenSelectBreedModal} title={breed} />
+					<CategoryCard
+						onPress={handleOpenSelectBreedModal}
+						title={breed}
+						originalTitle="Raça"
+						isFiltering
+						setTitle={setBreed}
+					/>
 				)}
-				<CategoryCard onPress={handleOpenSelectCityModal} title={nameCity} />
-				<CategoryCard onPress={handleOpenSelectOngModal} title={companyName} />
+				<CategoryCard
+					onPress={handleOpenSelectCityModal}
+					title={nameCity}
+					originalTitle="Cidade"
+					isFiltering
+					setTitle={setNameCity}
+				/>
+				<CategoryCard
+					onPress={handleOpenSelectOngModal}
+					title={companyName}
+					originalTitle="ONGs"
+					isFiltering
+					setTitle={setCompanyName}
+				/>
 				<RadioContainer>
 					<RadioButton.Group
 						onValueChange={(check) => setSize(check)}

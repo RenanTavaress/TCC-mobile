@@ -72,3 +72,9 @@ export const ImagePet = styled.Image`
 	height: 180px;
 	width: auto;
 `;
+
+export const RatingText = styled.Text`
+	font-size: ${RFValue(20)}px;
+	color: ${({ theme }) => theme.colors.text_dark};
+	font-family: ${({ theme }) => theme.fonts.bold};
+`;
