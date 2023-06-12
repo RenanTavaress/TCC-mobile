@@ -3,6 +3,7 @@
     "name": "Tcc",
     "slug": "Tcc",
     "version": "1.0.0",
+    "userInterfaceStyle": "automatic",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -15,7 +16,7 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ],
+      ]
     ],
     "android": {
       "permissions": [

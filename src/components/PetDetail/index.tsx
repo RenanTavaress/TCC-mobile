@@ -54,7 +54,7 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 								<InfoPet>{rest?.breed}</InfoPet>
 							</>
 						)}
-						<TextInfo>Idade:</TextInfo>
+						<TextInfo>{rest?.age ? 'Idade' : 'Data de nascimento'}</TextInfo>
 						<InfoPet>{rest?.age ? rest?.age : rest?.birthDate}</InfoPet>
 						<TextInfo>Porte:</TextInfo>
 						<InfoPet>{rest?.size}</InfoPet>

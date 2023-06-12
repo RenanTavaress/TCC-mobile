@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, Modal, KeyboardAvoidingView } from "react-native";
 import { Header } from "../../../components/Header";
@@ -19,9 +19,8 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
-import DateTimePicker, {
-	DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 import {
 	Container,
 	ContainerAdd,
@@ -71,14 +70,13 @@ const schema = yup.object({
 		.trim(),
 	birthDate: yup
 		.string()
-		.required("A idade é obrigatório")
-		.min(1, "O Campo deve ter pelo menos 1 digito"),
+		.min(10, "A data de nascimento tem quer 10 digitos")
+		.required("A idade é obrigatório"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 	vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
 });
 
 export function AddPet() {
-	
 	const { colors } = useTheme();
 	const [size, setSize] = useState("pequeno");
 	const [gender, setGender] = useState("M");
@@ -89,12 +87,14 @@ export function AddPet() {
 	const navigate = useNavigation();
 	const { user } = useContext(AuthContext);
 	const [photo, setPhoto] = useState([]);
-	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-	const [showPicker, setShowPicker] = useState(false);
+	const [selectedDate, setSelectedDate] = useState(new Date());
+	const [showPicker, setShowPicker] = useState<boolean>(false);
 	const {
 		control,
 		handleSubmit,
 		setValue,
+		getValues,
+		setError,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
@@ -148,8 +148,6 @@ export function AddPet() {
 		setModalSelectBreed(false);
 	}
 
-	//se o valor nao muda, ele nao abre novamente, mas se o valor mudar ele abre duas veses
-
 	const formatSelectedDate = (date: Date) => {
 		const day = date.getDate();
 		const month = date.getMonth() + 1;
@@ -159,19 +157,20 @@ export function AddPet() {
 			.padStart(2, "0")}/${year.toString()}`;
 	};
 
-	const handleDateChange = useCallback(
-		(event: DateTimePickerEvent, date?: Date) => {
-			if (date) {
-				setSelectedDate(date);
-				const getDateString = formatSelectedDate(date);
-				setValue("birthDate", getDateString);
-			}
-			setShowPicker(false);
-		},
-		[showPicker]
-	);
+	const showDatePicker = () => {
+		setShowPicker(true);
+	};
 
-	const showDatePicker = () => setShowPicker(!showPicker);
+	const hideDatePicker = () => {
+		setShowPicker(false);
+	};
+
+	const handleConfirm = (date: Date) => {
+		setShowPicker(false);
+		setSelectedDate(date);
+		const getDateString = formatSelectedDate(date);
+		setValue("birthDate", getDateString);
+	};
 
 	async function submitForm(data: FormData) {
 		if (category === "Espécie") {
@@ -332,17 +331,17 @@ export function AddPet() {
 								</ContainerRigthAge>
 							</PickdateContainer>
 
-							{showPicker && (
-								<DateTimePicker
-									testID="dateTimePicker"
-									value={selectedDate}
-									mode="date"
-									display={Platform.OS === "ios" ? "spinner" : "default"}
-									minimumDate={minimumDate}
-									maximumDate={maximumDate}
-									onChange={handleDateChange}
-								/>
-							)}
+							<DateTimePickerModal
+								testID="dateTimePicker"
+								date={selectedDate}
+								mode="date"
+								display={Platform.OS === "ios" ? "spinner" : "default"}
+								minimumDate={minimumDate}
+								maximumDate={maximumDate}
+								isVisible={showPicker}
+								onConfirm={handleConfirm}
+								onCancel={hideDatePicker}
+							/>
 						</ContainerAge>
 
 						<DescriptioInput

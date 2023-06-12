@@ -21,6 +21,7 @@ export interface DataPetProps {
 	photo1: string;
 	color:string;
 	birthDate: string;
+	rating:string;
 }
 
 export interface PropsContextDataPet {

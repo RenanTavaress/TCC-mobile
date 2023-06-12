@@ -3,6 +3,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import theme from "../../../global/styles/theme";
 
+
 export const Container = styled(TextInput).attrs((props) => ({
 	placeholderTextColor: props.theme.colors.text,
 }))`

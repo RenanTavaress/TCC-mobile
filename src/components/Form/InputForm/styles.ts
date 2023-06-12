@@ -1,5 +1,7 @@
+import { TextInputMask } from "react-native-masked-text";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
+import theme from "../../../global/styles/theme";
 
 export const Container = styled.View`
 	width: 100%;
@@ -10,4 +12,20 @@ export const Error = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.regular};
 	color: ${({ theme }) => theme.colors.attention};
 	margin: 7px 0;
+`;
+
+
+export const TextInputWithMask = styled(TextInputMask).attrs((props) => ({
+	placeholderTextColor: props.theme.colors.text,
+}))`
+	width: 100%;
+	height: ${RFValue(42)}px;
+	padding: 0 8px;
+	margin-bottom: 15px;
+
+	border-color: ${({ theme }) => theme.colors.primary};
+	border-width: 1.9px;
+	border-radius: 5px;
+	background-color: ${({editable}) => editable === false ?  theme.colors.inputDesable : theme.colors.shape};
+	color: ${({ theme }) => theme.colors.text_dark};
 `;

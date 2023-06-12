@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { set, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { Alert, KeyboardAvoidingView, Platform, View } from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
