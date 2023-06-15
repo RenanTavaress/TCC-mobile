@@ -76,7 +76,7 @@ export const ImageLeft = styled.View`
 `;
 
 export const ImageButton = styled.View`
-	width: 95%;
+	width: 100%;
 	height: auto;
 	background-color: white;
 	border: 1px solid ${({ theme }) => theme.colors.text};
@@ -84,9 +84,16 @@ export const ImageButton = styled.View`
 `;
 
 export const ImagePet = styled.Image`
-	height: 150px;
-	width: auto;
+	height: 250px;
+	width: 100%;
 `;
+
+export const ButtonRemoveImage = styled(ContainerButton)`
+	margin-bottom: 2px;
+	width: 100%;
+	border-color: ${({ theme }) => theme.colors.attention};
+
+`
 
 
 export const ButtonPickImage = styled(ContainerButton)`

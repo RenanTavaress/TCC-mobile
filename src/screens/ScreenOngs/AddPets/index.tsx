@@ -42,7 +42,9 @@ import {
 	ContainerRigthAge,
 	ContainerLeftAge,
 	PickdateContainer,
+	ButtonRemoveImage,
 } from "./styles";
+import theme from "../../../global/styles/theme";
 
 type FormData = {
 	[name: string]: any;
@@ -93,8 +95,6 @@ export function AddPet() {
 		control,
 		handleSubmit,
 		setValue,
-		getValues,
-		setError,
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
@@ -252,14 +252,19 @@ export function AddPet() {
 
 						<ImageContainer>
 							{photo.length == 1 && (
-								<ImageLeft>
-									<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
-										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity>
-									<ImageButton>
-										<ImagePet source={{ uri: photo[0] }} />
-									</ImageButton>
-								</ImageLeft>
+								<>
+									<ImageLeft>
+										<ImageButton>
+											<ImagePet source={{ uri: photo[0] }} />
+										</ImageButton>
+									</ImageLeft>
+
+									<ButtonRemoveImage
+										title="Remover imagem"
+										onPress={() => handleRemovePhoto(photo[0])}
+										color={theme.colors.attention_light}
+									/>
+								</>
 							)}
 						</ImageContainer>
 						<InfoDataPet>

@@ -19,6 +19,7 @@ import { DataPetContext } from "../../../contexts/DataPet";
 import { PropsItem } from "../../ScreenUser/ListPets";
 import { SkeletonCard } from "../../../components/SkeletonCard";
 import { LinearGradient } from "expo-linear-gradient";
+import { Text } from "react-native";
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
@@ -32,7 +33,8 @@ export type propsLoginOng = NativeStackScreenProps<
 export function Dashboard() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const { user } = useContext(AuthContext);
-	const { datasPet, getDataPet, isLoading, setIsloading } = useContext(DataPetContext);
+	const { datasPet, getDataPet, isLoading, setIsloading } =
+		useContext(DataPetContext);
 	const { datasOngs } = useContext(DataOngContext);
 
 	const CardPet = memo(({ item }: PropsItem) => {
@@ -57,18 +59,24 @@ export function Dashboard() {
 		}, [])
 	);
 
+	// function isLoadingPet() {
+	// 	if (isLoading) {
+	// 		return <SkeletonCard />;
+	// 	}
+	// 	return;
+	// }
+
 	return (
 		<Container>
 			<Header title={`Seus Pets`} />
 
+			{datasPet?.length === undefined && <Text>Não ha pet cadastrado</Text>}
+
 			<ContainerPets
 				data={datasPet}
 				keyExtractor={keyExtractor}
-				renderItem={({ item }) =>
-					isLoading ? <SkeletonCard /> : <CardPet item={item} />
-				}
+				renderItem={({ item }) => <CardPet item={item} />}
 			/>
-
 			<FabButton title="+" onPress={() => navigation.navigate("AddPet")} />
 		</Container>
 	);

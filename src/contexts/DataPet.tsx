@@ -19,9 +19,9 @@ export interface DataPetProps {
 	email: string;
 	phone: string;
 	photo1: string;
-	color:string;
+	color: string;
 	birthDate: string;
-	rating:string;
+	rating: string;
 }
 
 export interface PropsContextDataPet {
@@ -52,8 +52,11 @@ export const DataPet = ({ children }: IProps) => {
 			const { data } = await api.get<PropsContextDataPet>(
 				`/api/pet/list/companyguid/${user!.guid}`
 			);
+			
 
-			setDataPet(data.data);
+			setTimeout(() => {
+				setDataPet(data?.data);
+			}, 7000)
 		} catch (error) {
 			console.log(error);
 		}
@@ -61,7 +64,6 @@ export const DataPet = ({ children }: IProps) => {
 
 	useEffect(() => {
 		getDataPet();
-	
 	}, []);
 
 	return (

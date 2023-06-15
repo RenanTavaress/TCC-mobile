@@ -1,6 +1,11 @@
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import theme from "../../../global/styles/theme";
+
+interface PropsColor {
+	color?: string;
+}
 
 export const Container = styled(TouchableOpacity)`
 	width: ${RFValue(135)}px;
@@ -15,13 +20,11 @@ export const Container = styled(TouchableOpacity)`
 	flex-direction: row;
 	padding: ${RFValue(5)}px;
 
-
-
 	margin-bottom: ${RFValue(15)}px;
 `;
 
-export const Title = styled.Text`
-	color: ${({ theme }) => theme.colors.text_dark};
+export const Title = styled.Text<PropsColor>`
+	color: ${(props) => props.color || theme.colors.text_dark};
 
 	font-family: ${({ theme }) => theme.fonts.regular};
 `;

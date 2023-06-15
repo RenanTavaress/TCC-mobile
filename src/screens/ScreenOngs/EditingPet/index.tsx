@@ -14,6 +14,7 @@ import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import {
 	ButtonContainer,
 	ButtonPickImage,
+	ButtonRemoveImage,
 	Container,
 	ContainerAdd,
 	ContainerAge,
@@ -42,10 +43,8 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
-import { ListItem } from "../../../components/List";
-import DateTimePicker, {
-	DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import theme from "../../../global/styles/theme";
 
 type FormData = {
 	[name: string]: any;
@@ -101,6 +100,7 @@ export function EditingPet() {
 	const [photo, setPhoto] = useState([params?.photo1]);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
 	const [breed, setBreed] = useState(params.breed ? params.breed : "Raça");
+
 	const [selectedDate, setSelectedDate] = useState<Date>(
 		new Date(Number(year), Number(month) - 1, Number(day))
 	);
@@ -153,19 +153,20 @@ export function EditingPet() {
 			.padStart(2, "0")}/${year.toString()}`;
 	};
 
-	const handleDateChange = useCallback(
-		(event: DateTimePickerEvent, date?: Date) => {
-			if (date) {
-				setSelectedDate(date);
-				const getDateString = formatSelectedDate(date);
-				setValue("birthDate", getDateString);
-			}
-			setShowPicker(false);
-		},
-		[showPicker]
-	);
+	const showDatePicker = () => {
+		setShowPicker(true);
+	};
 
-	const showDatePicker = () => setShowPicker(!showPicker);
+	const hideDatePicker = () => {
+		setShowPicker(false);
+	};
+
+	const handleConfirm = (date: Date) => {
+		setShowPicker(false);
+		setSelectedDate(date);
+		const getDateString = formatSelectedDate(date);
+		setValue("birthDate", getDateString);
+	};
 
 	async function submitForm(data: FormData) {
 		if (breed === "Raça" && category === "Cachorro") {
@@ -275,14 +276,19 @@ export function EditingPet() {
 
 						<ImageContainer>
 							{photo.length == 1 && (
+								<>
 								<ImageLeft>
-									<TouchableOpacity onPress={() => handleRemovePhoto(photo[0])}>
-										<AntDesign name="delete" size={14} color="red" />
-									</TouchableOpacity>
 									<ImageButton>
 										<ImagePet source={{ uri: photo[0] }} />
 									</ImageButton>
 								</ImageLeft>
+
+								<ButtonRemoveImage
+									title="Remover imagem"
+									onPress={() => handleRemovePhoto(photo[0])}
+									color={theme.colors.attention_light}
+								/>
+							</>
 							)}
 						</ImageContainer>
 						<InfoDataPet>
@@ -354,17 +360,17 @@ export function EditingPet() {
 								</ContainerRigthAge>
 							</PickdateContainer>
 
-							{showPicker && (
-								<DateTimePicker
-									testID="dateTimePicker"
-									value={selectedDate}
-									mode="date"
-									display={Platform.OS === "ios" ? "spinner" : "default"}
-									minimumDate={minimumDate}
-									maximumDate={maximumDate}
-									onChange={handleDateChange}
-								/>
-							)}
+							<DateTimePickerModal
+								testID="dateTimePicker"
+								date={selectedDate}
+								mode="date"
+								display={Platform.OS === "ios" ? "spinner" : "default"}
+								minimumDate={minimumDate}
+								maximumDate={maximumDate}
+								isVisible={showPicker}
+								onConfirm={handleConfirm}
+								onCancel={hideDatePicker}
+							/>
 						</ContainerAge>
 						<DescriptioInput
 							placeholder="Descrição do Pet"

@@ -4,12 +4,13 @@ import { TouchableOpacityProps } from "react-native";
 
 interface Props extends TouchableOpacityProps {
 	title: string;
+	color?: string;
 }
 
-export function ContainerButton({ title, children,  ...rest }: Props) {
+export function ContainerButton({ title, color ,children,  ...rest }: Props) {
 	return (
 		<Container {...rest}>
-			<Title>{title}</Title>
+			<Title color={color}>{title}</Title>
 			{children}
 		</Container>
 	);

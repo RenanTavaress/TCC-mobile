@@ -1,5 +1,5 @@
 export const breeds = [
-	{ key: "Vira Lata", type: "Vira Lata" },
+	{ key: "SRD", type: "SRD" },
 	{ key: "Akita", type: "Akita" },
 	{ key: "Rottweiler", type: "Rottweiler" },
 	{ key: "Beagle", type: "Beagle" },
@@ -10,4 +10,5 @@ export const breeds = [
 	{ key: "Chihuahua", type: "Chihuahua" },
 	{ key: "Shar-pei", type: "Shar-pei" },
 	{ key: "Pinscher", type: "Pinscher" },
+	{ key: "dashing hound", type: "dashing hound" },
 ];
