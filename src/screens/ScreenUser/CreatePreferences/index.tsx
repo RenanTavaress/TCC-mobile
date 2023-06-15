@@ -122,7 +122,7 @@ export function CreatePreferences() {
 
 	return (
 		<Container>
-			<Header title="Preferences" icon="left" />
+			<Header title="Minhas Preferências" icon="left" />
 			<FormContainer>
 				<CategoryCard
 					onPress={handleOpenSelectCategoryModal}
@@ -132,7 +132,7 @@ export function CreatePreferences() {
 					<CategoryCard onPress={handleOpenSelectBreedModal} title={breed} />
 				)}
 
-				<ContainerAge>
+				{/* <ContainerAge>
 					<ContainerRigthAge>
 						<TextInfo>Idade do pet:</TextInfo>
 						<InputForm
@@ -146,7 +146,7 @@ export function CreatePreferences() {
 					<ContainerLeftAge>
 						<ListItem selectedItem={selectAge} setSelectedItem={setSelectAge} />
 					</ContainerLeftAge>
-				</ContainerAge>
+				</ContainerAge> */}
 				<RadioContainer>
 					<RadioButton.Group
 						onValueChange={(check) => setSize(check)}

@@ -46,6 +46,13 @@ export const TextInfo = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.medium};
 `;
 
+export const ViewNoResults = styled.View`
+	height: 45%;
+	justify-content: flex-end;
+	align-items: center;
+
+`
+
 export const InfOngs = styled.Text`
 	font-size: ${RFValue(14)}px;
 	color: ${({ theme }) => theme.colors.text_dark};

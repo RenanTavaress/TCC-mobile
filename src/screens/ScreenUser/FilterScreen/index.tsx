@@ -1,12 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Modal } from "react-native";
+import { Modal } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
 import { CategoryCard } from "../../../components/CategoryCard";
-import { InputForm } from "../../../components/Form/InputForm";
 import { Header } from "../../../components/Header";
 import { PetsFilterContext } from "../../../contexts/FilterPet";
 import api from "../../../services/api";
@@ -26,7 +25,6 @@ import * as yup from "yup";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
 import { getCityAndOngName } from "../../../utils/cities";
-import { getOngs } from "../../../utils/ongs";
 
 const schema = yup.object({
 	category: yup.boolean(),
@@ -43,7 +41,6 @@ type FormData = {
 	[name: string]: any;
 	breed: string | null;
 	city: string | null;
-	companyName: string | null;
 	gender: string | null | undefined;
 	size: string | null | undefined;
 	typePet: string | null;
@@ -60,7 +57,6 @@ export function FilterScreen() {
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
 	const [modalSelectCity, setModalSelectCity] = useState(false);
-	const [modalSelectOng, setModalSelectOng] = useState(false);
 	const [category, setCategory] = useState(
 		inputFilterd.typePet ? inputFilterd.typePet : "Espécie"
 	);
@@ -72,10 +68,7 @@ export function FilterScreen() {
 		inputFilterd.city ? inputFilterd.city : "Cidade"
 	);
 	const [city, setCity] = useState(null);
-	const [companyName, setCompanyName] = useState(
-		inputFilterd.companyName ? inputFilterd.companyName : "ONGs"
-	);
-	const [ong, setOng] = useState(null);
+
 	const { colors } = useTheme();
 	const { control, handleSubmit, setValue } = useForm<FormData>({
 		defaultValues: {
@@ -113,14 +106,6 @@ export function FilterScreen() {
 		setModalSelectCity(false);
 	}
 
-	function handleOpenSelectOngModal() {
-		setModalSelectOng(true);
-	}
-
-	function handleCloseSelectOngModal() {
-		setModalSelectOng(false);
-	}
-
 	useEffect(() => {
 		async function consumirCities() {
 			const cities = await getCityAndOngName();
@@ -130,32 +115,12 @@ export function FilterScreen() {
 		consumirCities();
 	}, [modalSelectCity]);
 
-	// useEffect(() => {
-	// 	// if (Object.keys(inputFilterd).length > 0) {
-	// 	//   Object.entries(inputFilterd).forEach(([fieldName, value]) => {
-	// 	// 	 setValue(fieldName, value);
-	// 	//   });
-	// 	// }
-	// 	console.log(inputFilterd?.typePet)
-	// 	setCategory(inputFilterd?.typePet);
-	// }, [inputFilterd]);
-
-	useEffect(() => {
-		async function consumirOngs() {
-			const ongs = await getOngs();
-			setOng(ongs);
-		}
-
-		consumirOngs();
-	}, [modalSelectOng]);
-
 	async function submitForm() {
 		const typeCategory = category === "Espécie" ? "" : category;
 		const isDog = breed === "Raça" ? null : breed;
 		const isCity = nameCity === "Cidade" ? null : nameCity;
-		const isOng = companyName === "ONGs" ? null : companyName;
+
 		const datas: FormData = {
-			companyName: isOng,
 			breed: isDog,
 			city: isCity,
 			size,
@@ -204,13 +169,6 @@ export function FilterScreen() {
 					originalTitle="Cidade"
 					isFiltering
 					setTitle={setNameCity}
-				/>
-				<CategoryCard
-					onPress={handleOpenSelectOngModal}
-					title={companyName}
-					originalTitle="ONGs"
-					isFiltering
-					setTitle={setCompanyName}
 				/>
 				<RadioContainer>
 					<RadioButton.Group
@@ -280,15 +238,6 @@ export function FilterScreen() {
 					closeSelectCategory={handleCloseSelectCityModal}
 					titleAnimal="Escolha a cidade"
 					categories={city}
-				/>
-			</Modal>
-			<Modal visible={modalSelectOng}>
-				<CategorySelect
-					category={companyName}
-					setCategory={setCompanyName}
-					closeSelectCategory={handleCloseSelectOngModal}
-					titleAnimal="Escolha a ONG"
-					categories={ong}
 				/>
 			</Modal>
 		</Container>

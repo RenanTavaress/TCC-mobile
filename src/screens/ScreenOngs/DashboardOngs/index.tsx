@@ -1,12 +1,5 @@
-import React, {
-	memo,
-	useCallback,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
-import api from "../../../services/api";
-import { Container, ContainerPets } from "./styles";
+import React, { memo, useCallback, useContext } from "react";
+import { Container, ContainerPets, TextInfo, ViewNoResults } from "./styles";
 import { Header } from "../../../components/Header";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { DataPetsProps, PetCard } from "../../../components/PetCard";
@@ -35,7 +28,6 @@ export function Dashboard() {
 	const { user } = useContext(AuthContext);
 	const { datasPet, getDataPet, isLoading, setIsloading } =
 		useContext(DataPetContext);
-	const { datasOngs } = useContext(DataOngContext);
 
 	const CardPet = memo(({ item }: PropsItem) => {
 		return (
@@ -70,7 +62,11 @@ export function Dashboard() {
 		<Container>
 			<Header title={`Seus Pets`} />
 
-			{datasPet?.length === undefined && <Text>Não ha pet cadastrado</Text>}
+			{datasPet?.length === undefined && (
+				<ViewNoResults>
+					<TextInfo>Não ha pet cadastrado</TextInfo>
+				</ViewNoResults>
+			)}
 
 			<ContainerPets
 				data={datasPet}

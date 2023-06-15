@@ -47,7 +47,7 @@ export function FavoriteScreen() {
 
 	return (
 		<Container>
-			<Header title="Pets Favoritados" icon="left" />
+			<Header title="Pets Favoritos" icon="left" />
 			<ContainerPets
 				data={listFavoritePet}
 				keyExtractor={(item) => item.guid}

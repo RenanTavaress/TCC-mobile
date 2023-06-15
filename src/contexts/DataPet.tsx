@@ -52,11 +52,8 @@ export const DataPet = ({ children }: IProps) => {
 			const { data } = await api.get<PropsContextDataPet>(
 				`/api/pet/list/companyguid/${user!.guid}`
 			);
-			
 
-			setTimeout(() => {
-				setDataPet(data?.data);
-			}, 7000)
+			setDataPet(data?.data);
 		} catch (error) {
 			console.log(error);
 		}

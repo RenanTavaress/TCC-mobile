@@ -11,7 +11,6 @@ type FormData = {
 	[name: string]: any;
 	breed: string | null;
 	city: string | null;
-	companyName: string | null;
 	gender: string | null | undefined;
 	size: string | null | undefined;
 	typePet: string | null;
