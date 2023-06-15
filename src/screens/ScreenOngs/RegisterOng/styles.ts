@@ -7,7 +7,6 @@ import theme from "../../../global/styles/theme";
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.colors.background};
-
 `;
 
 export const Header = styled.View`
@@ -27,11 +26,15 @@ export const Title = styled.Text`
 export const MainForm = styled.ScrollView`
 	width: 100%;
 	padding: 24px 25px;
-	
 `;
 
 export const AdressForm = styled.View`
 	width: 100%;
+
+	justify-content: space-around;
+`;
+
+export const AdressInfo = styled.View`
 	flex-direction: row;
 	justify-content: space-around;
 `;
@@ -42,6 +45,7 @@ export const ContainerLeftForm = styled.View`
 
 export const ContainerRigthForm = styled.View`
 	width: 44%;
+	height: auto;
 `;
 
 export const DescriptioInput = styled(InputForm)`
@@ -52,8 +56,11 @@ export const RegisterButton = styled(ContainerButton)`
 	height: ${RFValue(45)}px;
 	width: 100%;
 
-	background-color:  ${({disabled}) => disabled ? theme.colors.inputDesable: theme.colors.shape};
-	border-color:  ${({disabled}) => disabled ? theme.colors.inputDesable: theme.colors.primary};
+	background-color: ${({ disabled }) =>
+		disabled ? theme.colors.inputDesable : theme.colors.shape};
+	border-color: ${({ disabled }) =>
+		disabled ? theme.colors.inputDesable : theme.colors.primary};
+	margin-bottom: ${RFValue(30)}px;
 `;
 
 export const ConditionsView = styled.View`
@@ -65,5 +72,4 @@ export const ConditionsView = styled.View`
 	padding: 0 ${RFValue(15)}px;
 
 	margin: ${RFValue(10)}px 0;
-
-`
+`;

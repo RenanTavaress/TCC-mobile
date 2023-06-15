@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Alert, KeyboardAvoidingView, Platform, View } from "react-native";
 import { InputForm } from "../../../components/Form/InputForm";
 import * as yup from "yup";
@@ -15,6 +15,7 @@ import {
 	DescriptioInput,
 	RegisterButton,
 	ConditionsView,
+	AdressInfo,
 } from "./styles";
 import api from "../../../services/api";
 import { Header } from "../../../components/Header";
@@ -138,8 +139,7 @@ export function RegisterOng() {
 					message: "Cep inválido",
 				});
 			}
-		} else if(values && values.cep?.length < 8) {
-			
+		} else if (values && values.cep?.length < 8) {
 			setError("cep", {
 				message: "O cep tem quer 8 digitos",
 			});
@@ -212,17 +212,49 @@ export function RegisterOng() {
 					<Title>Endereço</Title>
 
 					<AdressForm>
-						<ContainerLeftForm>
-							<InputForm
-								placeholder="CEP"
-								control={control}
-								name="cep"
-								keyboardType="numeric"
-								maxLength={8}
-								onBlur={() => handleCepOng()}
-								onChange={() => verifyLengthInputCep()}
-								error={errors.cep}
-							/>
+						<AdressInfo>
+							<ContainerLeftForm>
+								<InputForm
+									placeholder="CEP"
+									control={control}
+									name="cep"
+									keyboardType="numeric"
+									maxLength={8}
+									onBlur={() => handleCepOng()}
+									onChange={() => verifyLengthInputCep()}
+									error={errors.cep}
+								/>
+
+								<InputForm
+									placeholder="Cidade"
+									control={control}
+									name="city"
+									autoCapitalize="words"
+									error={errors.city}
+									editable={false}
+								/>
+							</ContainerLeftForm>
+							<ContainerRigthForm>
+								<InputForm
+									placeholder="Numero"
+									control={control}
+									name="numberAddress"
+									keyboardType="numeric"
+									error={errors.numberAddress}
+								/>
+
+								<InputForm
+									placeholder="UF"
+									control={control}
+									name="uf"
+									autoCapitalize="characters"
+									maxLength={2}
+									error={errors.uf}
+									editable={false}
+								/>
+							</ContainerRigthForm>
+						</AdressInfo>
+						<View>
 							<InputForm
 								placeholder="Rua"
 								control={control}
@@ -230,24 +262,6 @@ export function RegisterOng() {
 								autoCapitalize="words"
 								error={errors.street}
 								editable={false}
-							/>
-
-							<InputForm
-								placeholder="Cidade"
-								control={control}
-								name="city"
-								autoCapitalize="words"
-								error={errors.city}
-								editable={false}
-							/>
-						</ContainerLeftForm>
-						<ContainerRigthForm>
-							<InputForm
-								placeholder="Numero"
-								control={control}
-								name="numberAddress"
-								keyboardType="numeric"
-								error={errors.numberAddress}
 							/>
 							<InputForm
 								placeholder="Bairro"
@@ -257,16 +271,7 @@ export function RegisterOng() {
 								error={errors.district}
 								editable={false}
 							/>
-							<InputForm
-								placeholder="UF"
-								control={control}
-								name="uf"
-								autoCapitalize="characters"
-								maxLength={2}
-								error={errors.uf}
-								editable={false}
-							/>
-						</ContainerRigthForm>
+						</View>
 					</AdressForm>
 					<InputForm
 						placeholder="Telefone"

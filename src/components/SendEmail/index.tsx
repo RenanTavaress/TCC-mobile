@@ -14,7 +14,7 @@ import AuthContext from "../../contexts/auth";
 const schema = yup.object({
 	email: yup
 		.string()
-		.email("Email invalido")
+		.email("Email inválido")
 		.required("O Email é obrigatório")
 		.trim(),
 });

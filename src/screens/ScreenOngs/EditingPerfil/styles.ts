@@ -29,7 +29,7 @@ export const MainForm = styled.ScrollView`
 
 export const AdressForm = styled.View`
 	width: 100%;
-	flex-direction: row;
+	
 	justify-content: space-around;
 `;
 
@@ -48,4 +48,5 @@ export const DescriptioInput = styled(InputForm)`
 export const RegisterButton = styled(ContainerButton)`
 	height: ${RFValue(45)}px;
 	width: 100%;
+	margin-bottom: ${RFValue(25)}px;;
 `;
