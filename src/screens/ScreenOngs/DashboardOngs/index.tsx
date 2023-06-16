@@ -64,7 +64,7 @@ export function Dashboard() {
 
 			{datasPet?.length === undefined && (
 				<ViewNoResults>
-					<TextInfo>Não ha pet cadastrado</TextInfo>
+					<TextInfo>Não há pets cadastrados.</TextInfo>
 				</ViewNoResults>
 			)}
 

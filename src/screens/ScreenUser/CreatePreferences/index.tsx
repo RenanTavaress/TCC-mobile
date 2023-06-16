@@ -37,7 +37,7 @@ type FormData = {
 };
 
 const schema = yup.object({
-	age: yup.string().matches(/^[0-9]+$/, "Por favor, insira apenas numeros."),
+	age: yup.string().matches(/^[0-9]+$/, "Por favor, insira apenas números."),
 	category: yup.boolean(),
 	breed: yup
 		.string()
@@ -198,7 +198,7 @@ export function CreatePreferences() {
 					setCategory={setCategory}
 					closeSelectCategory={handleCloseSelectCategoryModal}
 					categories={categories}
-					titleAnimal="Espécie do animal"
+					titleAnimal="Espécie do Animal"
 				/>
 			</Modal>
 			<Modal visible={modalSelectBreed}>
@@ -206,7 +206,7 @@ export function CreatePreferences() {
 					category={breed}
 					setCategory={setBreed}
 					closeSelectCategory={handleCloseSelectBreedModal}
-					titleAnimal="Escolha a raça"
+					titleAnimal="Escolha a Raça"
 					categories={breeds}
 				/>
 			</Modal>

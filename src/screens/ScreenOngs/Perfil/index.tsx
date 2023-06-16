@@ -64,7 +64,7 @@ export function PerfilOng() {
 						<InfoUser>{datasOngs.city}</InfoUser>
 					</AdressLeft>
 					<AdressRigth>
-						<TextInfo>Numero:</TextInfo>
+						<TextInfo>Número:</TextInfo>
 						<InfoUser>{datasOngs.numberAddress}</InfoUser>
 						<TextInfo>Bairro:</TextInfo>
 						<InfoUser>{datasOngs.district}</InfoUser>

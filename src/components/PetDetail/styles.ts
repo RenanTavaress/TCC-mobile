@@ -21,8 +21,8 @@ export const ContainerDescription = styled.View`
 	justify-content: flex-start;
 	align-items: flex-start;
 	height: auto;
-	padding: ${RFValue(15)}px;
-	margin: 0 0 15px 0;
+	padding: 0 0 0 ${RFValue(15)}px;
+	margin: 0 0 0 0;
 	background-color: ${({ theme }) => theme.colors.shape};
 `;
 
@@ -64,6 +64,8 @@ export const ImagePet = styled.Image`
 `;
 
 export const ContainerRating = styled.View`
+	padding-top: 15px;
+	padding-bottom: 20px;
 	height: auto;
 	width: 100%;
 	justify-content: center;

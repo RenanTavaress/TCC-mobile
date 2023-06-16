@@ -237,7 +237,7 @@ export function AddPet() {
 				})}
 			>
 				<ContainerAdd>
-					<Header title="Cadastro de Novo Pet" icon="left" />
+					<Header title="Cadastrar Pet" icon="left" />
 					<FormContainer>
 						<CategoryCard
 							onPress={handleOpenSelectCategoryModal}
@@ -384,7 +384,7 @@ export function AddPet() {
 							category={category}
 							setCategory={setCategory}
 							closeSelectCategory={handleCloseSelectCategoryModal}
-							titleAnimal="Espécie do animal"
+							titleAnimal="Espécie do Animal"
 							categories={categories}
 						/>
 					</Modal>
@@ -393,7 +393,7 @@ export function AddPet() {
 							category={breed}
 							setCategory={setBreed}
 							closeSelectCategory={handleCloseSelectBreedModal}
-							titleAnimal="Escolha a raça"
+							titleAnimal="Escolha a Raça"
 							categories={breeds}
 						/>
 					</Modal>

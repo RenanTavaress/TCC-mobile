@@ -37,8 +37,8 @@ export const CategorySelect = ({
 	titleAnimal,
 }: Props) => {
 	const initialCategory: { [key: string]: string } = {
-		"Espécie do animal": "Espécie",
-		"Escolha a raça": "Raça",
+		"Espécie do Animal": "Espécie",
+		"Escolha a Raça": "Raça",
 		"Escolha a cidade": "Cidade",
 		"Escolha a ONG": "ONGs",
 	};

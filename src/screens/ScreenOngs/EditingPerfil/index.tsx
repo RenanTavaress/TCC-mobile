@@ -43,19 +43,19 @@ const schema = yup.object({
 	name: yup.string().required("O nome é obrigatório").trim(),
 	document: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.required("O CNPJ/CPF é obrigatório")
 		.min(11, "O Campo deve ter pelo menos 11 digitos")
 		.trim(),
 	email: yup
 		.string()
-		.email("Email invalido")
+		.email("Email Inválido")
 		.required("O Email é obrigatório")
 		.trim(),
 	street: yup.string().required("A Rua é obrigatória").trim(),
 	cep: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.min(8, "O cep tem quer 8 digitos")
 		.required("O CEP é obrigatório")
 		.trim(),
@@ -63,14 +63,14 @@ const schema = yup.object({
 	country: yup.string().required("O País é obrigatória").trim(),
 	numberAddress: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
-		.required("O Numero é obrigatório")
+		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
+		.required("O Número é obrigatório")
 		.trim(),
 	district: yup.string().required("O Bairro é obrigatório").trim(),
 	uf: yup.string().required("O UF é obrigatório").trim(),
 	phone: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.required("O Telefone é obrigatório")
 		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
 		.trim(),
@@ -181,7 +181,7 @@ export function EditingOng() {
 
 	return (
 		<Container>
-			<Header title="Edite Detalhes do Usuário" icon="left" />
+			<Header title="Editar Detalhes do Usuário" icon="left" />
 
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -240,7 +240,7 @@ export function EditingOng() {
 							</ContainerLeftForm>
 							<ContainerRigthForm>
 								<InputForm
-									placeholder="Numero"
+									placeholder="Número"
 									control={control}
 									name="numberAddress"
 									keyboardType="numeric"

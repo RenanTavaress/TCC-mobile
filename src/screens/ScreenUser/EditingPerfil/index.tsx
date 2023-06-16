@@ -27,12 +27,12 @@ const schema = yup.object({
 		.min(11, "O Campo deve ter pelo menos 11 digitos"),
 	email: yup
 		.string()
-		.email("Email invalido")
+		.email("Email Inválido")
 		.required("O Email é obrigatório")
 		.trim(),
 	phone: yup
 		.string()
-		.matches(/^[0-9]+$/, "Por favor, insira apenas numeros.")
+		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.required("O Telefone é obrigatório")
 		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
 		.trim(),

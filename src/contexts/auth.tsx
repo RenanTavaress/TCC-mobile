@@ -78,12 +78,12 @@ export const AuthProvider = ({ children }: IProps) => {
 		} catch (error) {
 			if ((error as AxiosError).message === "403") {
 				Alert.alert(
-					"Acesso negado",
-					"Sua conta ainda nao foi liberada pela nossa equipe, aguarde alguns dias"
+					"Acesso Negado",
+					"Sua conta ainda não foi liberada. Aguarde a liberação!"
 				);
 			} else {
 				console.log((error as AxiosError).message);
-				Alert.alert("Algo deu Errado", "Seu E-mail ou senha está incorreto");
+				Alert.alert("Algo deu Errado", "E-mail ou Senha inválido.");
 			}
 		}
 	}

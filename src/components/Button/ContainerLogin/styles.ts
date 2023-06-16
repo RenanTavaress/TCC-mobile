@@ -19,7 +19,7 @@ export const Container = styled(TouchableOpacity)`
 	align-items: center;
 	flex-direction: row;
 	padding: ${RFValue(5)}px;
-
+	margin-top: ${RFValue(15)}px;
 	margin-bottom: ${RFValue(15)}px;
 `;
 

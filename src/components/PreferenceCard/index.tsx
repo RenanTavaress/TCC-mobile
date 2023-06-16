@@ -25,12 +25,11 @@ export function PreferenceCard({
 		<CardPreference>
 			<TextView>
 				<InfoContainer>
-					<TitlePet>{typePet}</TitlePet>
-					<TextInfo>Porte: {size}</TextInfo>
+					<TitlePet>Raça: {typePet}</TitlePet>
+					<TextInfo>Porte: {size == 'pequeno' ? 'Pequeno' : size == 'medio'? 'Médio' : 'Grande'}</TextInfo>
 				</InfoContainer>
 				<InfoContainer>
 					{breed && <TextInfo>{breed}</TextInfo>}
-					<TextInfo>{age}</TextInfo>
 					<TextInfo>{gender === "M" ? "Macho": "Fêmea"}</TextInfo>
 				</InfoContainer>
 			</TextView>

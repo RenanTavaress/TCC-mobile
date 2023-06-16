@@ -57,7 +57,7 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 						<TextInfo>{rest?.age ? 'Idade' : 'Data de nascimento'}</TextInfo>
 						<InfoPet>{rest?.age ? rest?.age : rest?.birthDate}</InfoPet>
 						<TextInfo>Porte:</TextInfo>
-						<InfoPet>{rest?.size}</InfoPet>
+						<InfoPet>{rest?.size == 'pequeno' ? 'Pequeno' : rest?.size == 'medio' ? 'Médio' : 'Grande'}</InfoPet>
 					</ContainerInfo>
 					<ContainerHeath>
 						<TextInfo>Vacinas:</TextInfo>
@@ -68,14 +68,14 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 						<InfoPet>{rest?.color}</InfoPet>
 					</ContainerHeath>
 				</ContainerPetInfo>
-				<ContainerRating>
-					<TextInfo>Nota de avaliação da ONG:</TextInfo>
-					<InfoPet>{rest?.rating}</InfoPet>
-				</ContainerRating>
 				<ContainerDescription>
 					<TextInfo>Descrição do Pet:</TextInfo>
 					<InfoPet>{rest?.description}</InfoPet>
 				</ContainerDescription>
+				{rest?.rating && <ContainerRating>
+					<TextInfo>Nota de avaliação da ONG:</TextInfo>
+					<InfoPet>{rest?.rating}</InfoPet>
+				</ContainerRating>}
 			</View>
 		</>
 	);

@@ -111,7 +111,7 @@ export function PetScreen() {
 	function showInfoOng() {
 		Alert.alert(
 			"Informações de Contato",
-			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\nChave Pix: 4petsolution@gmail.com`
+			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\nChave Pix: ${petsCompany.email}`
 		);
 	}
 	return (

@@ -120,7 +120,7 @@ export const ContainerLeftAge = styled.View`
 
 export const ContainerRigthAge = styled.View`
 	width: 45%;
-
+	margin-top: 20px;
 	
 `;
 

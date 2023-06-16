@@ -217,7 +217,7 @@ export function FilterScreen() {
 					category={category}
 					setCategory={setCategory}
 					closeSelectCategory={handleCloseSelectCategoryModal}
-					titleAnimal="Espécie do animal"
+					titleAnimal="Espécie do Animal"
 					categories={categories}
 				/>
 			</Modal>
@@ -227,7 +227,7 @@ export function FilterScreen() {
 					category={breed}
 					setCategory={setBreed}
 					closeSelectCategory={handleCloseSelectBreedModal}
-					titleAnimal="Escolha a raça"
+					titleAnimal="Escolha a Raça"
 					categories={breeds}
 				/>
 			</Modal>
