@@ -15,6 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
 import { PetsFilterContext } from "../../../contexts/FilterPet";
+import { ViewNoResults } from "../../ScreenOngs/DashboardOngs/styles";
+import { TextInfo } from "../Perfil/styles";
 
 export type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -41,7 +43,6 @@ export interface FormData {
 export function ListPets() {
 	const { petsFilter, submitForm, isFiltered } = useContext(PetsFilterContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-
 
 	const CardPet = memo(({ item }: PropsItem) => {
 		return (
@@ -70,6 +71,13 @@ export function ListPets() {
 					<FilterText>Filtro</FilterText>
 				</FilterBox>
 			</FilterContainer>
+			
+			{petsFilter?.length === undefined && (
+				<ViewNoResults>
+					<TextInfo>Não há pets disponíveis</TextInfo>
+				</ViewNoResults>
+			)}
+
 			<ContainerPets
 				data={petsFilter}
 				keyExtractor={(item) => item.guid}

@@ -66,12 +66,11 @@ export function Perfil() {
 						title="Editar Perfil"
 						onPress={() => navigation.navigate("EditingPerfil")}
 					/>
-					{listFavoritePet?.length !== 0 && (
-						<ContainerButton
-							title="Seus Pets Favoritos"
-							onPress={() => navigation.navigate("favoritesPets")}
-						/>
-					)}
+
+					<ContainerButton
+						title="Seus Pets Favoritos"
+						onPress={() => navigation.navigate("favoritesPets")}
+					/>
 
 					<ContainerButton
 						title="Descreva seu Pet Ideal"

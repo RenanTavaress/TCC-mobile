@@ -40,7 +40,7 @@ export const CleanFilterText = styled.Text`
 `;
 
 export const FilterBox = styled.TouchableOpacity`
-	width: ${RFValue(90)}px;
+	width: ${RFValue(95)}px;
 	height: ${RFValue(40)}px;
 	border: 2.5px solid ${({ theme }) => theme.colors.primary};
 	border-radius: 8px;
