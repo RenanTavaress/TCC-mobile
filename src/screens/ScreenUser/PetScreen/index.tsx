@@ -9,6 +9,7 @@ import { Container, ContainerInfos, ContainerButtonInfo } from "./styles";
 import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
 import { useTheme } from "styled-components";
 import { PetDetail } from "../../../components/PetDetail";
+import * as MailComposer from "expo-mail-composer";
 
 interface PropsDatailCompany {
 	name: string;
@@ -108,6 +109,34 @@ export function PetScreen() {
 		setFavorite(false);
 	}
 
+	function sendEmail() {
+		const genderEmail = gender === "M" ? "Macho" : "Fêmea"
+		MailComposer.composeAsync({
+			recipients: [`${petsCompany.email}`],
+			subject: "Solicitação de adoção",
+			body: `Olá ${petsCompany.name}, tenho interesse em adotar o ${typePet}, com essas características:
+			 	cor: ${color},
+			 	tamanho: ${size}
+				idade: ${age},
+				gênero: ${genderEmail}
+			 `,
+			attachments: [photo1],
+		})
+			.then((result) => {
+				if (result.status === "sent") {
+					// O e-mail foi enviado com sucesso
+					Alert.alert("E-mail enviado com sucesso", "A Ong recebera seu email, em breve ela retonara seu contato");
+				} else {
+					// O usuário cancelou ou ocorreu um erro ao enviar o e-mail
+					Alert.alert("Envio de e-mail cancelado ou ocorreu um erro");
+				}
+			})
+			.catch((error) => {
+				// Trate o erro, se houver algum problema ao enviar o e-mail
+				Alert.alert("Erro ao enviar o e-mail", 'Seu email não deve ta cadastrado no seu celular');
+			});
+	}
+
 	function showInfoOng() {
 		Alert.alert(
 			"Informações de Contato",
@@ -147,6 +176,11 @@ export function PetScreen() {
 					<ContainerButton
 						title="Entre em contato com a ONG."
 						onPress={showInfoOng}
+					/>
+
+					<ContainerButton
+						title="Enviar solicitação de adoção"
+						onPress={sendEmail}
 					/>
 				</ContainerButtonInfo>
 			</ContainerInfos>
