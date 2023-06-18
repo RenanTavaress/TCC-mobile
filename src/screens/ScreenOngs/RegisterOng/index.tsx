@@ -52,6 +52,7 @@ interface FormData {
 	phone: string;
 	description: string;
 	password: string;
+	confirmPassword: string;
 }
 
 const schema = yup.object({
@@ -87,10 +88,14 @@ const schema = yup.object({
 		.string()
 		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.required("O Telefone é obrigatório")
-		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
+		.min(11, "O Campo deve ter 10 digitos contando com o DDD")
 		.trim(),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
+	confirmPassword: yup
+		.string()
+		.required("Informe a confirmação de senha")
+		.oneOf([yup.ref("password"), null], "A confirmação de senha não é igual"),
 });
 
 export function RegisterOng() {
@@ -278,7 +283,7 @@ export function RegisterOng() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={10}
+						maxLength={11}
 						error={errors.phone}
 					/>
 					<InputForm
@@ -302,6 +307,14 @@ export function RegisterOng() {
 						autoCapitalize="none"
 						secureTextEntry={true}
 						error={errors.password}
+					/>
+					<InputForm
+						placeholder="Confirme a senha"
+						control={control}
+						name="confirmPassword"
+						autoCapitalize="none"
+						secureTextEntry={true}
+						error={errors.confirmPassword}
 					/>
 
 					<ConditionsView>

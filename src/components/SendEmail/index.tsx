@@ -10,6 +10,7 @@ import { Container, EmailContainer } from "./styles";
 import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AuthContext from "../../contexts/auth";
+import { TextInfo } from "../PetDetail/styles";
 
 const schema = yup.object({
 	email: yup
@@ -41,7 +42,10 @@ export function SendEmail({ endPoint, title }: sendEmailProps) {
 	});
 
 	async function handleResetPassWord(datas: FormData) {
-		const { data } = await api.post(endPoint, { ...datas, companyGuid: user?.guid });
+		const { data } = await api.post(endPoint, {
+			...datas,
+			companyGuid: user?.guid,
+		});
 		console.log({ ...datas, companyGuid: user?.guid });
 		console.log(data);
 		if (data.code === 200) {
@@ -55,7 +59,9 @@ export function SendEmail({ endPoint, title }: sendEmailProps) {
 	return (
 		<Container>
 			<Header title={title} icon="left" />
+
 			<EmailContainer>
+				<TextInfo>Teste</TextInfo>
 				<InputForm
 					placeholder="Email"
 					control={control}

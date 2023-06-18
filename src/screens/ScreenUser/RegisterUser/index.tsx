@@ -16,6 +16,7 @@ type FormData = {
 	email: string;
 	phone: string;
 	password: string;
+	confirmPassword: string;
 };
 
 const schema = yup.object({
@@ -34,9 +35,13 @@ const schema = yup.object({
 		.string()
 		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.required("O Telefone é obrigatório")
-		.min(10, "O Campo deve ter 10 digitos contando com o DDD")
+		.min(11, "O Campo deve ter 11 digitos contando com o DDD")
 		.trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
+	confirmPassword: yup
+		.string()
+		.required("Informe a confirmação de senha")
+		.oneOf([yup.ref("password"), null], "A confirmação de senha não é igual"),
 });
 
 export function RegisterUser() {
@@ -104,7 +109,7 @@ export function RegisterUser() {
 						control={control}
 						name="phone"
 						keyboardType="numeric"
-						maxLength={15}
+						maxLength={11}
 						error={errors.phone}
 					/>
 					<InputForm
@@ -114,6 +119,14 @@ export function RegisterUser() {
 						autoCapitalize="none"
 						secureTextEntry={true}
 						error={errors.password}
+					/>
+					<InputForm
+						placeholder="Confirme a senha"
+						control={control}
+						name="confirmPassword"
+						autoCapitalize="none"
+						secureTextEntry={true}
+						error={errors.confirmPassword}
 					/>
 					<RegisterButton
 						title="Cadastrar"

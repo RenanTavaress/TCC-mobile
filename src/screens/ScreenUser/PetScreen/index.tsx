@@ -10,6 +10,7 @@ import { DataUserContext, UserProps } from "../../../contexts/dataUsers";
 import { useTheme } from "styled-components";
 import { PetDetail } from "../../../components/PetDetail";
 import * as MailComposer from "expo-mail-composer";
+import * as Print from "expo-print";
 
 interface PropsDatailCompany {
 	name: string;
@@ -109,38 +110,49 @@ export function PetScreen() {
 		setFavorite(false);
 	}
 
-	function sendEmail() {
-		const genderEmail = gender === "M" ? "Macho" : "Fêmea"
+	async function sendEmail() {
+		const { uri } = await Print.printToFileAsync({
+			html: ` <img
+			src=${photo1}
+			style="width: 110vw;" />`,
+		});
+
+		const genderEmail = gender === "M" ? "Macho" : "Fêmea";
 		MailComposer.composeAsync({
 			recipients: [`${petsCompany.email}`],
 			subject: "Solicitação de adoção",
-			body: `Olá ${petsCompany.name}, tenho interesse em adotar o ${typePet}, com essas características:
-			 	cor: ${color},
-			 	tamanho: ${size}
-				idade: ${age},
-				gênero: ${genderEmail}
-			 `,
-			attachments: [photo1],
+			body: `Olá ${petsCompany.name}, tenho interesse em adotar o ${typePet} de identificação (numero da identificação aqui), com as seguintes características:
+			Cor: ${color},
+			Porte:${size},
+		Idade: ${age},
+		 	Sexo: ${genderEmail},
+			a imagem do pet está no anexo.
+			`,
+			attachments: [uri],
 		})
 			.then((result) => {
 				if (result.status === "sent") {
-					// O e-mail foi enviado com sucesso
-					Alert.alert("E-mail enviado com sucesso", "A Ong recebera seu email, em breve ela retonara seu contato");
+					Alert.alert(
+						"E-mail enviado com sucesso",
+						"A Ong recebera seu email, em breve ela retonara seu contato"
+					);
 				} else {
-					// O usuário cancelou ou ocorreu um erro ao enviar o e-mail
 					Alert.alert("Envio de e-mail cancelado ou ocorreu um erro");
 				}
 			})
 			.catch((error) => {
 				// Trate o erro, se houver algum problema ao enviar o e-mail
-				Alert.alert("Erro ao enviar o e-mail", 'Seu email não deve ta cadastrado no seu celular');
+				Alert.alert(
+					"Erro ao enviar o e-mail",
+					"Seu email não deve ta cadastrado no seu celular"
+				);
 			});
 	}
 
 	function showInfoOng() {
 		Alert.alert(
 			"Informações de Contato",
-			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\nChave Pix: ${petsCompany.email}`
+			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\n Para fazer doação para ong use a chave pix \n\nChave Pix: ${petsCompany.email}`
 		);
 	}
 	return (

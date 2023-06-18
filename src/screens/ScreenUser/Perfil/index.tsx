@@ -76,7 +76,7 @@ export function Perfil() {
 						title="Descreva seu Pet Ideal"
 						onPress={() => navigation.navigate("preferences")}
 					/>
-					<ContainerButton title="Sair" onPress={handleLogout} />
+					<ContainerButton title="Desconectar" onPress={handleLogout} />
 				</ContainerBtn>
 			</ContainerInfo>
 		</Container>
