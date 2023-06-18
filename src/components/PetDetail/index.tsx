@@ -27,6 +27,7 @@ interface PetProps {
 	color: string;
 	birthDate: string;
 	rating: string;
+	identification: string;
 }
 
 interface PetDetailProps {
@@ -54,10 +55,12 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 								<InfoPet>{rest?.breed}</InfoPet>
 							</>
 						)}
-						<TextInfo>{rest?.age ? 'Idade' : 'Data de nascimento'}</TextInfo>
+						<TextInfo>{rest?.age ? 'Idade:' : 'Data de nascimento:'}</TextInfo>
 						<InfoPet>{rest?.age ? rest?.age : rest?.birthDate}</InfoPet>
 						<TextInfo>Porte:</TextInfo>
 						<InfoPet>{rest?.size == 'pequeno' ? 'Pequeno' : rest?.size == 'medio' ? 'Médio' : 'Grande'}</InfoPet>
+						<TextInfo>Identificação do pet:</TextInfo>
+						<InfoPet>{rest?.identification}</InfoPet>
 					</ContainerInfo>
 					<ContainerHeath>
 						<TextInfo>Vacinas:</TextInfo>

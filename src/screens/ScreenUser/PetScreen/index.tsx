@@ -45,6 +45,7 @@ export function PetScreen() {
 			photo1: string;
 			color: string;
 			birthDate: string;
+			identification: string;
 		};
 	};
 
@@ -62,6 +63,7 @@ export function PetScreen() {
 		photo1,
 		color,
 		birthDate,
+		identification
 	} = params;
 
 	useEffect(() => {
@@ -171,6 +173,7 @@ export function PetScreen() {
 						color,
 						birthDate,
 						rating,
+						identification,
 					}}
 				/>
 

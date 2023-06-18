@@ -9,6 +9,7 @@ import {
 	AgePet,
 	ContainerImage,
 	ImagePet,
+	ContainerInfosPets,
 } from "./styles";
 
 export interface DataPetsProps {
@@ -29,6 +30,7 @@ export interface DataPetsProps {
 	photo1: string;
 	color: string;
 	birthDate: string;
+	identification: string;
 }
 
 export function PetCard({
@@ -39,8 +41,9 @@ export function PetCard({
 	birthDate,
 	onPress,
 	photo1,
+	identification,
 }: DataPetsProps) {
-	const birthDay = age ? age : birthDate
+	const birthDay = age ? age : birthDate;
 	return (
 		<CardPet onPress={onPress}>
 			<ContainerImage>
@@ -50,7 +53,10 @@ export function PetCard({
 
 			<ContaineCardDescription>
 				<DescriptionPet>{description}</DescriptionPet>
-				<AgePet>{breed ? `${birthDay}, ${breed}` : `${birthDay}`}</AgePet>
+				<ContainerInfosPets>
+					<AgePet>Identificação: {identification}</AgePet>
+					<AgePet>{breed ? `${birthDay}, ${breed}` : `${birthDay}`}</AgePet>
+				</ContainerInfosPets>
 			</ContaineCardDescription>
 		</CardPet>
 	);

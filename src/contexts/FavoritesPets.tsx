@@ -23,6 +23,8 @@ export interface DataPetProps {
 	phone: string;
 	photo1: string;
 	color: string;
+	identification: string;
+	birthDate:string;
 }
 
 interface ChildrenProps {

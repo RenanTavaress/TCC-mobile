@@ -22,6 +22,7 @@ export interface DataPetProps {
 	color: string;
 	birthDate: string;
 	rating: string;
+	identification: string;
 }
 
 export interface PropsContextDataPet {

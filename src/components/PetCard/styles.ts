@@ -35,6 +35,15 @@ export const ContaineCardDescription = styled.View`
 	justify-content: space-between;
 	width: 43%;
 `;
+
+export const  ContainerInfosPets  = styled.View`
+	width: 100%;
+	height: 35%;
+	justify-content: space-between;
+
+
+`
+
 export const DescriptionPet = styled.Text.attrs({
 	numberOfLines: 2,
 })`

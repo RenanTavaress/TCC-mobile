@@ -55,6 +55,7 @@ export type RootStackParamList = {
 		photo1: string;
 		color:string;
 		birthDate: string;
+		identification:string;
 	};
 	favoritesPets: undefined;
 	preferences: undefined;
