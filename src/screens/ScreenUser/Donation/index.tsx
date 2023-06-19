@@ -24,7 +24,7 @@ export function Donation() {
 				<Title>Doação</Title>
 				<Linha></Linha>
 				<Span isActive={false}>
-					Ajude a equipe 4pet a dar continuidade no projeto
+					Ajude a equipe 4pet a dar continuidade no projeto!
 				</Span>
 				<Span isActive>Saiba mais sobre o projeto...</Span>
 
@@ -37,12 +37,13 @@ export function Donation() {
 					{!videoReady && <ActivityIndicator color={colors.primary} />}
 				</VideoCover>
 				<PixView>
-					<Span isActive={false}>Faça ja sua doação</Span>
-					<Span isActive={false}>Os valores aqui doados serão para a manutenção do aplicativo</Span>
-					
+					<Span isActive={false}>Faça já sua doação!</Span>
+					<Span isActive={false}>Os valores aqui doados serão para a manutenção do aplicativo.</Span>
 					<PixKey>
 						Chave Pix: <Span isActive={false}>4petsolution@gmail.com</Span>
 					</PixKey>
+					<Linha></Linha>
+					<Span isActive={false}>Em caso de dúvidas ou problemas, contate a equipe de suporte no e-mail: 4petsolution@gmail.com.</Span>
 				</PixView>
 			</MainInfo>
 		</Container>
