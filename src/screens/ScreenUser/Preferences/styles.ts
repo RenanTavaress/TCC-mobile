@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { FlatList, FlatListProps } from "react-native";
 import { PreferencePetProps } from "../../../components/PreferenceCard";
+import theme from "../../../global/styles/theme";
 
 
 export const Container = styled.View`
@@ -16,5 +17,5 @@ export const ListPreferences = styled(
 ).attrs({
 	showsVerticalScrollIndicator: false,
 })`
-	height: ${RFPercentage(50)}px;
+	height: 85%;
 `;
