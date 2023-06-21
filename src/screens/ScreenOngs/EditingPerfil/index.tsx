@@ -164,7 +164,7 @@ export function EditingOng() {
 			if (data!.code === 304) {
 				Alert.alert(
 					"Tente novamente",
-					"Já existe usuario com esse nome ou email"
+					"Conta já existente. Verifique os dados inseridos."
 				);
 				return;
 			} else {

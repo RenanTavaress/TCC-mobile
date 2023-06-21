@@ -135,8 +135,8 @@ export function PetScreen() {
 			.then((result) => {
 				if (result.status === "sent") {
 					Alert.alert(
-						"E-mail enviado com sucesso",
-						"A Ong recebera seu email, em breve ela retonara seu contato"
+						"Sucesso",
+						"Preenchimento de formulário de solicitação realizado com sucesso."
 					);
 				} else {
 					Alert.alert("Envio de e-mail cancelado ou ocorreu um erro");

@@ -60,7 +60,7 @@ export function RegisterUser() {
 			const { data } = await api.post("/user/add", datas);
 
 			if (data!.code === 304) {
-				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
+				Alert.alert("Tente novamente", "Conta já existente. Verifique os dados inseridos.");
 				return;
 			} else {
 				Alert.alert("Sucesso", "Usuário criado com sucesso!");

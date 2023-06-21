@@ -169,7 +169,7 @@ export function RegisterOng() {
 		try {
 			const { data } = await api.post("/company/add", datas);
 			if (data!.code === 304) {
-				Alert.alert("Tente novamente", "Já existe usuario com esse nome ");
+				Alert.alert("Tente novamente", "Conta já existente. Verifique os dados inseridos.");
 				return;
 			} else {
 				console.log(data);
