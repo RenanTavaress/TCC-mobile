@@ -17,5 +17,5 @@ export const ListPreferences = styled(
 ).attrs({
 	showsVerticalScrollIndicator: false,
 })`
-	height: 85%;
+	height: 90%;
 `;
