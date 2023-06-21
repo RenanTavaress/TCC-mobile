@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { Input } from "../../components/Form/Input";
 import { propsLoginOng } from "../../screens/Welcome";
 import {
@@ -37,13 +37,20 @@ export function Login({
 	forgotPassword,
 }: ScreenLoginProps) {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-
+	const isFocused = useIsFocused();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
 	function handleSubmit() {
 		handleSignIn?.(username, password);
 	}
+
+	useEffect(() => {
+		if (isFocused) {
+			setUsername("");
+			setPassword("");
+		}
+	}, [isFocused]);
 
 	return (
 		<TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>

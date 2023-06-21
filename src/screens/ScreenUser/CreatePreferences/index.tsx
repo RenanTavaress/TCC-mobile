@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { InputForm } from "../../../components/Form/InputForm";
 import { Header } from "../../../components/Header";
@@ -24,20 +24,19 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
-import { ContainerAge, ContainerLeftAge, ContainerRigthAge } from "../../ScreenOngs/AddPets/styles";
-import { ListItem } from "../../../components/List";
-
+import {
+	PreferencesContext,
+	PreferencesProps,
+} from "../../../contexts/preferences";
 type FormData = {
 	[name: string]: any;
-	breed: string;
-	age: string;
+	breed: string | null;
 	gender: string;
 	size: string;
 	typePet: string;
 };
 
 const schema = yup.object({
-	age: yup.string().matches(/^[0-9]+$/, "Por favor, insira apenas números."),
 	category: yup.boolean(),
 	breed: yup
 		.string()
@@ -54,20 +53,17 @@ export function CreatePreferences() {
 	const [gender, setGender] = useState("M");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
-	const [selectAge, setSelectAge] = useState("Ano(s)");
 	const [size, setSize] = useState("pequeno");
 	const [category, setCategory] = useState("Espécie");
 	const [breed, setBreed] = useState("Raça");
+	const { preferences } = useContext(PreferencesContext);
 	const {
-		control,
 		handleSubmit,
-		watch,
+
 		formState: { errors },
 	} = useForm<FormData>({
 		resolver: yupResolver(schema),
 	});
-
-	const concatenatingAge = `${watch("age")} ${selectAge}`;
 
 	function handleOpenSelectCategoryModal() {
 		setModalSelectCategory(true);
@@ -84,7 +80,37 @@ export function CreatePreferences() {
 		setModalSelectBreed(false);
 	}
 
-	async function submitForm(data: FormData) {
+	// function saoObjetosIguais(obj1: PreferencesProps, obj2: PreferencesProps) {
+	// 	const keys1 = Object.keys(obj1);
+	// 	const keys2 = Object.keys(obj2);
+
+	// 	if (keys1.length - 1 !== keys2.length) {
+	// 		return false;
+	// 	}
+
+	// 	for (let key of keys1) {
+	// 		if (key === "guid") {
+	// 			continue; // Ignorar a comparação da propriedade 'guid'
+	// 		}
+
+	// 		if (obj1[key] !== obj2[key]) {
+	// 			return false;
+	// 		}
+	// 	}
+
+	// 	return true;
+	// }
+
+	// function comparePreferences(
+	// 	preferences: PreferencesProps[],
+	// 	data: PreferencesProps
+	// ) {
+	// 	return preferences.find((preference) => {
+	// 		return saoObjetosIguais(preference, data);
+	// 	});
+	// }
+
+	async function submitForm() {
 		if (category === "Espécie") {
 			Alert.alert(
 				"Não foi criar a preferencia",
@@ -102,17 +128,25 @@ export function CreatePreferences() {
 		}
 		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
-			...data,
-			age: concatenatingAge,
 			breed: isDog,
 			size,
 			gender,
 			typePet: category,
+			age: null,
 		};
+
+		// const resultDuplicatePreference = comparePreferences(preferences, datas);
+		// if (resultDuplicatePreference !== undefined && preferences.length > 0) {
+		// 	Alert.alert(
+		// 		"Algo deu errado",
+		// 		"Não foi possível criar preferência, pois já existe uma igual"
+		// 	);
+		// 	return;
+		// }
+
 		try {
 			const { data } = await api.post(`/api/preferences/add`, datas);
-			console.log(data.data);
-
+			console.log(data);
 			navigate.goBack();
 		} catch (error) {
 			console.log(error);
@@ -132,21 +166,6 @@ export function CreatePreferences() {
 					<CategoryCard onPress={handleOpenSelectBreedModal} title={breed} />
 				)}
 
-				{/* <ContainerAge>
-					<ContainerRigthAge>
-						<TextInfo>Idade do pet:</TextInfo>
-						<InputForm
-							placeholder="Idade"
-							control={control}
-							name="age"
-							keyboardType="numeric"
-							error={errors.age}
-						/>
-					</ContainerRigthAge>
-					<ContainerLeftAge>
-						<ListItem selectedItem={selectAge} setSelectedItem={setSelectAge} />
-					</ContainerLeftAge>
-				</ContainerAge> */}
 				<RadioContainer>
 					<RadioButton.Group
 						onValueChange={(check) => setSize(check)}

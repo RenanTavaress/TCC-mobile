@@ -35,7 +35,7 @@ const schema = yup.object({
 		.string()
 		.matches(/^[0-9]+$/, "Por favor, insira apenas números.")
 		.required("O Telefone é obrigatório")
-		.min(11, "O Campo deve ter 11 digitos contando com o DDD")
+		.min(10, "O Campo deve ter 11 digitos contando com o DDD")
 		.trim(),
 	password: yup.string().required("A Senha é obrigatória").trim(),
 	confirmPassword: yup

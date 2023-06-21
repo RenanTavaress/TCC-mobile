@@ -1,11 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { DataPetsProps } from "../components/PetCard";
 import api from "../services/api";
-import AuthContext from "./auth";
-
-interface Props {
-	data: DataPetsProps[];
-}
 
 type FormData = {
 	[name: string]: any;
