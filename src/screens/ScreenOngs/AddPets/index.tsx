@@ -350,7 +350,7 @@ export function AddPet() {
 						</ContainerAge>
 
 						<DescriptioInput
-							placeholder="Descrição do Pet"
+							placeholder="Descrição do Pet (Nome e suas características)"
 							control={control}
 							name="description"
 							autoCapitalize="sentences"
