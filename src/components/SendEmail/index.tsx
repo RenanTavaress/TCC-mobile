@@ -59,9 +59,8 @@ export function SendEmail({ endPoint, title }: sendEmailProps) {
 	return (
 		<Container>
 			<Header title={title} icon="left" />
-
 			<EmailContainer>
-				<TextInfo>Teste</TextInfo>
+			{endPoint === '/api/rating/send/email' && <TextInfo>Caso queira enviar uma solicitação de avaliação, insira o e-mail do usuário adotante.</TextInfo>}
 				<InputForm
 					placeholder="Email"
 					control={control}

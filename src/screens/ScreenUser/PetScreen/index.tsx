@@ -123,12 +123,13 @@ export function PetScreen() {
 		MailComposer.composeAsync({
 			recipients: [`${petsCompany.email}`],
 			subject: "Solicitação de adoção",
-			body: `Olá ${petsCompany.name}, tenho interesse em adotar o ${typePet} de identificação (numero da identificação aqui), com as seguintes características:
+			body: `Olá ${petsCompany.name}, tenho interesse em adotar o ${typePet} de identificação ${identification}, com as seguintes características:
+			Sexo: ${genderEmail},
+			Porte: ${size},
 			Cor: ${color},
-			Porte:${size},
-		Idade: ${age},
-		 	Sexo: ${genderEmail},
-			a imagem do pet está no anexo.
+		Idade: ${age}.
+		 	
+			Segue imagem do pet desejado em anexo.
 			`,
 			attachments: [uri],
 		})
@@ -154,7 +155,7 @@ export function PetScreen() {
 	function showInfoOng() {
 		Alert.alert(
 			"Informações de Contato",
-			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\n Para fazer doação para ong use a chave pix \n\nChave Pix: ${petsCompany.email}`
+			`Nome da Ong: ${petsCompany.name} \n\nEmail da Ong: ${petsCompany.email} \n\nTelefone da Ong: ${petsCompany.phone} \n\nCaso queira realizar uma doação para a ONG, segue abaixo a chave pix: \nChave Pix: ${petsCompany.email}`
 		);
 	}
 	return (

@@ -80,35 +80,35 @@ export function CreatePreferences() {
 		setModalSelectBreed(false);
 	}
 
-	// function saoObjetosIguais(obj1: PreferencesProps, obj2: PreferencesProps) {
-	// 	const keys1 = Object.keys(obj1);
-	// 	const keys2 = Object.keys(obj2);
+	function saoObjetosIguais(obj1: PreferencesProps, obj2: PreferencesProps) {
+		const keys1 = Object.keys(obj1);
+		const keys2 = Object.keys(obj2);
 
-	// 	if (keys1.length - 1 !== keys2.length) {
-	// 		return false;
-	// 	}
+		if (keys1.length - 1 !== keys2.length) {
+			return false;
+		}
 
-	// 	for (let key of keys1) {
-	// 		if (key === "guid") {
-	// 			continue; // Ignorar a comparação da propriedade 'guid'
-	// 		}
+		for (let key of keys1) {
+			if (key === "guid") {
+				continue; // Ignorar a comparação da propriedade 'guid'
+			}
 
-	// 		if (obj1[key] !== obj2[key]) {
-	// 			return false;
-	// 		}
-	// 	}
+			if (obj1[key] !== obj2[key]) {
+				return false;
+			}
+		}
 
-	// 	return true;
-	// }
+		return true;
+	}
 
-	// function comparePreferences(
-	// 	preferences: PreferencesProps[],
-	// 	data: PreferencesProps
-	// ) {
-	// 	return preferences.find((preference) => {
-	// 		return saoObjetosIguais(preference, data);
-	// 	});
-	// }
+	function comparePreferences(
+		preferences: PreferencesProps[],
+		data: PreferencesProps
+	) {
+		return preferences.find((preference) => {
+			return saoObjetosIguais(preference, data);
+		});
+	}
 
 	async function submitForm() {
 		if (category === "Espécie") {
@@ -135,18 +135,24 @@ export function CreatePreferences() {
 			age: null,
 		};
 
-		// const resultDuplicatePreference = comparePreferences(preferences, datas);
-		// if (resultDuplicatePreference !== undefined && preferences.length > 0) {
-		// 	Alert.alert(
-		// 		"Algo deu errado",
-		// 		"Não foi possível criar preferência, pois já existe uma igual"
-		// 	);
-		// 	return;
-		// }
+		const resultDuplicatePreference = comparePreferences(preferences, datas);
+		if (resultDuplicatePreference !== undefined && preferences.length > 0) {
+			Alert.alert(
+				"Algo deu errado",
+				"Não foi possível criar preferência, pois já existe uma igual"
+			);
+			return;
+		}
 
 		try {
 			const { data } = await api.post(`/api/preferences/add`, datas);
-			console.log(data);
+			if (data.code === 304) {
+				Alert.alert(
+					"Algo deu errado",
+					"Não foi possível criar preferência, pois já existe uma igual"
+				);
+				return;
+			}
 			navigate.goBack();
 		} catch (error) {
 			console.log(error);
@@ -206,7 +212,7 @@ export function CreatePreferences() {
 			</FormContainer>
 			<Footer>
 				<ContainerButton
-					title="Criar Preferencia"
+					title="Criar Preferência"
 					onPress={handleSubmit(submitForm)}
 				/>
 			</Footer>
