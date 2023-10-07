@@ -7,12 +7,9 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
 import { FabButton } from "../../../components/Button/FAB";
 import AuthContext from "../../../contexts/auth";
-import { DataOngContext } from "../../../contexts/DataOng";
 import { DataPetContext } from "../../../contexts/DataPet";
 import { PropsItem } from "../../ScreenUser/ListPets";
-import { SkeletonCard } from "../../../components/SkeletonCard";
-import { LinearGradient } from "expo-linear-gradient";
-import { Text } from "react-native";
+
 
 export interface PropsPets {
 	data: Array<DataPetsProps>;
@@ -26,7 +23,7 @@ export type propsLoginOng = NativeStackScreenProps<
 export function Dashboard() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const { user } = useContext(AuthContext);
-	const { datasPet, getDataPet, isLoading, setIsloading } =
+	const { datasPet, getDataPet } =
 		useContext(DataPetContext);
 
 	const CardPet = memo(({ item }: PropsItem) => {
@@ -47,16 +44,10 @@ export function Dashboard() {
 	useFocusEffect(
 		useCallback(() => {
 			getDataPet();
-			setIsloading(false);
 		}, [])
 	);
 
-	// function isLoadingPet() {
-	// 	if (isLoading) {
-	// 		return <SkeletonCard />;
-	// 	}
-	// 	return;
-	// }
+
 
 	return (
 		<Container>

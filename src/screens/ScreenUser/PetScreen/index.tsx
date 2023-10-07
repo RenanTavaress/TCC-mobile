@@ -1,8 +1,8 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, Text } from "react-native";
+import { Alert } from "react-native";
 import { ContainerButton } from "../../../components/Button/ContainerLogin";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { Header } from "../../../components/Header";
 import api from "../../../services/api";
 import { Container, ContainerInfos, ContainerButtonInfo } from "./styles";
@@ -11,6 +11,8 @@ import { useTheme } from "styled-components";
 import { PetDetail } from "../../../components/PetDetail";
 import * as MailComposer from "expo-mail-composer";
 import * as Print from "expo-print";
+import { PetsFilterContext } from "../../../contexts/FilterPet";
+import { RequestPetContext } from "../../../contexts/RequestPets";
 
 interface PropsDatailCompany {
 	name: string;
@@ -26,9 +28,11 @@ export function PetScreen() {
 	const { colors } = useTheme();
 	const [rating, setRating] = useState("");
 	const { datasUser } = useContext<UserProps>(DataUserContext) as UserProps;
+	const { setUpdateDataPet, updateDataPet } = useContext(PetsFilterContext);
 	const [petsCompany, setPetsCompany] = useState<PropsDatailCompany>(
 		{} as PropsDatailCompany
 	);
+	const [wasReserved, setWasReserved] = useState(false);
 	const [favorite, setFavorite] = useState(false);
 	const { params } = useRoute() as {
 		params: {
@@ -46,6 +50,8 @@ export function PetScreen() {
 			color: string;
 			birthDate: string;
 			identification: string;
+			isReserved: boolean;
+			isAdopted: boolean;
 		};
 	};
 
@@ -63,8 +69,13 @@ export function PetScreen() {
 		photo1,
 		color,
 		birthDate,
-		identification
+		identification,
+		isReserved,
+		isAdopted,
 	} = params;
+
+	console.log(isReserved);
+	console.log(guid);
 
 	useEffect(() => {
 		async function getPetsCompany() {
@@ -81,14 +92,14 @@ export function PetScreen() {
 			setFavorite(() => pet?.guid === guid);
 		}
 		getFavorites();
-	}, []);
+	}, [wasReserved]);
 
 	useEffect(() => {
 		async function getRating() {
 			const response = await api.get(
 				`/api/rating/average/companyguid/${companyGuid}`
 			);
-			console.log(response.data.data.average);
+			//console.log(response.data.data.average);
 			setRating(response.data.data.average);
 		}
 
@@ -133,14 +144,21 @@ export function PetScreen() {
 			`,
 			attachments: [uri],
 		})
-			.then((result) => {
-				if (result.status === "sent") {
+			.then(async (result) => {
+				const getResultReserve = await api.put(`api/pet/reserve/guid/${guid}`);
+				console.log(getResultReserve.data);
+				if (result.status === "sent" && getResultReserve.data.code == 200) {
 					Alert.alert(
 						"Sucesso",
 						"Preenchimento de formulário de solicitação realizado com sucesso."
 					);
+					setUpdateDataPet(!updateDataPet);
+					setWasReserved(true);
 				} else {
-					Alert.alert("Envio de e-mail cancelado ou ocorreu um erro");
+					Alert.alert(
+						"Envio de e-mail cancelado ou ocorreu um erro",
+						"Provavelmente o pet ja foi solicitado a reserva"
+					);
 				}
 			})
 			.catch((error) => {
@@ -194,10 +212,13 @@ export function PetScreen() {
 						onPress={showInfoOng}
 					/>
 
-					<ContainerButton
-						title="Enviar solicitação de adoção"
-						onPress={sendEmail}
-					/>
+					{isReserved == false && isAdopted == false &&
+						(wasReserved == false && (
+							<ContainerButton
+								title="Enviar solicitação de adoção"
+								onPress={sendEmail}
+							/>
+						))}
 				</ContainerButtonInfo>
 			</ContainerInfos>
 		</Container>

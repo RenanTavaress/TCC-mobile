@@ -1,7 +1,11 @@
 import styled from "styled-components/native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
-export const CardPet = styled.TouchableOpacity`
+interface Petprops {
+	isReserved: boolean
+}
+
+export const CardPet = styled.TouchableOpacity<Petprops>`
 	width: 92.5%;
 	height: ${RFPercentage(20)}px;
 	background-color: ${({ theme }) => theme.colors.shape};
@@ -12,6 +16,8 @@ export const CardPet = styled.TouchableOpacity`
 	align-items: center;
 	margin-left: ${RFValue(13)}px;
 	border-radius: ${RFValue(15)}px;
+	opacity: ${props => (props.isReserved ? 0.5 : 1)};
+	
 `;
 
 export const ContainerImage = styled.View`
@@ -40,10 +46,7 @@ export const  ContainerInfosPets  = styled.View`
 	width: 100%;
 	height: 35%;
 	justify-content: space-between;
-
-
 `
-
 export const DescriptionPet = styled.Text.attrs({
 	numberOfLines: 2,
 })`

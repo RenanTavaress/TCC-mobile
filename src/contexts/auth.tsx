@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: IProps) => {
 			if (storageUser && storageToken) {
 				api.defaults.headers.common["token"] = `${storageToken}`;
 				setUser(JSON.parse(storageUser));
-				//setLoading(false);
+				setLoading(false);
 			}
 			setLoading(false);
 		}
@@ -74,7 +74,6 @@ export const AuthProvider = ({ children }: IProps) => {
 			);
 
 			await AsyncStorage.setItem("@RNAuth2:token", response?.data?.token || "");
-			
 		} catch (error) {
 			if ((error as AxiosError).message === "403") {
 				Alert.alert(
@@ -94,7 +93,7 @@ export const AuthProvider = ({ children }: IProps) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ signed: !!user, user, loading, signIn, logOut }}
+			value={{ signed: !!user, user,  loading, signIn, logOut }}
 		>
 			{children}
 		</AuthContext.Provider>

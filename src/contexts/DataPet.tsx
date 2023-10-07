@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
 import api from "../services/api";
 import AuthContext from "./auth";
 
@@ -23,6 +23,8 @@ export interface DataPetProps {
 	birthDate: string;
 	rating: string;
 	identification: string;
+	isReserved: boolean;
+	isAdopted: boolean;
 }
 
 export interface PropsContextDataPet {
@@ -33,8 +35,6 @@ export type PetProps = {
 	datasPet: DataPetProps[];
 	setDataPet: (datasPet: DataPetProps[]) => void;
 	getDataPet: () => void;
-	isLoading: boolean;
-	setIsloading: (param: boolean) => void;
 };
 
 interface IProps {
@@ -45,10 +45,24 @@ export const DataPetContext = createContext<PetProps>({} as PetProps);
 
 export const DataPet = ({ children }: IProps) => {
 	const { user } = useContext(AuthContext);
-	const [isLoading, setIsloading] = useState(true);
+	
+
 
 	const [datasPet, setDataPet] = useState<DataPetProps[]>([]);
-	async function getDataPet() {
+	// async function getDataPet() {
+	// 	try {
+	// 		const { data } = await api.get<PropsContextDataPet>(
+	// 			`/api/pet/list/companyguid/${user!.guid}`
+	// 		);
+
+	// 		setDataPet(data?.data);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// }
+
+
+	const getDataPet = useCallback(async () => {
 		try {
 			const { data } = await api.get<PropsContextDataPet>(
 				`/api/pet/list/companyguid/${user!.guid}`
@@ -58,15 +72,18 @@ export const DataPet = ({ children }: IProps) => {
 		} catch (error) {
 			console.log(error);
 		}
-	}
+	},[]) 
+		
+	
 
 	useEffect(() => {
 		getDataPet();
+		console.log(datasPet)
 	}, []);
 
 	return (
 		<DataPetContext.Provider
-			value={{ datasPet, setDataPet, getDataPet, isLoading, setIsloading }}
+			value={{ datasPet, setDataPet, getDataPet}}
 		>
 			{children}
 		</DataPetContext.Provider>

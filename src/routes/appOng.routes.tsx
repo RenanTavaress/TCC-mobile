@@ -1,13 +1,14 @@
 import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, Feather } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 import { Platform } from "react-native";
 
 import { OngRoutes } from "./ong.routes";
 import { PerfilOngRoutes } from "./PerfilOng.routes";
 import { DataOng } from "../contexts/DataOng";
+import { RequestOngStack } from "./RequestsOng.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -37,6 +38,17 @@ export const AppOngRoutes: React.FC = () => {
 						),
 					}}
 				/>
+
+				<Screen
+					name="Solicitações"
+					component={RequestOngStack}
+					options={{
+						tabBarIcon: ({ size, color }) => (
+							<Feather name="arrow-down" size={size} color={color} />
+						),
+					}}
+				/>
+
 				<Screen
 					name="Perfil"
 					component={PerfilOngRoutes}

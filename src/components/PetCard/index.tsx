@@ -31,6 +31,10 @@ export interface DataPetsProps {
 	color: string;
 	birthDate: string;
 	identification: string;
+	isReserved: boolean;
+	reservationInfo: string;
+	isAdopted:  boolean;
+	status: string;
 }
 
 export function PetCard({
@@ -42,10 +46,12 @@ export function PetCard({
 	onPress,
 	photo1,
 	identification,
+	isReserved,
+	isAdopted
 }: DataPetsProps) {
 	const birthDay = age ? age : birthDate;
 	return (
-		<CardPet onPress={onPress}>
+		<CardPet onPress={onPress} isReserved={isReserved || isAdopted}>
 			<ContainerImage>
 				<TextNamePet>{typePet}</TextNamePet>
 				<ImagePet source={{ uri: photo1 }} />

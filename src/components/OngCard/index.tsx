@@ -1,5 +1,4 @@
 import React from "react";
-import { DataPetsProps } from "../PetCard";
 
 import {
 	CardOngs,

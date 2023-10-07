@@ -1,6 +1,13 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, {
+	createContext,
+	useState,
+	useEffect,
+	useContext,
+	useCallback,
+} from "react";
 import { DataPetsProps } from "../components/PetCard";
 import api from "../services/api";
+import { useFocusEffect } from "@react-navigation/native";
 
 type FormData = {
 	[name: string]: any;
@@ -23,6 +30,8 @@ export type PetProps = {
 	setIsFiltered: (param: boolean) => void;
 	inputFilterd: FormData;
 	setInputFilterd: (param: FormData) => void;
+	setUpdateDataPet: (param: boolean) => void;
+	updateDataPet: boolean;
 };
 
 export const PetsFilterContext = createContext<PetProps>({} as PetProps);
@@ -30,6 +39,7 @@ export const PetsFilterContext = createContext<PetProps>({} as PetProps);
 export const FilterPet = ({ children }: FilterPetProps) => {
 	const [petsFilter, setPetsFilter] = useState<DataPetsProps[]>([]);
 	const [isFiltered, setIsFiltered] = useState(false);
+	const [updateDataPet, setUpdateDataPet] = useState(false);
 	const [inputFilterd, setInputFilterd] = useState<FormData>({
 		breed: null,
 		city: null,
@@ -64,9 +74,15 @@ export const FilterPet = ({ children }: FilterPetProps) => {
 			return "error";
 		}
 	}
-	useEffect(() => {
-		submitForm();
-	}, []);
+	// useEffect(() => {
+	// 	submitForm();
+		
+	// 	console.log("carregou a api /api/pet/list do contexto petsFilter")
+	// }, [updateDataPet]);
+
+
+	useFocusEffect(useCallback(() => {submitForm();}, [updateDataPet]));
+
 
 	return (
 		<PetsFilterContext.Provider
@@ -78,6 +94,8 @@ export const FilterPet = ({ children }: FilterPetProps) => {
 				setIsFiltered,
 				inputFilterd,
 				setInputFilterd,
+				setUpdateDataPet,
+				updateDataPet,
 			}}
 		>
 			{children}

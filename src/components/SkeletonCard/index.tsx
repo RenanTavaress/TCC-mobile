@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Animated, View } from "react-native";
 
 import { ImagineContainer, CardSkeleton } from "./styles";
-import { CardPet } from "../PetCard/styles";
 
 interface SkeletonCard {
 	isLoading: boolean;

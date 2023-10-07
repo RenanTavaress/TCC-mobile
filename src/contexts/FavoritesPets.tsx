@@ -25,6 +25,8 @@ export interface DataPetProps {
 	color: string;
 	identification: string;
 	birthDate:string;
+	isReserved: boolean;
+	isAdopted: boolean;
 }
 
 interface ChildrenProps {

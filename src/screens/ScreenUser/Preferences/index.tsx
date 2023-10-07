@@ -4,12 +4,10 @@ import { Header } from "../../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../RootStackParams";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useEffect, useState } from "react";
-import api from "../../../services/api";
+import { useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import {
 	PreferenceCard,
-	PreferencePetProps,
 } from "../../../components/PreferenceCard";
 import { Container, ListPreferences } from "./styles";
 import { PreferencesContext } from "../../../contexts/preferences";

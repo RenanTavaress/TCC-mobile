@@ -6,6 +6,7 @@ import {
 	MaterialIcons,
 	FontAwesome5,
 	MaterialCommunityIcons,
+	Entypo
 } from "@expo/vector-icons";
 import { UserStacks } from "./userStacks.routes";
 import { DataUser } from "../contexts/dataUsers";
@@ -14,10 +15,9 @@ import { Platform } from "react-native";
 import { Donation } from "../screens/ScreenUser/Donation";
 
 import { ListPetStack } from "./FilterPet.routes";
+import { RequestUserStack } from "./Request.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
-
-
 
 export const AppRoutes: React.FC = () => {
 	const theme = useTheme();
@@ -31,7 +31,7 @@ export const AppRoutes: React.FC = () => {
 					tabBarLabelPosition: "beside-icon",
 					tabBarHideOnKeyboard: true,
 					tabBarStyle: {
-						height: Platform.OS === "ios" ? 65 : 55,
+						height: Platform.OS === "ios" ? 65 : 60,
 						paddingVertical: Platform.OS === "ios" ? 0 : 0,
 					},
 				}}
@@ -60,6 +60,16 @@ export const AppRoutes: React.FC = () => {
 					options={{
 						tabBarIcon: ({ size, color }) => (
 							<FontAwesome5 name="user-alt" size={size} color={color} />
+						),
+					}}
+				/>
+
+				<Screen
+					name="Requisição"
+					component={RequestUserStack}
+					options={{
+						tabBarIcon: ({ size, color }) => (
+							<FontAwesome5 name="arrow-up" size={size} color={color} />
 						),
 					}}
 				/>

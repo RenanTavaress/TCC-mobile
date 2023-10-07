@@ -1,5 +1,3 @@
-import { DataPetsProps } from "../components/PetCard";
-
 export type RootStackParamList = {
 	Welcome: undefined;
 	LoginOng: undefined;
@@ -25,7 +23,7 @@ export type RootStackParamList = {
 		size: string;
 		vaccines: string;
 		photo1: string;
-		color:string;
+		color: string;
 	};
 	ongScreen: {
 		name: string;
@@ -40,6 +38,10 @@ export type RootStackParamList = {
 		email: string;
 		//onPress: string;
 	};
+
+	RequestPet: undefined;
+	RequestOng: undefined;
+
 	petScreen: {
 		age: string;
 		breed: string;
@@ -53,12 +55,13 @@ export type RootStackParamList = {
 		email: string;
 		phone: string;
 		photo1: string;
-		color:string;
+		color: string;
 		birthDate: string;
-		identification:string;
+		identification: string;
+		isReserved: boolean;
+		isAdopted: boolean;
 	};
 	favoritesPets: undefined;
 	preferences: undefined;
 	createPreferences: undefined;
-
 };

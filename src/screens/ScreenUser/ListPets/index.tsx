@@ -1,4 +1,10 @@
-import React, { memo, useContext } from "react";
+import React, {
+	memo,
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import { Header } from "../../../components/Header";
 import { DataPetsProps, PetCard } from "../../../components/PetCard";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
@@ -11,12 +17,13 @@ import {
 	FilterBox,
 	FilterText,
 } from "./styles";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
 import { PetsFilterContext } from "../../../contexts/FilterPet";
 import { ViewNoResults } from "../../ScreenOngs/DashboardOngs/styles";
 import { TextInfo } from "../Perfil/styles";
+import { RequestPetContext } from "../../../contexts/RequestPets";
 
 export type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -38,22 +45,34 @@ export interface FormData {
 	gender: string;
 	size: string;
 	typePet: string;
+	isReserved: boolean;
+	isAdopted: boolean;
 }
 
 export function ListPets() {
 	const { petsFilter, submitForm, isFiltered } = useContext(PetsFilterContext);
+	const { isReserved } = useContext(RequestPetContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
+	const [opa, setOpa] = useState(false);
 
 	const CardPet = memo(({ item }: PropsItem) => {
 		return (
 			<PetCard
 				{...item}
 				onPress={() => {
+					console.log(item.isReserved);
 					navigation.navigate("petScreen", item);
 				}}
 			/>
 		);
 	});
+	console.log("carregou O componet do ListPets ");
+	useEffect(() => {
+		setOpa(!opa);
+		console.log("carregou O useEffect do ListPets ");
+	}, [isReserved]);
+
+	//useFocusEffect(useCallback(() => {setOpa(!opa)}, [isReserved]));
 
 	return (
 		<Container>
@@ -71,7 +90,7 @@ export function ListPets() {
 					<FilterText>Filtro</FilterText>
 				</FilterBox>
 			</FilterContainer>
-			
+
 			{petsFilter?.length === undefined && (
 				<ViewNoResults>
 					<TextInfo>Não há pets disponíveis</TextInfo>
