@@ -5,7 +5,7 @@ import { DataPetsProps } from "../../../components/PetCard";
 
 export const Container = styled.View`
 	flex: 1;
-	align-items: center;
+	align-items: flex-end;
 `;
 
 
