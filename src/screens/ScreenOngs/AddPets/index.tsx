@@ -2,9 +2,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Modal, KeyboardAvoidingView } from "react-native";
+import { Alert, Modal, KeyboardAvoidingView, View } from "react-native";
 import { Header } from "../../../components/Header";
-import { RadioButton } from "react-native-paper";
+import { RadioButton, Checkbox, Text } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
@@ -45,6 +45,7 @@ import {
 	ButtonRemoveImage,
 } from "./styles";
 import theme from "../../../global/styles/theme";
+import { dogVaccines } from "../../../utils/dogVaccines";
 
 type FormData = {
 	[name: string]: any;
@@ -53,12 +54,18 @@ type FormData = {
 	size: string;
 	birthDate: string;
 	description: string;
-	vaccines: string;
+	vaccines: [string];
 	gender: string;
 	typePet: string;
 	photo1: string;
 	color: string;
 };
+
+interface VacinasProps {
+	key: string;
+	type: string;
+	checked: boolean;
+}
 
 const schema = yup.object({
 	color: yup.string().required("A cor é obrigatorio").trim(),
@@ -75,7 +82,7 @@ const schema = yup.object({
 		.min(10, "A data de nascimento tem quer 10 digitos")
 		.required("A idade é obrigatório"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
-	vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
+	//vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
 });
 
 export function AddPet() {
@@ -84,6 +91,8 @@ export function AddPet() {
 	const [gender, setGender] = useState("M");
 	const [modalSelectCategory, setModalSelectCategory] = useState(false);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
+	const [modalSelectDogVaccines, setModalSelectDogVaccines] = useState(false);
+	const [dogVacinas, setDogVacinas] = useState("Vacinas");
 	const [category, setCategory] = useState("Espécie");
 	const [breed, setBreed] = useState("Raça");
 	const navigate = useNavigation();
@@ -91,6 +100,25 @@ export function AddPet() {
 	const [photo, setPhoto] = useState([]);
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [showPicker, setShowPicker] = useState<boolean>(false);
+	const [checkboxes, setCheckboxes] = useState([
+		{ key: "V8 (Polivalente)", type: "V8 (Polivalente)", checked: false },
+		{ key: "V10 (Polivalente)", type: "V10 (Polivalente)", checked: false },
+		{ key: "Raiva", type: "Raiva", checked: false },
+		{
+			key: "Tosse dos Canis (Traqueobronquite)",
+			type: "Tosse dos Canis (Traqueobronquite)",
+			checked: false,
+		},
+		{ key: "Leishmaniose", type: "Leishmaniose", checked: false },
+		{ key: "Giardíase", type: "Giardíase", checked: false },
+		{ key: "Leptospirose", type: "Leptospirose", checked: false },
+		{ key: "Parvovirose", type: "Parvovirose", checked: false },
+		{ key: "Cinomose", type: "Cinomose", checked: false },
+		{ key: "Coronavírus Canino", type: "Coronavírus Canino", checked: false },
+	]);
+
+	const [vacinas, setVacinas] = useState<string[]>([]);
+
 	const {
 		control,
 		handleSubmit,
@@ -148,6 +176,34 @@ export function AddPet() {
 		setModalSelectBreed(false);
 	}
 
+	function handleOpenSelectDogVaccinesModal() {
+		setModalSelectDogVaccines(true);
+	}
+
+	function handleCloseSelectDogVaccinesModal() {
+		setModalSelectDogVaccines(false);
+	}
+
+	const toggleCheckbox = (index: number) => {
+		const updatedCheckboxes = [...checkboxes];
+		updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
+		//setCheckboxes(updatedCheckboxes);
+
+		if (updatedCheckboxes[index].checked) {
+			setVacinas((prevSelected) => [
+				...prevSelected,
+				updatedCheckboxes[index].key,
+			]);
+
+			console.log(vacinas);
+		} else {
+			setVacinas((prevSelected) =>
+				prevSelected.filter((item) => item !== updatedCheckboxes[index].key)
+			);
+			console.log(vacinas);
+		}
+	};
+
 	const formatSelectedDate = (date: Date) => {
 		const day = date.getDate();
 		const month = date.getMonth() + 1;
@@ -204,9 +260,10 @@ export function AddPet() {
 			gender,
 			typePet: category,
 			photo1: photo[0] || null,
+			vaccines: vacinas,
 		};
 
-		console.log(datas);
+		console.log(datas.vaccines);
 
 		try {
 			const { data } = await api.post(
@@ -364,13 +421,34 @@ export function AddPet() {
 							autoCapitalize="sentences"
 							error={errors.color}
 						/>
-						<InputForm
+						{/* <InputForm
 							placeholder="Vacinas Tomadas"
 							control={control}
 							name="vaccines"
 							autoCapitalize="sentences"
 							error={errors.vaccines}
-						/>
+						/> */}
+
+						{category === "Cachorro" && (
+							// <CategoryCard
+							// 	onPress={handleOpenSelectDogVaccinesModal}
+							// 	title={dogVacinas  }
+							// />
+							<>
+								{checkboxes.map((checkbox, index) => (
+									<View
+										key={index}
+										style={{ flexDirection: "row", alignItems: "center" }}
+									>
+										<Checkbox
+											status={checkbox.checked ? "checked" : "unchecked"}
+											onPress={() => toggleCheckbox(index)}
+										/>
+										<Text>{checkbox.key}</Text>
+									</View>
+								))}
+							</>
+						)}
 						<ButtonContainer>
 							<ContainerButton
 								onPress={handleSubmit(submitForm)}
@@ -395,6 +473,16 @@ export function AddPet() {
 							closeSelectCategory={handleCloseSelectBreedModal}
 							titleAnimal="Escolha a Raça"
 							categories={breeds}
+						/>
+					</Modal>
+
+					<Modal visible={modalSelectDogVaccines}>
+						<CategorySelect
+							category={dogVacinas}
+							setCategory={setDogVacinas}
+							closeSelectCategory={handleCloseSelectDogVaccinesModal}
+							titleAnimal="Escolha a vacina"
+							categories={dogVaccines}
 						/>
 					</Modal>
 				</ContainerAdd>

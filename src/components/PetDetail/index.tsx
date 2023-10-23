@@ -21,7 +21,7 @@ interface PetProps {
 	size: string;
 	age: string;
 	description: string;
-	vaccines: string;
+	vaccines: [string];
 	gender: string;
 	photo1: string;
 	color: string;
@@ -64,7 +64,7 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 					</ContainerInfo>
 					<ContainerHeath>
 						<TextInfo>Vacinas:</TextInfo>
-						<InfoPet>{rest?.vaccines}</InfoPet>
+						<InfoPet>{`${rest?.vaccines},`}</InfoPet>
 						<TextInfo>Sexo:</TextInfo>
 						<InfoPet>{rest?.gender === "M" ? "Macho" : "Fêmea"}</InfoPet>
 						<TextInfo>Cor:</TextInfo>

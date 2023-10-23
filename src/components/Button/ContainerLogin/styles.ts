@@ -8,7 +8,7 @@ interface PropsColor {
 }
 
 export const Container = styled(TouchableOpacity)`
-	width: ${RFValue(150)}px;
+	width: ${RFValue(140)}px;
 	height: ${RFValue(50)}px;
 	background: ${({ theme }) => theme.colors.shape};
 	border-color: ${({ theme }) => theme.colors.primary};

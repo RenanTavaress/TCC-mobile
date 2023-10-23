@@ -8,7 +8,7 @@ export interface DataPetProps {
 	size: string;
 	age: string;
 	description: string;
-	vaccines: string;
+	vaccines: [string];
 	category: string;
 	guid: string;
 	companyGuid: string;

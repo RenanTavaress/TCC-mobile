@@ -34,7 +34,7 @@ export function PetScreen() {
 			medication: string;
 			typePet: string;
 			size: string;
-			vaccines: string;
+			vaccines: [string];
 			gender: string;
 			photo1: string;
 			color: string;

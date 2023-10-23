@@ -41,6 +41,7 @@ export const CategorySelect = ({
 		"Escolha a Raça": "Raça",
 		"Escolha a cidade": "Cidade",
 		"Escolha a ONG": "ONGs",
+		"Escolha a vacina": "Vacinas"
 	};
 
 	return (

@@ -2,9 +2,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Platform, KeyboardAvoidingView, Modal } from "react-native";
+import {
+	Alert,
+	Platform,
+	KeyboardAvoidingView,
+	Modal,
+	View,
+} from "react-native";
 import { Header } from "../../../components/Header";
-import { RadioButton } from "react-native-paper";
+import { Checkbox, RadioButton, Text } from "react-native-paper";
 import { InputForm } from "../../../components/Form/InputForm";
 import { useTheme } from "styled-components";
 import api from "../../../services/api";
@@ -45,6 +51,7 @@ import { categories } from "../../../utils/categories";
 import { breeds } from "../../../utils/breeds";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import theme from "../../../global/styles/theme";
+import { dogVaccines } from "../../../utils/dogVaccines";
 
 type FormData = {
 	[name: string]: any;
@@ -54,7 +61,7 @@ type FormData = {
 	size: string;
 	birthDate: string;
 	description: string;
-	vaccines: string;
+	vaccines: [string];
 	color: string;
 };
 
@@ -66,7 +73,7 @@ const schema = yup.object({
 		.required("A idade é obrigatório")
 		.min(1, "O Campo deve ter pelo menos 1 digito"),
 	description: yup.string().required("A Descrição é obrigatória").trim(),
-	vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
+	//vaccines: yup.string().required("As vacinas são obrigatórias").trim(),
 });
 
 export function EditingPet() {
@@ -77,7 +84,7 @@ export function EditingPet() {
 			medication: string;
 			size: string;
 			description: string;
-			vaccines: string;
+			vaccines: [string];
 			typePet: string;
 			breed: string;
 			gender: string;
@@ -105,6 +112,25 @@ export function EditingPet() {
 		new Date(Number(year), Number(month) - 1, Number(day))
 	);
 	const [showPicker, setShowPicker] = useState(false);
+	const [checked, setChecked] = useState([
+		{ key: "V8 (Polivalente)", type: "V8 (Polivalente)", checked: false },
+		{ key: "V10 (Polivalente)", type: "V10 (Polivalente)", checked: false },
+		{ key: "Raiva", type: "Raiva", checked: false },
+		{
+			key: "Tosse dos Canis (Traqueobronquite)",
+			type: "Tosse dos Canis (Traqueobronquite)",
+			checked: false,
+		},
+		{ key: "Leishmaniose", type: "Leishmaniose", checked: false },
+		{ key: "Giardíase", type: "Giardíase", checked: false },
+		{ key: "Leptospirose", type: "Leptospirose", checked: false },
+		{ key: "Parvovirose", type: "Parvovirose", checked: false },
+		{ key: "Cinomose", type: "Cinomose", checked: false },
+		{ key: "Coronavírus Canino", type: "Coronavírus Canino", checked: false },
+	]);
+	const [vacinas, setVacinas] = useState<string[]>(params.vaccines);
+	console.log(`${params.vaccines} log da params.vaccines`);
+	console.log(`${vacinas} log do estado vacinas`);
 
 	const {
 		control,
@@ -120,7 +146,7 @@ export function EditingPet() {
 			size: params.size,
 			description: params.description,
 			breed: params.breed,
-			vaccines: params.vaccines,
+			//vaccines: params.vaccines || [],
 			color: params.color,
 		},
 	});
@@ -193,9 +219,10 @@ export function EditingPet() {
 			typePet: category,
 			gender,
 			photo1: photo[0],
+			vaccines: vacinas,
 		};
 
-		console.log(datas);
+		console.log(datas.vaccines);
 		try {
 			const { data } = await api.put(
 				`/api/pet/update/guid/${params.guid}`,
@@ -245,11 +272,55 @@ export function EditingPet() {
 		setPhoto(photo.concat(`data:image/jpg;base64,${result.assets[0].base64}`));
 	};
 
+	function newCheckBoxes() {
+		setChecked((prevCheckboxes) => {
+			return prevCheckboxes.map((checkbox, index) => {
+				if (checkbox.key === params.vaccines[index]) {
+					return { ...checkbox, checked: true };
+				}
+				return checkbox;
+			});
+		});
+
+		const updatedVacinas = checked
+			.filter((checkbox) => checkbox.checked) // Filtrar os objetos com 'checked' igual a true
+			.map((checkbox) => checkbox.key); // Mapear para obter as chaves desses objetos
+
+		setVacinas((prevVacinas) => [
+			...prevVacinas,
+			...updatedVacinas.filter((key) => !prevVacinas.includes(key)),
+		]);
+		//console.log(vacinas);
+	}
+
+	const toggleCheckbox = (index: number) => {
+		const updatedCheckboxes = [...checked];
+		updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
+		//setCheckboxes(updatedCheckboxes);
+
+		if (updatedCheckboxes[index].checked) {
+			setVacinas((prevSelected) => [
+				...prevSelected,
+				updatedCheckboxes[index].key,
+			]);
+
+			//console.log(vacinas)
+		} else {
+			setVacinas((prevSelected) =>
+				prevSelected.filter((item) => item !== updatedCheckboxes[index].key)
+			);
+			//console.log(vacinas)
+		}
+	};
+
 	useEffect(() => {
 		if (photo[0] === undefined) {
 			setPhoto([]);
 		}
+		newCheckBoxes();
 	}, []);
+
+	//console.log(checked.filter((item) => item.checked === true));
 
 	return (
 		<Container>
@@ -277,18 +348,18 @@ export function EditingPet() {
 						<ImageContainer>
 							{photo.length == 1 && (
 								<>
-								<ImageLeft>
-									<ImageButton>
-										<ImagePet source={{ uri: photo[0] }} />
-									</ImageButton>
-								</ImageLeft>
+									<ImageLeft>
+										<ImageButton>
+											<ImagePet source={{ uri: photo[0] }} />
+										</ImageButton>
+									</ImageLeft>
 
-								<ButtonRemoveImage
-									title="Remover imagem"
-									onPress={() => handleRemovePhoto(photo[0])}
-									color={theme.colors.attention_light}
-								/>
-							</>
+									<ButtonRemoveImage
+										title="Remover imagem"
+										onPress={() => handleRemovePhoto(photo[0])}
+										color={theme.colors.attention_light}
+									/>
+								</>
 							)}
 						</ImageContainer>
 						<InfoDataPet>
@@ -387,13 +458,26 @@ export function EditingPet() {
 							autoCapitalize="sentences"
 							error={errors.color}
 						/>
-						<InputForm
+						{/* <InputForm
 							placeholder="Vacinas Tomadas"
 							control={control}
 							name="vaccines"
 							autoCapitalize="sentences"
 							error={errors.vaccines}
-						/>
+						/> */}
+
+						{checked.map((checkbox, index) => (
+							<View
+								key={index}
+								style={{ flexDirection: "row", alignItems: "center" }}
+							>
+								<Checkbox
+									status={checkbox.checked ? "checked" : "unchecked"}
+									onPress={() => toggleCheckbox(index)}
+								/>
+								{<Text>{checkbox.key}</Text>}
+							</View>
+						))}
 						<ButtonContainer>
 							<ContainerButton
 								onPress={handleSubmit(submitForm)}

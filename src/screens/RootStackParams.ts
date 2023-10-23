@@ -21,7 +21,7 @@ export type RootStackParamList = {
 		gender: string;
 		typePet: string;
 		size: string;
-		vaccines: string;
+		vaccines: [string];
 		photo1: string;
 		color: string;
 	};
@@ -49,7 +49,7 @@ export type RootStackParamList = {
 		medication: string;
 		typePet: string;
 		size: string;
-		vaccines: string;
+		vaccines: [string];
 		gender: string;
 		name: string;
 		email: string;
