@@ -48,10 +48,9 @@ import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { categories } from "../../../utils/categories";
-import { breeds } from "../../../utils/breeds";
+import { breeds, catBreeds } from "../../../utils/breeds";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import theme from "../../../global/styles/theme";
-import { dogVaccines } from "../../../utils/dogVaccines";
 
 type FormData = {
 	[name: string]: any;
@@ -106,11 +105,12 @@ export function EditingPet() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const [photo, setPhoto] = useState([params?.photo1]);
 	const [modalSelectBreed, setModalSelectBreed] = useState(false);
-	const [breed, setBreed] = useState(params.breed ? params.breed : "Raça");
+	const [breed, setBreed] = useState(params.breed);
 
 	const [selectedDate, setSelectedDate] = useState<Date>(
 		new Date(Number(year), Number(month) - 1, Number(day))
 	);
+	const [vacinas, setVacinas] = useState<string[]>(params.vaccines);
 	const [showPicker, setShowPicker] = useState(false);
 	const [checked, setChecked] = useState([
 		{ key: "V8 (Polivalente)", type: "V8 (Polivalente)", checked: false },
@@ -128,10 +128,35 @@ export function EditingPet() {
 		{ key: "Cinomose", type: "Cinomose", checked: false },
 		{ key: "Coronavírus Canino", type: "Coronavírus Canino", checked: false },
 	]);
-	const [vacinas, setVacinas] = useState<string[]>(params.vaccines);
-	console.log(`${params.vaccines} log da params.vaccines`);
-	console.log(`${vacinas} log do estado vacinas`);
 
+	const [checkboxesCat, setCheckboxesCat] = useState([
+		{
+			key: "Tríplice Felina (FVRCP)",
+			type: "Tríplice Felina (FVRCP)",
+			checked: false,
+		},
+		{ key: "Quádrupla Felina", type: "Quádrupla Felina", checked: false },
+		{ key: "Raiva", type: "Raiva", checked: false },
+		{
+			key: "Leucemia Felina (FeLV)",
+			type: "Leucemia Felina (FeLV)",
+			checked: false,
+		},
+		{
+			key: "Imunodeficiência Felina (FIV)",
+			type: "Imunodeficiência Felina (FIV)",
+			checked: false,
+		},
+		{
+			key: "Peritonite Infecciosa Felina (PIF)",
+			type: "Peritonite Infecciosa Felina (PIF)",
+			checked: false,
+		},
+		{ key: "Clamidiose", type: "Clamidiose", checked: false },
+	]);
+
+	let getCategory = category === "Cachorro" ? checked : checkboxesCat;
+	console.log(params.breed);
 	const {
 		control,
 		handleSubmit,
@@ -195,10 +220,10 @@ export function EditingPet() {
 	};
 
 	async function submitForm(data: FormData) {
-		if (breed === "Raça" && category === "Cachorro") {
+		if (breed === "Raça") {
 			Alert.alert(
 				"Não foi possivel atualizar seu pet",
-				"Selecione uma Raça para o seu cachorro"
+				"Selecione uma Raça para o seu pet"
 			);
 			return;
 		}
@@ -211,10 +236,9 @@ export function EditingPet() {
 			return;
 		}
 
-		let isDog = category === "Cachorro" ? breed : null;
 		const datas = {
 			...data,
-			breed: isDog,
+			breed,
 			size,
 			typePet: category,
 			gender,
@@ -222,7 +246,7 @@ export function EditingPet() {
 			vaccines: vacinas,
 		};
 
-		console.log(datas.vaccines);
+		console.log(datas.breed);
 		try {
 			const { data } = await api.put(
 				`/api/pet/update/guid/${params.guid}`,
@@ -273,9 +297,10 @@ export function EditingPet() {
 	};
 
 	function newCheckBoxes() {
-		setChecked((prevCheckboxes) => {
-			return prevCheckboxes.map((checkbox, index) => {
-				if (checkbox.key === params.vaccines[index]) {
+		let setVaccines = category === "Cachorro" ? setChecked : setCheckboxesCat;
+		setVaccines((prevCheckboxes) => {
+			return prevCheckboxes.map((checkbox) => {
+				if (vacinas.includes(checkbox.key)) {
 					return { ...checkbox, checked: true };
 				}
 				return checkbox;
@@ -294,7 +319,7 @@ export function EditingPet() {
 	}
 
 	const toggleCheckbox = (index: number) => {
-		const updatedCheckboxes = [...checked];
+		const updatedCheckboxes = [...getCategory];
 		updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
 		//setCheckboxes(updatedCheckboxes);
 
@@ -320,7 +345,14 @@ export function EditingPet() {
 		newCheckBoxes();
 	}, []);
 
-	//console.log(checked.filter((item) => item.checked === true));
+	useEffect(() => {
+		if (params.typePet === category) {
+			setBreed(params.breed);
+		} else {
+			setBreed("Raça");
+			setVacinas([]);
+		}
+	}, [category]);
 
 	return (
 		<Container>
@@ -338,12 +370,8 @@ export function EditingPet() {
 							onPress={handleOpenSelectCategoryModal}
 							title={category}
 						/>
-						{category === "Cachorro" && (
-							<CategoryCard
-								onPress={handleOpenSelectBreedModal}
-								title={breed}
-							/>
-						)}
+
+						<CategoryCard onPress={handleOpenSelectBreedModal} title={breed} />
 
 						<ImageContainer>
 							{photo.length == 1 && (
@@ -466,7 +494,7 @@ export function EditingPet() {
 							error={errors.vaccines}
 						/> */}
 
-						{checked.map((checkbox, index) => (
+						{getCategory.map((checkbox, index) => (
 							<View
 								key={index}
 								style={{ flexDirection: "row", alignItems: "center" }}
@@ -501,7 +529,7 @@ export function EditingPet() {
 							setCategory={setBreed}
 							closeSelectCategory={handleCloseSelectBreedModal}
 							titleAnimal="Escolha a Raça"
-							categories={breeds}
+							categories={category === "Cachorro" ? breeds : catBreeds}
 						/>
 					</Modal>
 				</ContainerAdd>

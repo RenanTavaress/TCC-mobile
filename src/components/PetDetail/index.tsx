@@ -49,12 +49,15 @@ export function PetDetail({ petDetail: { ...rest } }: PetDetailProps) {
 			<View>
 				<ContainerPetInfo>
 					<ContainerInfo>
+					<>
+					{console.log(rest?.breed)}
 						{rest?.breed && (
 							<>
 								<TextInfo>Raça:</TextInfo>
 								<InfoPet>{rest?.breed}</InfoPet>
-							</>
+								</>
 						)}
+						</>
 						<TextInfo>{rest?.age ? 'Idade:' : 'Data de nascimento:'}</TextInfo>
 						<InfoPet>{rest?.age ? rest?.age : rest?.birthDate}</InfoPet>
 						<TextInfo>Porte:</TextInfo>
