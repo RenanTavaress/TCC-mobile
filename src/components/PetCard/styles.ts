@@ -76,7 +76,7 @@ export const ReservedText = styled.Text<Petprops>`
 	color: ${({ theme }) => theme.colors.primary};
 	position: absolute;
 	opacity: 100;
-	color:  ${props => (props.isReserved ? props.theme.colors.isReserved: props.theme.colors.success_light)};
+	color:  ${props => (props.isReserved ? props.theme.colors.attention: props.theme.colors.success_light)};
 	
 	
 

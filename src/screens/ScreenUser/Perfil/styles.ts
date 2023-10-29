@@ -7,7 +7,7 @@ export const Container = styled.ScrollView`
 `;
 
 export const ContainerInfo = styled.View`
-	height: 75%;
+	height: 65%;
 
 	margin-top: ${RFPercentage(2)}px;
 	padding-bottom: ${RFPercentage(2)}px;;
@@ -15,7 +15,7 @@ export const ContainerInfo = styled.View`
 `;
 
 export const PefilInformations = styled.View`
-	height: 60%;
+	/* height: 60%; */
 	
 	justify-content: center;
 	align-items: center;
@@ -35,7 +35,7 @@ export const InfoUser = styled.Text`
 
 export const ContainerBtn = styled.View`
    align-items: center;
-   padding-bottom: ${RFValue(50)}px;
+   /* padding-bottom: ${RFValue(50)}px; */
    /* /background-color: ${({ theme }) => theme.colors.attention}; */
 
 `;
