@@ -60,6 +60,7 @@ export function RequestOng() {
 							guid={item.guid}
 							handleCancelCard={handleCancelCard}
 							typeUser={user!.type}
+							identification={item.identification}
 						/>
 					);
 				}}

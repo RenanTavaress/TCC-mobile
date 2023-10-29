@@ -76,8 +76,9 @@ export function PetScreen() {
 		};
 		try {
 			if (isAdopted) {
-				const result = await api.post("/api/rating/send/email", datas);
-				console.log(result.data);
+				await api.post("/api/rating/send/email", datas);
+				Alert.alert("Email enviado!", "Email de avaliação enviado com sucesso!");
+				
 			}
 		} catch (e) {
 			console.log(e);

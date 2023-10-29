@@ -7,8 +7,12 @@ import {
 	ContainerImage,
 	ButtoView,
 	IconReject,
+	ContainerText,
+	TextIdentificationPet,
+	ImageContainer,
 } from "./styles";
 import api from "../../services/api";
+import { Alert } from "react-native";
 
 interface SomeDataPetsProps {
 	typePet: string;
@@ -16,6 +20,7 @@ interface SomeDataPetsProps {
 	guid: string;
 	handleCancelCard: (param: string) => void;
 	typeUser: string;
+	identification: string;
 }
 
 export function CardRequest({
@@ -24,38 +29,48 @@ export function CardRequest({
 	guid,
 	handleCancelCard,
 	typeUser,
+	identification,
 }: SomeDataPetsProps) {
 	async function cancelRequest() {
 		await api.put(`/api/pet/cancel/reserve/guid/${guid}`);
 		handleCancelCard(guid);
+		Alert.alert("Cancelado!", "Você cancelou a solicitação de reserva");
 	}
 
 	async function aceptRequest() {
 		await api.put(`/api/pet/adopt/guid/${guid}`);
 		handleCancelCard(guid);
+		Alert.alert("Sucesso!", "Você aceitou a solicitação de reserva");
 	}
 
 	return (
 		<CardView>
-			<ContainerImage>
+			<ContainerText>
 				<TextNamePet>{typePet}</TextNamePet>
-				<ImagePet
-					source={{
-						uri: photo1,
-					}}
-				/>
-			</ContainerImage>
-			<ButtoView>
-				{typeUser == "COMPANY" && (
-					<CancelRequestButton>
-						<IconReject name="checkcircleo" onPress={aceptRequest} />
-					</CancelRequestButton>
-				)}
+				<TextIdentificationPet>ID: {identification}</TextIdentificationPet>
+			</ContainerText>
 
-				<CancelRequestButton>
-					<IconReject name="closecircleo" onPress={cancelRequest} />
-				</CancelRequestButton>
-			</ButtoView>
+			<ContainerImage>
+				<ImageContainer>
+					<ImagePet
+						source={{
+							uri: photo1,
+						}}
+					/>
+				</ImageContainer>
+
+				<ButtoView>
+					{typeUser == "COMPANY" && (
+						<CancelRequestButton>
+							<IconReject name="checkcircleo" onPress={aceptRequest} />
+						</CancelRequestButton>
+					)}
+
+					<CancelRequestButton>
+						<IconReject name="closecircleo" onPress={cancelRequest} />
+					</CancelRequestButton>
+				</ButtoView>
+			</ContainerImage>
 		</CardView>
 	);
 }
