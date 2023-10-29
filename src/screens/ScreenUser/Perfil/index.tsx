@@ -73,6 +73,11 @@ export function Perfil() {
 					/>
 
 					<ContainerButton
+						title="Suas Requisições"
+						onPress={() => navigation.navigate("RequestPet")}
+					/>
+
+					<ContainerButton
 						title="Descreva seu Pet Ideal"
 						onPress={() => navigation.navigate("preferences")}
 					/>

@@ -15,7 +15,7 @@ import { Platform } from "react-native";
 import { Donation } from "../screens/ScreenUser/Donation";
 
 import { ListPetStack } from "./FilterPet.routes";
-import { RequestUserStack } from "./Request.routes";
+// import { RequestUserStack } from "./Request.routes";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -64,7 +64,7 @@ export const AppRoutes: React.FC = () => {
 					}}
 				/>
 
-				<Screen
+				{/* <Screen
 					name="Requisição"
 					component={RequestUserStack}
 					options={{
@@ -72,7 +72,7 @@ export const AppRoutes: React.FC = () => {
 							<FontAwesome5 name="arrow-up" size={size} color={color} />
 						),
 					}}
-				/>
+				/> */}
 
 				<Screen
 					name="Doação"

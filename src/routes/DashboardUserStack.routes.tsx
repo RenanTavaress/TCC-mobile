@@ -4,6 +4,7 @@ import { OngScreen } from "../screens/ScreenUser/OngScreen";
 const { Navigator, Screen } = createStackNavigator();
 import { DashboardUser } from "../screens/ScreenUser/DashboardUser";
 import { PetScreen } from "../screens/ScreenUser/PetScreen";
+import { RequestPet } from "../screens/ScreenUser/RequestPet";
 
 export const DashboardUserStack: React.FC = () => (
 	<Navigator screenOptions={{ headerShown: false }}>

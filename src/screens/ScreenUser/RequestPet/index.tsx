@@ -34,7 +34,7 @@ export function RequestPet() {
 
 	return (
 		<Container>
-			<Header title="Suas Requisições" />
+			<Header icon="left" title="Suas Requisições" />
 			<ContainerRequestPets
 				data={isReserved}
 				keyExtractor={(item) => item.guid}

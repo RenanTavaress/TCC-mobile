@@ -80,8 +80,8 @@ export function PerfilOng() {
 					/>
 
 					<ContainerButton
-						title="Enviar Avaliação"
-						onPress={() => navigation.navigate("SendRating")}
+						title="Solicitações"
+						onPress={() => navigation.navigate("RequestOng")}
 					/>
 
 					<ContainerButton title="Sair da conta" onPress={handleLogout} />

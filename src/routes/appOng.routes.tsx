@@ -40,16 +40,6 @@ export const AppOngRoutes: React.FC = () => {
 				/>
 
 				<Screen
-					name="Solicitações"
-					component={RequestOngStack}
-					options={{
-						tabBarIcon: ({ size, color }) => (
-							<Feather name="arrow-down" size={size} color={color} />
-						),
-					}}
-				/>
-
-				<Screen
 					name="Perfil"
 					component={PerfilOngRoutes}
 					options={{

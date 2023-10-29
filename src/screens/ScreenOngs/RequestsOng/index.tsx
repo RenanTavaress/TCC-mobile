@@ -13,7 +13,7 @@ import api from "../../../services/api";
 import AuthContext from "../../../contexts/auth";
 import { useFocusEffect } from "@react-navigation/native";
 import { PetsFilterContext } from "../../../contexts/FilterPet";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 export function RequestOng() {
 	const [isReserved, setIsReserved] = useState<DataPetsProps[]>([]);
@@ -42,7 +42,7 @@ export function RequestOng() {
 
 	return (
 		<Container>
-			<Header title="Suas Requisições" />
+			<Header icon="left" title="Suas Requisições" />
 			<UpdateViewContainer>
 				<UpdateViewButton onPress={getPetReserved}>
 					<Ionicons name="reload-outline" size={18} color="black" />
