@@ -22,7 +22,6 @@ export type propsLoginOng = NativeStackScreenProps<
 
 export function Dashboard() {
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
-	const { user } = useContext(AuthContext);
 	const { datasPet, getDataPet } =
 		useContext(DataPetContext);
 

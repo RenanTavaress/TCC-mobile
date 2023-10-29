@@ -16,8 +16,7 @@ export const CardPet = styled.TouchableOpacity<Petprops>`
 	align-items: center;
 	margin-left: ${RFValue(13)}px;
 	border-radius: ${RFValue(15)}px;
-	opacity: ${props => (props.isReserved ? 0.5 : 1)};
-	
+	opacity: ${props => (props.isReserved ? 0.5 : 1)}; 
 `;
 
 export const ContainerImage = styled.View`
@@ -64,3 +63,21 @@ export const AgePet = styled.Text.attrs({
 	font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
+export const ContainerReservedText = styled.View<Petprops>`
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	align-items: center;
+	justify-content: center;
+`
+
+export const ReservedText = styled.Text<Petprops>`
+	font-size: ${RFValue(24)}px;
+	color: ${({ theme }) => theme.colors.primary};
+	position: absolute;
+	opacity: 100;
+	color:  ${props => (props.isReserved ? props.theme.colors.isReserved: props.theme.colors.success_light)};
+	
+	
+
+`

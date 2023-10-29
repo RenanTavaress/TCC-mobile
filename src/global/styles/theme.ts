@@ -10,6 +10,8 @@ export default {
 		attention: "#F83F58",
 		attention_light: "rgba(232, 63, 91, 0.5)",
 
+		isReserved: "#e3b400",
+
 		shape: "#FFFFFF",
 		title: "#363F5F",
 		text: "#969CB2",

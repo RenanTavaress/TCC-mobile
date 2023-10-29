@@ -60,6 +60,7 @@ export type RootStackParamList = {
 		identification: string;
 		isReserved: boolean;
 		isAdopted: boolean;
+		status: string;
 	};
 	favoritesPets: undefined;
 	preferences: undefined;

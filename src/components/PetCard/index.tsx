@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { View } from "react-native";
 
 import {
@@ -10,6 +10,8 @@ import {
 	ContainerImage,
 	ImagePet,
 	ContainerInfosPets,
+	ReservedText,
+	ContainerReservedText,
 } from "./styles";
 
 export interface DataPetsProps {
@@ -33,7 +35,7 @@ export interface DataPetsProps {
 	identification: string;
 	isReserved: boolean;
 	reservationInfo: string;
-	isAdopted:  boolean;
+	isAdopted: boolean;
 	status: string;
 }
 
@@ -47,11 +49,12 @@ export function PetCard({
 	photo1,
 	identification,
 	isReserved,
-	isAdopted
+	isAdopted,
 }: DataPetsProps) {
 	const birthDay = age ? age : birthDate;
 	return (
 		<CardPet onPress={onPress} isReserved={isReserved || isAdopted}>
+			
 			<ContainerImage>
 				<TextNamePet>{typePet}</TextNamePet>
 				<ImagePet source={{ uri: photo1 }} />
@@ -64,6 +67,14 @@ export function PetCard({
 					<AgePet>{breed ? `${birthDay}, ${breed}` : `${birthDay}`}</AgePet>
 				</ContainerInfosPets>
 			</ContaineCardDescription>
+			
+			{(isReserved || isAdopted) && (
+				<ContainerReservedText isReserved>
+					<ReservedText isReserved>
+						{isReserved ? "Reservado" : "Adotado"}
+					</ReservedText>
+				</ContainerReservedText>
+			)}
 		</CardPet>
 	);
 }
