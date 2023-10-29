@@ -46,6 +46,7 @@ export function RequestPet() {
 							guid={item.guid}
 							handleCancelCard={handleCancelCard}
 							typeUser={user!.type}
+							identification={item.identification}
 						/>
 					);
 				}}
