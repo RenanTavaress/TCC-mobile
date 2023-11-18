@@ -41,6 +41,7 @@ export type RootStackParamList = {
 
 	RequestPet: undefined;
 	RequestOng: undefined;
+	Notifications: undefined;
 
 	petScreen: {
 		age: string;

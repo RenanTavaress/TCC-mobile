@@ -2,10 +2,18 @@ import styled from "styled-components/native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { FlatList, FlatListProps } from "react-native";
 import { DataPetsProps } from "../../../components/PetCard";
+import { Header } from "../../../components/Header";
 
 export const Container = styled.View`
 	flex: 1;
 `;
+
+
+// export const HeaderWithNotifications = styled(Header)`
+
+
+
+// `
 
 export const FilterContainer = styled.TouchableOpacity`
 	width: 100%;

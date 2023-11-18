@@ -24,6 +24,7 @@ import { PetsFilterContext } from "../../../contexts/FilterPet";
 import { ViewNoResults } from "../../ScreenOngs/DashboardOngs/styles";
 import { TextInfo } from "../Perfil/styles";
 import { RequestPetContext } from "../../../contexts/RequestPets";
+import AuthContext from "../../../contexts/auth";
 
 export type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -52,6 +53,7 @@ export interface FormData {
 export function ListPets() {
 	const { petsFilter, submitForm, isFiltered } = useContext(PetsFilterContext);
 	const { isReserved } = useContext(RequestPetContext);
+	const { user } = useContext(AuthContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const [opa, setOpa] = useState(false);
 
@@ -76,7 +78,7 @@ export function ListPets() {
 
 	return (
 		<Container>
-			<Header title="Pets" />
+			<Header title="Pets" user={user} urlNotifications="Notifications"/>
 			<FilterContainer>
 				{isFiltered && (
 					<CleanFilterBox onPress={submitForm}>

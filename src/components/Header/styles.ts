@@ -41,6 +41,17 @@ export const Text = styled.Text`
 	font-size: ${RFValue(14)}px;
 `;
 
+export const NotificationContainer = styled.TouchableOpacity`
+	width: 25%;
+	height: 100%;
+	/* background-color: red; */
+
+	align-items: center;
+	justify-content: center;
+	padding-top: 8px;
+`;
+
+
 // export const ViewContainer = styled.View`
 // 	width: 25%;
 // 	height: 100%;
