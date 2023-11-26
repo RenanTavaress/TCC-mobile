@@ -7,27 +7,36 @@ import {
 	HeaderText,
 	Text,
 	NotificationContainer,
+	IconNotification,
+	ContainerIconNotification,
+	BadgeText,
+	Badge,
 } from "./styles";
 import { User } from "../../contexts/auth";
-import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "styled-components";
 
 interface HeaderProps {
 	title: string;
 	icon?: string;
 	user?: User | null;
 	urlNotifications?: string | undefined;
+	numberNotification?: number | undefined;
 }
 
-export function Header({ title, icon, user, urlNotifications }: HeaderProps) {
+export function Header({
+	title,
+	icon,
+	user,
+	urlNotifications,
+	numberNotification = 0,
+}: HeaderProps) {
 	const navigate = useNavigation();
-	const theme = useTheme()
+
 	return (
 		<Container>
 			<BackScreen onPress={icon ? () => navigate.goBack() : () => {}}>
 				{icon && <Icon name={icon} />}
 			</BackScreen>
-
+			
 			<HeaderText>
 				<Text>{title}</Text>
 			</HeaderText>
@@ -36,7 +45,15 @@ export function Header({ title, icon, user, urlNotifications }: HeaderProps) {
 				<NotificationContainer
 					onPress={() => navigate.navigate(urlNotifications)}
 				>
-					<Ionicons name="notifications" size={20} color={theme.colors.shape} />
+					<ContainerIconNotification>
+						<IconNotification name="notifications" />
+						{numberNotification > 0 && (
+							
+							<Badge>
+								<BadgeText>{numberNotification}</BadgeText>
+							</Badge>
+						)}
+					</ContainerIconNotification>
 				</NotificationContainer>
 			)}
 		</Container>

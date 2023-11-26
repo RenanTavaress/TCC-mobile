@@ -8,11 +8,12 @@ import { PetsFilterContext } from "../../../contexts/FilterPet";
 import { useFocusEffect } from "@react-navigation/native";
 import api from "../../../services/api";
 import AuthContext from "../../../contexts/auth";
+import { NotificationContext } from "../../../contexts/Notification";
 
 export function RequestPet() {
 	const [isReserved, setIsReserved] = useState<DataPetsProps[]>([]);
-
 	const { user } = useContext(AuthContext);
+
 
 	function handleCancelCard(guid: string) {
 		setIsReserved((prevReserved: DataPetsProps[]) =>
@@ -20,21 +21,23 @@ export function RequestPet() {
 		);
 		//setUpdateDataPet(!updateDataPet)
 	}
-
 	useFocusEffect(
 		useCallback(() => {
 			async function getPetReserved() {
 				const { data } = await api.get(`/api/pet/list/reserved`);
-
 				setIsReserved(data.data);
 			}
 			getPetReserved();
 		}, [])
 	);
 
+
 	return (
 		<Container>
-			<Header icon="left" title="Suas Requisições" />
+			<Header
+				icon="left"
+				title="Suas Requisições"
+			/>
 			<ContainerRequestPets
 				data={isReserved}
 				keyExtractor={(item) => item.guid}

@@ -1,6 +1,5 @@
 import React, {
 	memo,
-	useCallback,
 	useContext,
 	useEffect,
 	useState,
@@ -17,7 +16,7 @@ import {
 	FilterBox,
 	FilterText,
 } from "./styles";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../RootStackParams";
 import { PetsFilterContext } from "../../../contexts/FilterPet";
@@ -25,6 +24,7 @@ import { ViewNoResults } from "../../ScreenOngs/DashboardOngs/styles";
 import { TextInfo } from "../Perfil/styles";
 import { RequestPetContext } from "../../../contexts/RequestPets";
 import AuthContext from "../../../contexts/auth";
+import { NotificationContext } from "../../../contexts/Notification";
 
 export type propsLoginOng = NativeStackScreenProps<
 	RootStackParamList,
@@ -53,6 +53,9 @@ export interface FormData {
 export function ListPets() {
 	const { petsFilter, submitForm, isFiltered } = useContext(PetsFilterContext);
 	const { isReserved } = useContext(RequestPetContext);
+
+	const { countIsRead } = useContext(NotificationContext);
+
 	const { user } = useContext(AuthContext);
 	const navigation = useNavigation<propsLoginOng["navigation"]>();
 	const [opa, setOpa] = useState(false);
@@ -68,17 +71,19 @@ export function ListPets() {
 			/>
 		);
 	});
-	console.log("carregou O componet do ListPets ");
+
 	useEffect(() => {
 		setOpa(!opa);
-		console.log("carregou O useEffect do ListPets ");
 	}, [isReserved]);
-
-	//useFocusEffect(useCallback(() => {setOpa(!opa)}, [isReserved]));
 
 	return (
 		<Container>
-			<Header title="Pets" user={user} urlNotifications="Notifications"/>
+			<Header
+				title="Pets"
+				user={user}
+				urlNotifications="Notifications"
+				numberNotification={countIsRead}
+			/>
 			<FilterContainer>
 				{isFiltered && (
 					<CleanFilterBox onPress={submitForm}>

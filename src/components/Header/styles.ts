@@ -1,7 +1,8 @@
 import { Platform } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+
 
 export const Container = styled.View`
 	width: 100%;
@@ -52,7 +53,31 @@ export const NotificationContainer = styled.TouchableOpacity`
 `;
 
 
-// export const ViewContainer = styled.View`
-// 	width: 25%;
-// 	height: 100%;
-// `;
+
+
+export const ContainerIconNotification = styled.View`
+  position: relative;
+`;
+
+export const IconNotification = styled(Ionicons)`
+  font-size: ${RFValue(20)}px;
+  color: ${({ theme }) => theme.colors.shape};
+`;
+
+export const Badge = styled.View`
+  position: absolute;
+  top: -9px;
+  left: -3px;
+  background-color: red;
+  border-radius: 50px;
+  padding: 2px;
+  height: auto;
+  width: auto;
+`;
+
+export const BadgeText = styled.Text`
+  color: white;
+  font-size: ${RFValue(12)}px;
+`;
+
+
