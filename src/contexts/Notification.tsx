@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
+import React, {
+	createContext,
+	useState,
+	useEffect,
+	useContext,
+	useCallback,
+} from "react";
 import api from "../services/api";
 
 export interface NotificationProps {
@@ -20,7 +26,7 @@ export type NotificationContextProps = {
 	countIsRead: number;
 	notRead: NotificationProps[];
 	setCountIsRead: (param: number) => void;
-	updateIsRead: () =>  NotificationProps[]
+	updateIsRead: () => NotificationProps[];
 };
 
 interface GetNotificationProps {
@@ -38,10 +44,12 @@ export function GetNotification({ children }: GetNotificationProps) {
 		const isReadFalse = notifications.filter(
 			(notIsRead) => notIsRead.isRead === false
 		);
-	
+
 		return isReadFalse;
 	}
-	const [countIsRead, setCountIsRead] = useState<number>(updateIsRead().length);
+	const [countIsRead, setCountIsRead] = useState<number>(
+		notifications.length > 0 ? updateIsRead().length : 0
+	);
 	const [notRead, setNotRead] = useState<NotificationProps[]>([]);
 
 	async function getNotifications() {
@@ -56,9 +64,8 @@ export function GetNotification({ children }: GetNotificationProps) {
 	}, []);
 
 	useEffect(() => {
-		setNotRead(updateIsRead())
-		setCountIsRead(updateIsRead().length);
-		
+		setNotRead(updateIsRead());
+		setCountIsRead(notifications.length > 0 ? updateIsRead().length : 0);
 	}, [notifications]);
 
 	return (
@@ -68,7 +75,7 @@ export function GetNotification({ children }: GetNotificationProps) {
 				countIsRead,
 				notRead,
 				setCountIsRead,
-				updateIsRead
+				updateIsRead,
 			}}
 		>
 			{children}

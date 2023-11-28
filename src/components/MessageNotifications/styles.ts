@@ -7,6 +7,7 @@ export const Container = styled.View`
 	border: 2px solid ${({ theme }) => theme.colors.primary};
 	border-radius: 5px;
    padding: 10px;
+	margin-bottom: 19px;
 `;
 
 export const TextMenssage = styled.Text`

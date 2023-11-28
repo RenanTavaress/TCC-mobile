@@ -15,8 +15,9 @@ export const ContainerNotificationsMenssage = styled(
 	) => FlatList<NotificationProps>
 ).attrs({
 	showsVerticalScrollIndicator: false,
+   
 })`
-	
+   padding-left: 22px;
 `;
 
 export const ViewNotification = styled.View`
